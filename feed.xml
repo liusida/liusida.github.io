@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xml" href="/feed.xslt.xml"?><feed xmlns="http://www.w3.org/2005/Atom"><generator uri="http://jekyllrb.com" version="3.3.0">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2016-10-30T18:37:24+08:00</updated><id>//</id><title type="html">Liu Sida’s Homepage</title><subtitle>Machine Learning &amp; Human Learning
+<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xml" href="/feed.xslt.xml"?><feed xmlns="http://www.w3.org/2005/Atom"><generator uri="http://jekyllrb.com" version="3.3.0">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2016-10-30T18:38:41+08:00</updated><id>//</id><title type="html">Liu Sida’s Homepage</title><subtitle>Machine Learning &amp; Human Learning
 </subtitle><entry><title type="html">About sparse_column_with_hash_bucket</title><link href="/blog/2016/10/30/hash-bucket.html" rel="alternate" type="text/html" title="About sparse_column_with_hash_bucket" /><published>2016-10-30T17:13:00+08:00</published><updated>2016-10-30T17:13:00+08:00</updated><id>/blog/2016/10/30/hash-bucket</id><content type="html" xml:base="/blog/2016/10/30/hash-bucket.html">&lt;p&gt;Yesterday, I saw tf.contrib.layers.sparse_column_with_hash_bucket in a &lt;a href=&quot;https://www.tensorflow.org/versions/r0.11/tutorials/wide/index.html&quot;&gt;tutorial&lt;/a&gt;. That’s a very useful function! I thought. I never met such a function in Keras or TFLearn.&lt;/p&gt;
 
 &lt;p&gt;Basically, the function do something like this:&lt;/p&gt;
@@ -28,9 +28,7 @@
   &lt;li&gt;One Hot Encoding&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;I should learn more about one-hot-encoding and word2vec embedding.&lt;/p&gt;
-
-&lt;p&gt;And if we want to do hash_bucket without tensorflow, we can do it in Pandas which is metioned &lt;a href=&quot;http://stackoverflow.com/questions/8673035/what-is-feature-hashing-hashing-trick/33581487&quot;&gt;here&lt;/a&gt;:&lt;/p&gt;
+&lt;p&gt;Anyway, if we want to do hash_bucket without tensorflow, we can do it in Pandas which is metioned &lt;a href=&quot;http://stackoverflow.com/questions/8673035/what-is-feature-hashing-hashing-trick/33581487&quot;&gt;here&lt;/a&gt;:&lt;/p&gt;
 
 &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;pandas&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;as&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;pd&lt;/span&gt;
 &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;numpy&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;as&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;np&lt;/span&gt;
@@ -51,6 +49,8 @@
 &lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;hash_col&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'state'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
+
+&lt;p&gt;I should learn more about one-hot-encoding and word2vec embedding.&lt;/p&gt;
 
 &lt;p&gt;Coming up with features is difficult, time-consuming, requires expert knowledge. “Applied machine learning” is basically feature engineering. Said &lt;a href=&quot;http://www.andrewng.org/&quot;&gt;Andrew Ng&lt;/a&gt;.&lt;/p&gt;</content><summary type="html">Yesterday, I saw tf.contrib.layers.sparse_column_with_hash_bucket in a tutorial. That’s a very useful function! I thought. I never met such a function in Keras or TFLearn.</summary></entry><entry><title type="html">Thank you, GitHub and Jekyll</title><link href="/blog/2016/10/30/thank-you-github-n-jekyll.html" rel="alternate" type="text/html" title="Thank you, GitHub and Jekyll" /><published>2016-10-30T14:50:00+08:00</published><updated>2016-10-30T14:50:00+08:00</updated><id>/blog/2016/10/30/thank-you-github-n-jekyll</id><content type="html" xml:base="/blog/2016/10/30/thank-you-github-n-jekyll.html">&lt;p&gt;Thank you, GitHub and Jekyll.&lt;/p&gt;
 
