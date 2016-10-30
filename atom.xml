@@ -4,74 +4,13 @@
  <title>Liu Sida's Homepage</title>
  <link href="http://liusida.com/atom.xml" rel="self"/>
  <link href="http://liusida.com/"/>
- <updated>2016-10-30T22:11:54+08:00</updated>
+ <updated>2016-10-30T22:12:55+08:00</updated>
  <id>http://liusida.com</id>
  <author>
    <name>liusida</name>
    <email></email>
  </author>
 
- 
- <entry>
-   <title>Thank you, GitHub and Jekyll</title>
-   <link href="http://liusida.com/2016/10/30/thank-you-github-n-jekyll/"/>
-   <updated>2016-10-30T00:00:00+08:00</updated>
-   <id>http://liusida.com/2016/10/30/thank-you-github-n-jekyll</id>
-   <content type="html">&lt;p&gt;Thank you, GitHub and Jekyll.&lt;/p&gt;
-
-&lt;p&gt;Now I have my homepage again.&lt;/p&gt;
-
-&lt;p&gt;I'd like to share my &lt;em&gt;thoughts&lt;/em&gt; and &lt;em&gt;ideas&lt;/em&gt; and &lt;em&gt;source codes&lt;/em&gt; here. Hope they helped.&lt;/p&gt;
-
-&lt;p&gt;btw, I am so happy to see Jekyll's way of managing a website. It reminds me of the old days.&lt;/p&gt;
-
-&lt;p&gt;Here is my naive thoughts back in 2007 (Oh my god, it was almost 10 years ago!):&lt;/p&gt;
-
-&lt;blockquote&gt;&lt;p&gt;I found a very interesting method of templates when I was writing a website yesterday.&lt;/p&gt;
-
-&lt;p&gt;Normal template technology is using PHP programs to read a template file, and parsing the symbols itself, than get the final &gt; version of PHP page codes, store those to a work cache folder, and show that if need.&lt;/p&gt;
-
-&lt;p&gt;The popular technology of template in PHP is like Smarty or sth.&lt;/p&gt;
-
-&lt;p&gt;I got another way to using template. Anyway, it may be not so securable, but it's very easy to use.&lt;/p&gt;
-
-&lt;p&gt;1, Make HTML pages, and give them PHP extension name.
-Like: template.php&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;php&quot;&gt;&amp;lt;html&amp;gt; 
-&amp;lt;body&amp;gt; 
-hello, world. 
-&amp;lt;/body&amp;gt; 
-&amp;lt;/html&amp;gt; 
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;2, Create different pages which really need to show.
-Like: page.php&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;php&quot;&gt;&amp;lt;? 
-  $str = hello, world. 
-  include('template.php'); 
-?&amp;gt; 
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;ol&gt;
-&lt;li&gt;Replace the string using the PHP vars.
-Like: template.php&lt;/li&gt;
-&lt;/ol&gt;
-
-
-&lt;pre&gt;&lt;code class=&quot;php&quot;&gt;&amp;lt;html&amp;gt; 
-&amp;lt;body&amp;gt; 
-&amp;lt;?=$str?&amp;gt; 
-&amp;lt;/body&amp;gt; 
-&amp;lt;/html&amp;gt; 
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;ok, call page.php, you can see your work.&lt;/p&gt;
-
-&lt;p&gt;Addtional, you can even give the template.php a List to show the records. That's a great thing.&lt;/p&gt;&lt;/blockquote&gt;
-</content>
- </entry>
  
  <entry>
    <title>About sparse_column_with_hash_bucket</title>
@@ -167,6 +106,67 @@ print(pd.get_dummies(data, columns=['state','year']))
 &lt;blockquote&gt;&lt;p&gt;Coming up with features is difficult, time-consuming, requires expert knowledge. &quot;Applied machine learning&quot; is basically feature engineering.&lt;/p&gt;&lt;/blockquote&gt;
 
 &lt;p&gt;Said &lt;a href=&quot;http://www.andrewng.org/&quot;&gt;Andrew Ng&lt;/a&gt;.&lt;/p&gt;
+</content>
+ </entry>
+ 
+ <entry>
+   <title>Thank you, GitHub and Jekyll</title>
+   <link href="http://liusida.com/2016/10/29/thank-you-github-n-jekyll/"/>
+   <updated>2016-10-29T00:00:00+08:00</updated>
+   <id>http://liusida.com/2016/10/29/thank-you-github-n-jekyll</id>
+   <content type="html">&lt;p&gt;Thank you, GitHub and Jekyll.&lt;/p&gt;
+
+&lt;p&gt;Now I have my homepage again.&lt;/p&gt;
+
+&lt;p&gt;I'd like to share my &lt;em&gt;thoughts&lt;/em&gt; and &lt;em&gt;ideas&lt;/em&gt; and &lt;em&gt;source codes&lt;/em&gt; here. Hope they helped.&lt;/p&gt;
+
+&lt;p&gt;btw, I am so happy to see Jekyll's way of managing a website. It reminds me of the old days.&lt;/p&gt;
+
+&lt;p&gt;Here is my naive thoughts back in 2007 (Oh my god, it was almost 10 years ago!):&lt;/p&gt;
+
+&lt;blockquote&gt;&lt;p&gt;I found a very interesting method of templates when I was writing a website yesterday.&lt;/p&gt;
+
+&lt;p&gt;Normal template technology is using PHP programs to read a template file, and parsing the symbols itself, than get the final &gt; version of PHP page codes, store those to a work cache folder, and show that if need.&lt;/p&gt;
+
+&lt;p&gt;The popular technology of template in PHP is like Smarty or sth.&lt;/p&gt;
+
+&lt;p&gt;I got another way to using template. Anyway, it may be not so securable, but it's very easy to use.&lt;/p&gt;
+
+&lt;p&gt;1, Make HTML pages, and give them PHP extension name.
+Like: template.php&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;php&quot;&gt;&amp;lt;html&amp;gt; 
+&amp;lt;body&amp;gt; 
+hello, world. 
+&amp;lt;/body&amp;gt; 
+&amp;lt;/html&amp;gt; 
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;2, Create different pages which really need to show.
+Like: page.php&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;php&quot;&gt;&amp;lt;? 
+  $str = hello, world. 
+  include('template.php'); 
+?&amp;gt; 
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ol&gt;
+&lt;li&gt;Replace the string using the PHP vars.
+Like: template.php&lt;/li&gt;
+&lt;/ol&gt;
+
+
+&lt;pre&gt;&lt;code class=&quot;php&quot;&gt;&amp;lt;html&amp;gt; 
+&amp;lt;body&amp;gt; 
+&amp;lt;?=$str?&amp;gt; 
+&amp;lt;/body&amp;gt; 
+&amp;lt;/html&amp;gt; 
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;ok, call page.php, you can see your work.&lt;/p&gt;
+
+&lt;p&gt;Addtional, you can even give the template.php a List to show the records. That's a great thing.&lt;/p&gt;&lt;/blockquote&gt;
 </content>
  </entry>
  
