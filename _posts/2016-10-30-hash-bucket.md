@@ -32,9 +32,7 @@ So, the common way to do this **feature engineering** thing is metioned by [Rahu
 * Log based feature/Target: use log based features or log based target function.
 * One Hot Encoding
 
-I should learn more about one-hot-encoding and word2vec embedding.
-
-And if we want to do hash_bucket without tensorflow, we can do it in Pandas which is metioned [here][stackoverflow-hash-code]:
+Anyway, if we want to do hash_bucket without tensorflow, we can do it in Pandas which is metioned [here][stackoverflow-hash-code]:
 
 ```python
 import pandas as pd
@@ -55,6 +53,9 @@ def hash_col(df, col, N):
 
 print(hash_col(data, 'state',4))
 ```
+
+
+I should learn more about one-hot-encoding and word2vec embedding.
 
 Coming up with features is difficult, time-consuming, requires expert knowledge. "Applied machine learning" is basically feature engineering. Said [Andrew Ng][ng].
 
