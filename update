@@ -7,7 +7,9 @@ if [ -z "$1" ]
 		COMMENT=$1
 	fi
 
+
 cd ~/homepage/
+jekyll build
 git add -A
 git commit -m "$COMMENT"
 proxychains git push origin sources
