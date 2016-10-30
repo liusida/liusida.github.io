@@ -53,11 +53,13 @@ def hash_col(df, col, N):
 
 print(hash_col(data, 'state',4))
 ```
+After all,
 
+I think I should learn more about one-hot-encoding and word2vec embedding.
 
-I should learn more about one-hot-encoding and word2vec embedding.
+> Coming up with features is difficult, time-consuming, requires expert knowledge. "Applied machine learning" is basically feature engineering.
 
-Coming up with features is difficult, time-consuming, requires expert knowledge. "Applied machine learning" is basically feature engineering. Said [Andrew Ng][ng].
+Said [Andrew Ng][ng].
 
 
 [tensorflow-tutorial]:https://www.tensorflow.org/versions/r0.11/tutorials/wide/index.html
