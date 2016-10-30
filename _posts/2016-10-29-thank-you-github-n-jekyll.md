@@ -1,6 +1,7 @@
 ---
 layout: post
 title:  Thank you, GitHub and Jekyll
+comments: true
 ---
 
 Thank you, GitHub and Jekyll.
