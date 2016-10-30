@@ -53,6 +53,38 @@ def hash_col(df, col, N):
 
 print(hash_col(data, 'state',4))
 ```
+result:
+```code
+   pop  year  state_0  state_1  state_2  state_3
+0  1.5  2000        1        0        0        0
+1  1.7  2001        1        0        0        0
+2  3.6  2002        1        0        0        0
+3  2.4  2001        1        0        0        0
+4  2.9  2002        1        0        0        0
+```
+
+**\[Edited\]** Actually, we can use [pandas.get_dummies][doc-get_dummies] to do this directly:
+
+```python
+import pandas as pd
+
+data = {'state': ['Ohio', 'Ohio', 'Ohio', 'Nevada', 'Nevada'],
+        'year': [2000, 2001, 2002, 2001, 2002],
+        'pop': [1.5, 1.7, 3.6, 2.4, 2.9]}
+
+data = pd.DataFrame(data)
+print(pd.get_dummies(data, columns=['state','year']))
+```
+result:
+```code
+   pop  state_Nevada  state_Ohio  year_2000  year_2001  year_2002
+0  1.5           0.0         1.0        1.0        0.0        0.0
+1  1.7           0.0         1.0        0.0        1.0        0.0
+2  3.6           0.0         1.0        0.0        0.0        1.0
+3  2.4           1.0         0.0        0.0        1.0        0.0
+4  2.9           1.0         0.0        0.0        0.0        1.0
+```
+
 After all,
 
 I think I should learn more about one-hot-encoding and word2vec embedding.
@@ -67,3 +99,4 @@ Said [Andrew Ng][ng].
 [practice-quora]:https://www.quora.com/What-are-some-best-practices-in-Feature-Engineering
 [stackoverflow-hash-code]:http://stackoverflow.com/questions/8673035/what-is-feature-hashing-hashing-trick/33581487
 [ng]:http://www.andrewng.org/
+[doc-get_dummies]:http://pandas.pydata.org/pandas-docs/stable/generated/pandas.get_dummies.html
