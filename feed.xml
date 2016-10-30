@@ -1,6 +1,58 @@
-<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xml" href="/feed.xslt.xml"?><feed xmlns="http://www.w3.org/2005/Atom"><generator uri="http://jekyllrb.com" version="3.3.0">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2016-10-30T15:18:51+08:00</updated><id>//</id><title type="html">Liu Sida’s Homepage</title><subtitle>Machine Learning &amp; Human Learning
-</subtitle><entry><title type="html">Thank you, GitHub and Jekyll</title><link href="/blog/2016/10/30/thank-you-github-n-jekyll.html" rel="alternate" type="text/html" title="Thank you, GitHub and Jekyll" /><published>2016-10-30T14:50:00+08:00</published><updated>2016-10-30T14:50:00+08:00</updated><id>/blog/2016/10/30/thank-you-github-n-jekyll</id><content type="html" xml:base="/blog/2016/10/30/thank-you-github-n-jekyll.html">&lt;p&gt;Thank you, GitHub and Jekyll.&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xml" href="http://localhost:4000/feed.xslt.xml"?><feed xmlns="http://www.w3.org/2005/Atom"><generator uri="http://jekyllrb.com" version="3.3.0">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2016-10-30T16:31:16+08:00</updated><id>http://localhost:4000//</id><title type="html">Liu Sida’s Homepage</title><subtitle>Machine Learning &amp; Human Learning
+</subtitle><entry><title type="html">Thank you, GitHub and Jekyll</title><link href="http://localhost:4000/blog/2016/10/30/thank-you-github-n-jekyll.html" rel="alternate" type="text/html" title="Thank you, GitHub and Jekyll" /><published>2016-10-30T14:50:00+08:00</published><updated>2016-10-30T14:50:00+08:00</updated><id>http://localhost:4000/blog/2016/10/30/thank-you-github-n-jekyll</id><content type="html" xml:base="http://localhost:4000/blog/2016/10/30/thank-you-github-n-jekyll.html">&lt;p&gt;Thank you, GitHub and Jekyll.&lt;/p&gt;
 
 &lt;p&gt;Now I have my homepage again.&lt;/p&gt;
 
-&lt;p&gt;I’d like to share my &lt;em&gt;thoughts&lt;/em&gt; and &lt;em&gt;ideas&lt;/em&gt; and &lt;em&gt;source codes&lt;/em&gt; here. Hope they helped.&lt;/p&gt;</content><summary type="html">Thank you, GitHub and Jekyll.</summary></entry></feed>
+&lt;p&gt;I’d like to share my &lt;em&gt;thoughts&lt;/em&gt; and &lt;em&gt;ideas&lt;/em&gt; and &lt;em&gt;source codes&lt;/em&gt; here. Hope they helped.&lt;/p&gt;
+
+&lt;p&gt;btw, I am so happy to see Jekyll’s way of managing a website. It reminds me of the old days.&lt;/p&gt;
+
+&lt;p&gt;Here is my naive thoughts back in 2007 (Oh my god, it was almost 10 years ago!):&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;I found a very interesting method of templates when I was writing a website yesterday.&lt;/p&gt;
+
+  &lt;p&gt;Normal template technology is using PHP programs to read a template file, and parsing the symbols itself, than get the final &amp;gt; version of PHP page codes, store those to a work cache folder, and show that if need.&lt;/p&gt;
+
+  &lt;p&gt;The popular technology of template in PHP is like Smarty or sth.&lt;/p&gt;
+
+  &lt;p&gt;I got another way to using template. Anyway, it may be not so securable, but it’s very easy to use.&lt;/p&gt;
+
+  &lt;p&gt;1, Make HTML pages, and give them PHP extension name. 
+Like: template.php&lt;/p&gt;
+
+  &lt;div class=&quot;language-php highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;html&amp;gt;&lt;/span&gt; 
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;body&amp;gt;&lt;/span&gt; 
+hello, world. 
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;/body&amp;gt;&lt;/span&gt; 
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;/html&amp;gt;&lt;/span&gt; 
+&lt;/code&gt;&lt;/pre&gt;
+  &lt;/div&gt;
+
+  &lt;p&gt;2, Create different pages which really need to show. 
+Like: page.php&lt;/p&gt;
+
+  &lt;div class=&quot;language-php highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;cp&quot;&gt;&amp;lt;?&lt;/span&gt; 
+  &lt;span class=&quot;nv&quot;&gt;$str&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;hello&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;world&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt; 
+  &lt;span class=&quot;k&quot;&gt;include&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'template.php'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt; 
+&lt;span class=&quot;cp&quot;&gt;?&amp;gt;&lt;/span&gt; 
+&lt;/code&gt;&lt;/pre&gt;
+  &lt;/div&gt;
+
+  &lt;ol&gt;
+    &lt;li&gt;Replace the string using the PHP vars. 
+Like: template.php&lt;/li&gt;
+  &lt;/ol&gt;
+
+  &lt;div class=&quot;language-php highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;html&amp;gt;&lt;/span&gt; 
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;body&amp;gt;&lt;/span&gt; 
+&lt;span class=&quot;cp&quot;&gt;&amp;lt;?=&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$str&lt;/span&gt;&lt;span class=&quot;cp&quot;&gt;?&amp;gt;&lt;/span&gt; 
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;/body&amp;gt;&lt;/span&gt; 
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;/html&amp;gt;&lt;/span&gt; 
+&lt;/code&gt;&lt;/pre&gt;
+  &lt;/div&gt;
+
+  &lt;p&gt;ok, call page.php, you can see your work.&lt;/p&gt;
+
+  &lt;p&gt;Addtional, you can even give the template.php a List to show the records. That’s a great thing.&lt;/p&gt;
+&lt;/blockquote&gt;</content><summary type="html">Thank you, GitHub and Jekyll.</summary></entry></feed>
