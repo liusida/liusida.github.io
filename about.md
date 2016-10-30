@@ -4,7 +4,7 @@ title: About
 permalink: /about/
 ---
 
-![photo](/aboutme.jpg)
+![photo](/images/aboutme.jpg)
 
 I am Liu Sida, also known as **liusida** or **Star Liu**.
 
