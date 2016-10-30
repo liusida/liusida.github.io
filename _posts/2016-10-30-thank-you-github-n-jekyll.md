@@ -1,8 +1,6 @@
 ---
 layout: post
-title:  "Thank you, GitHub and Jekyll"
-date:   2016-10-30 14:50:00 +0800
-categories: blog
+title:  Thank you, GitHub and Jekyll
 ---
 
 Thank you, GitHub and Jekyll.

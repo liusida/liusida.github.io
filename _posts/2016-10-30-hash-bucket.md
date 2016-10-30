@@ -1,8 +1,6 @@
 ---
 layout: post
-title:  "About sparse_column_with_hash_bucket"
-date:   2016-10-30 17:13:00 +0800
-categories: blog
+title:  About sparse_column_with_hash_bucket
 ---
 
 Yesterday, I saw tf.contrib.layers.sparse_column_with_hash_bucket in a [tutorial][tensorflow-tutorial]. That's a very useful function! I thought. I never met such a function in Keras or TFLearn.
