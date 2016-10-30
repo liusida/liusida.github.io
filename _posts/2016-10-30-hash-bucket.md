@@ -56,8 +56,11 @@ def hash_col(df, col, N):
 print(hash_col(data, 'state',4))
 ```
 
+Coming up with features is difficult, time-consuming, requires expert knowledge. "Applied machine learning" is basically feature engineering. Said [Andrew Ng][ng].
+
 
 [tensorflow-tutorial]:https://www.tensorflow.org/versions/r0.11/tutorials/wide/index.html
 [luis-in-quora]:https://www.quora.com/Can-you-explain-feature-hashing-in-an-easily-understandable-way
 [practice-quora]:https://www.quora.com/What-are-some-best-practices-in-Feature-Engineering
 [stackoverflow-hash-code]:http://stackoverflow.com/questions/8673035/what-is-feature-hashing-hashing-trick/33581487
+[ng]:http://www.andrewng.org/
