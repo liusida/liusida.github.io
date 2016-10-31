@@ -11,6 +11,8 @@ When I came through the [Tensorflow Tutorial of Deep and Wide Learning][1], I fe
 
 In Tensorflow's tutorial, they said that, using Wide&Deep Model together, they could improve the accuracy from 83.6% to about 84.4%. After my Keras code was finished, I found that the accuracy of my new model is more than 85%. Although I used more units in the model, that's still nice I think!~
 
+The dataset can be download here: [train_dataset][adult.data] and [test_dataset][adult.test]
+
 Here is my code for Keras:
 
 ```python
@@ -89,3 +91,5 @@ And thanks to sklearn and pandas, Keras don't need to do those preprocessing at 
 [1]:https://www.tensorflow.org/versions/r0.11/tutorials/wide_and_deep/index.html
 [2]:http://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.MinMaxScaler.html
 [3]:http://pandas.pydata.org/pandas-docs/stable/generated/pandas.get_dummies.html
+[adult.data]:https://archive.ics.uci.edu/ml/machine-learning-databases/adult/adult.data
+[adult.test]:https://archive.ics.uci.edu/ml/machine-learning-databases/adult/adult.test
