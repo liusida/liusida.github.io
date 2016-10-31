@@ -4,7 +4,7 @@
  <title>Liu Sida's Homepage</title>
  <link href="http://liusida.com/atom.xml" rel="self"/>
  <link href="http://liusida.com/"/>
- <updated>2016-10-31T16:43:31+08:00</updated>
+ <updated>2016-10-31T16:48:25+08:00</updated>
  <id>http://liusida.com</id>
  <author>
    <name>liusida</name>
@@ -24,6 +24,8 @@
 &lt;p&gt;&lt;img src=&quot;https://www.tensorflow.org/versions/r0.11/images/wide_n_deep.svg&quot; alt=&quot;Tensorflow Wide and Deep Learning&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;In Tensorflow’s tutorial, they said that, using Wide&amp;amp;Deep Model together, they could improve the accuracy from 83.6% to about 84.4%. After my Keras code was finished, I found that the accuracy of my new model is more than 85%. Although I used more units in the model, that’s still nice I think!~&lt;/p&gt;
+
+&lt;p&gt;The dataset can be download here: &lt;a href=&quot;https://archive.ics.uci.edu/ml/machine-learning-databases/adult/adult.data&quot;&gt;train_dataset&lt;/a&gt; and &lt;a href=&quot;https://archive.ics.uci.edu/ml/machine-learning-databases/adult/adult.test&quot;&gt;test_dataset&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;Here is my code for Keras:&lt;/p&gt;
 
