@@ -6,7 +6,10 @@ version:      1.1.1
 author:
   name:       'liusida'
   email:      ''
-markdown:     rdiscount
+markdown:     kramdown
+kramdown:
+  input: GFM
+  syntax_highlighter: rouge
 permalink:    pretty
 highlighter:  true
 paginate:     5

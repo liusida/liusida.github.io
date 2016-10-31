@@ -52,6 +52,7 @@ def hash_col(df, col, N):
 print(hash_col(data, 'state',4))
 ```
 result:
+
 ```code
    pop  year  state_0  state_1  state_2  state_3
 0  1.5  2000        1        0        0        0
@@ -74,6 +75,7 @@ data = pd.DataFrame(data)
 print(pd.get_dummies(data, columns=['state','year']))
 ```
 result:
+
 ```code
    pop  state_Nevada  state_Ohio  year_2000  year_2001  year_2002
 0  1.5           0.0         1.0        1.0        0.0        0.0
