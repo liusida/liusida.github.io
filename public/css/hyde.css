@@ -497,3 +497,9 @@ a:focus {
 .theme-base-0f .related-posts li a:hover {
   color: #8f5536;
 }
+
+
+.github-icon-svg {
+  width: 60%;
+  padding: 10%;
+}
