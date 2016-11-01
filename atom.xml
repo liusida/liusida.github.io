@@ -4,7 +4,7 @@
  <title>Liu Sida's Homepage</title>
  <link href="http://liusida.com/atom.xml" rel="self"/>
  <link href="http://liusida.com/"/>
- <updated>2016-10-31T16:50:07+08:00</updated>
+ <updated>2016-11-01T00:56:20-07:00</updated>
  <id>http://liusida.com</id>
  <author>
    <name>liusida</name>
@@ -15,7 +15,7 @@
  <entry>
    <title>from Tensorflow to Keras</title>
    <link href="http://liusida.com/2016/10/31/translate-from-tf-2-keras/"/>
-   <updated>2016-10-31T00:00:00+08:00</updated>
+   <updated>2016-10-31T00:00:00-07:00</updated>
    <id>http://liusida.com/2016/10/31/translate-from-tf-2-keras</id>
    <content type="html">&lt;p&gt;I know 3 high level api for deep learning. They are Tensorflow.contrib.learn(SKFlow), TFLearn and Keras. All of them are great tools, but maybe I like Keras because of the easy style of code.&lt;/p&gt;
 
@@ -109,7 +109,7 @@
  <entry>
    <title>About sparse_column_with_hash_bucket</title>
    <link href="http://liusida.com/2016/10/30/hash-bucket/"/>
-   <updated>2016-10-30T00:00:00+08:00</updated>
+   <updated>2016-10-30T00:00:00-07:00</updated>
    <id>http://liusida.com/2016/10/30/hash-bucket</id>
    <content type="html">&lt;p&gt;Yesterday, I saw tf.contrib.layers.sparse_column_with_hash_bucket in a &lt;a href=&quot;https://www.tensorflow.org/versions/r0.11/tutorials/wide/index.html&quot;&gt;tutorial&lt;/a&gt;. That’s a very useful function! I thought. I never met such a function in Keras or TFLearn.&lt;/p&gt;
 
@@ -209,7 +209,7 @@
  <entry>
    <title>Thank you, GitHub and Jekyll</title>
    <link href="http://liusida.com/2016/10/29/thank-you-github-n-jekyll/"/>
-   <updated>2016-10-29T00:00:00+08:00</updated>
+   <updated>2016-10-29T00:00:00-07:00</updated>
    <id>http://liusida.com/2016/10/29/thank-you-github-n-jekyll</id>
    <content type="html">&lt;p&gt;Thank you, GitHub and Jekyll.&lt;/p&gt;
 
