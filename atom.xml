@@ -4,7 +4,7 @@
  <title>Liu Sida's Homepage</title>
  <link href="http://liusida.com/atom.xml" rel="self"/>
  <link href="http://liusida.com/"/>
- <updated>2016-11-04T15:51:12+08:00</updated>
+ <updated>2016-11-04T15:53:10+08:00</updated>
  <id>http://liusida.com</id>
  <author>
    <name>liusida</name>
@@ -169,7 +169,7 @@
 
 &lt;p&gt;That’s good! The output is also a list, just like the input list.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;../images/rnn_flow.png&quot; alt=&quot;RNN-flow&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/images/rnn_flow.png&quot; alt=&quot;RNN-flow&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;Every single LSTM cell has a layer, which contain 128(rnn_size) neurals.
 At first, we feed the LSTM cell with the first slide of our input list, which is happen to be the whole first origin image. The first line of first origin image goes to the first LSTM first. Because the rnn has 128(rnn_size) neurals, so it will output 128 numbers this time. And then the 2nd line of first origin image goes to the 2nd LSTM, until meets the final line, and get another 128 numbers output…
