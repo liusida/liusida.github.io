@@ -155,7 +155,7 @@ Let take a look at [the source code of rnn.rnn][2] on github, the programmer sai
 
 That's good! The output is also a list, just like the input list.
 
-![RNN-flow](../images/rnn_flow.png)
+![RNN-flow](/images/rnn_flow.png)
 
 Every single LSTM cell has a layer, which contain 128(rnn_size) neurals.
 At first, we feed the LSTM cell with the first slide of our input list, which is happen to be the whole first origin image. The first line of first origin image goes to the first LSTM first. Because the rnn has 128(rnn_size) neurals, so it will output 128 numbers this time. And then the 2nd line of first origin image goes to the 2nd LSTM, until meets the final line, and get another 128 numbers output...
