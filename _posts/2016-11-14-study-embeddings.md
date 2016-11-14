@@ -1,12 +1,10 @@
 ---
 layout: post
-title: 学习Tensorflow的Embedding例子
+title: 学习Tensorflow的Embeddings例子
 ---
-Udacity上有一个Google技术人员提供的基于Tensorflow的深度学习课程，今天学到Embedding，有点难理解，所以写个笔记记录下，以备日后回忆。
+Udacity上有一个Google技术人员提供的基于Tensorflow的深度学习课程，今天学到Embeddings，有点难理解，所以写个笔记记录下，以备日后回忆。
 
-Udacity课程视频：https://classroom.udacity.com/courses/ud730/lessons/6378983156/concepts/63742734590923#
-
-例子Github地址：https://github.com/tensorflow/tensorflow/blob/master/tensorflow/examples/udacity/5_word2vec.ipynb
+链接： [Udacity课程视频][4] [例子Github地址][3]
 
 ## 一个小debug
 
@@ -55,3 +53,4 @@ conda remove mkl mkl-service
 [1]:https://www.continuum.io/blog/developer-blog/anaconda-25-release-now-mkl-optimizations
 [2]:https://docs.continuum.io/mkl-optimizations/
 [3]:https://github.com/tensorflow/tensorflow/blob/master/tensorflow/examples/udacity/5_word2vec.ipynb
+[4]:https://classroom.udacity.com/courses/ud730/lessons/6378983156/concepts/63742734590923
