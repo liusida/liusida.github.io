@@ -4,7 +4,7 @@
  <title>Liu Sida's Homepage</title>
  <link href="http://liusida.com/atom.xml" rel="self"/>
  <link href="http://liusida.com/"/>
- <updated>2016-11-14T16:07:41+08:00</updated>
+ <updated>2016-11-14T16:09:52+08:00</updated>
  <id>http://liusida.com</id>
  <author>
    <name>liusida</name>
@@ -44,31 +44,31 @@ conda remove mkl mkl-service
 （我记得有人说过，看一个人的朋友，就知道这个人大致是怎样，看来词也一样。）如下图：&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;&lt;img src=&quot;../images/2016-11-14-study-embeddings/catandkitty.png&quot; alt=&quot;word cat and kitty&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/images/2016-11-14-study-embeddings/catandkitty.png&quot; alt=&quot;word cat and kitty&quot; /&gt;&lt;/p&gt;
 
 &lt;ul&gt;
   &lt;li&gt;Embeddings的目标，就是把词都放到一个向量空间里去，这样相近的词就聚集在一起。有了这个模型以后，就可以做很多应用，例如找近义词、某一类词聚类、甚至进行向量加减来寻找衍生词。如下图：&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;&lt;img src=&quot;../images/2016-11-14-study-embeddings/embeddings.png&quot; alt=&quot;embeddings&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/images/2016-11-14-study-embeddings/embeddings.png&quot; alt=&quot;embeddings&quot; /&gt;&lt;/p&gt;
 
 &lt;ul&gt;
   &lt;li&gt;如何建立这个Embeddings呢？首先使用一个工具叫word2vec。word2vec算法描述是这样，载入句子，从句子中取出一个词，例如FOX，将他放入Embeddings向量空间（最初位置肯定是随机的），然后通过一次逻辑回归分类预测出他对应的词语，然后与文中实际的QUICK BROWN JUMPS OVER四个词比对，并修正他在Embeddings向量空间里的位置。反复上述步骤，便可得到Embeddings向量空间。（TODO:我这段还需要再理解下）如下图：&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;&lt;img src=&quot;../images/2016-11-14-study-embeddings/word2vec.png&quot; alt=&quot;word2vec&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/images/2016-11-14-study-embeddings/word2vec.png&quot; alt=&quot;word2vec&quot; /&gt;&lt;/p&gt;
 
 &lt;ul&gt;
   &lt;li&gt;再来看一下word2vec的具体流程图：把词&lt;code class=&quot;highlighter-rouge&quot;&gt;cat&lt;/code&gt;放进Embeddings向量空间，然后做一次线性计算，然后取softmax，得到一个一批0-1的数值，然后cross_entropy，产出预测词&lt;code class=&quot;highlighter-rouge&quot;&gt;purr&lt;/code&gt;。跟目标比对，然后调整。这就是训练过程。如下图：&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;&lt;img src=&quot;../images/2016-11-14-study-embeddings/word2vecm.png&quot; alt=&quot;word2vec&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/images/2016-11-14-study-embeddings/word2vecm.png&quot; alt=&quot;word2vec&quot; /&gt;&lt;/p&gt;
 
 &lt;ul&gt;
   &lt;li&gt;因为Embeddings向量空间是高维的（TODO:具体几维？），要想直观的看到他，可以使用t-SNE降维技术，这个技术据说比原始的PCA降维要先进，能保留更多信息。&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;&lt;img src=&quot;../images/2016-11-14-study-embeddings/t-SNE.png&quot; alt=&quot;t-sne&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/images/2016-11-14-study-embeddings/t-SNE.png&quot; alt=&quot;t-sne&quot; /&gt;&lt;/p&gt;
 
 &lt;h2 id=&quot;section-1&quot;&gt;理解完课程，然后来读例子程序：&lt;/h2&gt;
 
