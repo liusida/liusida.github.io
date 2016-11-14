@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+
+  <head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+
+  <title>
+    学习Tensorflow的Embedding例子 &middot; 
+    Liu Sida | Star Liu | liusida
+  </title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/public/css/hyde.css">
+  <link rel="stylesheet" href="/public/css/syntax.css">
+  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:300,400italic,400,600,700|Abril+Fatface">
+
+  <!-- Icons -->
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/public/touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" href="/public/favicon.png">
+
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml">
+</head>
+
+
+  <body>
+
+    <header class="masthead">
+          <p>
+            <a href='https://github.com/liusida/'>
+            <span class="icon github">
+              <svg version="1.1" class="github-icon-svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                 viewBox="0 0 16 16" enable-background="new 0 0 16 16" xml:space="preserve">
+                <path fill-rule="evenodd" clip-rule="evenodd" fill="#333" d="M7.999,0.431c-4.285,0-7.76,3.474-7.76,7.761
+                c0,3.428,2.223,6.337,5.307,7.363c0.388,0.071,0.53-0.168,0.53-0.374c0-0.184-0.007-0.672-0.01-1.32
+                c-2.159,0.469-2.614-1.04-2.614-1.04c-0.353-0.896-0.862-1.135-0.862-1.135c-0.705-0.481,0.053-0.472,0.053-0.472
+                c0.779,0.055,1.189,0.8,1.189,0.8c0.692,1.186,1.816,0.843,2.258,0.645c0.071-0.502,0.271-0.843,0.493-1.037
+                C4.86,11.425,3.049,10.76,3.049,7.786c0-0.847,0.302-1.54,0.799-2.082C3.768,5.507,3.501,4.718,3.924,3.65
+                c0,0,0.652-0.209,2.134,0.796C6.677,4.273,7.34,4.187,8,4.184c0.659,0.003,1.323,0.089,1.943,0.261
+                c1.482-1.004,2.132-0.796,2.132-0.796c0.423,1.068,0.157,1.857,0.077,2.054c0.497,0.542,0.798,1.235,0.798,2.082
+                c0,2.981-1.814,3.637-3.543,3.829c0.279,0.24,0.527,0.713,0.527,1.437c0,1.037-0.01,1.874-0.01,2.129
+                c0,0.208,0.14,0.449,0.534,0.373c3.081-1.028,5.302-3.935,5.302-7.362C15.76,3.906,12.285,0.431,7.999,0.431z"/>
+              </svg>
+            </span>
+            </a>
+          </p>
+      <div class="masthead-inner">
+        <h1><a href='/'>Liu Sida's Homepage</a></h1>
+        <p class="lead">Machine Learning & Human Learning</p>
+
+        <div class="colophon">
+          <p>&copy; 2014. liusida All rights reserved.</p>
+        </div>
+      </div>
+    </header>
+
+    <div class="content container">
+      <div class="post">
+  <h1>学习Tensorflow的Embedding例子</h1>
+  <span class="post-date">14 Nov 2016</span>
+  <p>Udacity上有一个Google技术人员提供的基于Tensorflow的深度学习课程，今天学到Embedding，有点难理解，所以写个笔记记录下，以备日后回忆。</p>
+
+<p>Udacity课程视频：https://classroom.udacity.com/courses/ud730/lessons/6378983156/concepts/63742734590923#</p>
+
+<p>例子Github地址：https://github.com/tensorflow/tensorflow/blob/master/tensorflow/examples/udacity/5_word2vec.ipynb</p>
+
+<h2 id="debug">一个小debug</h2>
+
+<p>这个例子里用到了sklearn的tSNE来降维作显示，但每次运行到这里Jupyter都提醒Kernel死掉了，Kernel重启。于是把源码复制到单独python文件里执行，看到如下错误：</p>
+<div class="highlighter-rouge"><pre class="highlight"><code>Intel MKL FATAL ERROR: Cannot load libmkl_avx2.so or libmkl_def.so.
+</code></pre>
+</div>
+<p>这个问题似乎是Intel的MKL有问题，网上查到这篇<a href="https://www.continuum.io/blog/developer-blog/anaconda-25-release-now-mkl-optimizations">为Anaconda2.5提供MKL优化</a>，里面也提供了去掉MKL优化的方法：</p>
+<div class="highlighter-rouge"><pre class="highlight"><code>conda install nomkl numpy scipy scikit-learn numexpr
+conda remove mkl mkl-service
+</code></pre>
+</div>
+<p>执行过之后，就去除了mkl库，import mkl就找不到了，同时例子程序里的问题也没有再出现。
+如果还是想使用Intel MKL优化的话，或许可以参考Anaconda官方文档<a href="https://docs.continuum.io/mkl-optimizations/">MKL OPTIMIZATIONS</a>来重新安装过。不过，我先不装了。</p>
+
+<h2 id="section">解决完程序安装的问题，开始理解课程：</h2>
+
+<ul>
+  <li>课程使用的实现无监督文本学习的根据：<strong>相似的词，会伴随相似的上下文</strong>。
+（我记得有人说过，看一个人的朋友，就知道这个人大致是怎样，看来词也一样。）如下图：</li>
+</ul>
+
+<p><img src="../images/2016-11-14-study-embeddings/catandkitty.png" alt="word cat and kitty" /></p>
+
+<ul>
+  <li>Embeddings的目标，就是把词都放到一个向量空间里去，这样相近的词就聚集在一起。有了这个模型以后，就可以做很多应用，例如找近义词、某一类词聚类、甚至进行向量加减来寻找衍生词。如下图：</li>
+</ul>
+
+<p><img src="../images/2016-11-14-study-embeddings/embeddings.png" alt="embeddings" /></p>
+
+<ul>
+  <li>如何建立这个Embeddings呢？首先使用一个工具叫word2vec。word2vec算法描述是这样，载入句子，从句子中取出一个词，例如FOX，将他放入Embeddings向量空间（最初位置肯定是随机的），然后通过一次逻辑回归分类预测出他对应的词语，然后与文中实际的QUICK BROWN JUMPS OVER四个词比对，并修正他在Embeddings向量空间里的位置。反复上述步骤，便可得到Embeddings向量空间。（TODO:我这段还需要再理解下）如下图：</li>
+</ul>
+
+<p><img src="../images/2016-11-14-study-embeddings/word2vec.png" alt="word2vec" /></p>
+
+<ul>
+  <li>再来看一下word2vec的具体流程图：把词<code class="highlighter-rouge">cat</code>放进Embeddings向量空间，然后做一次线性计算，然后取softmax，得到一个一批0-1的数值，然后cross_entropy，产出预测词<code class="highlighter-rouge">purr</code>。跟目标比对，然后调整。这就是训练过程。如下图：</li>
+</ul>
+
+<p><img src="../images/2016-11-14-study-embeddings/word2vecm.png" alt="word2vec" /></p>
+
+<ul>
+  <li>因为Embeddings向量空间是高维的（TODO:具体几维？），要想直观的看到他，可以使用t-SNE降维技术，这个技术据说比原始的PCA降维要先进，能保留更多信息。</li>
+</ul>
+
+<p><img src="../images/2016-11-14-study-embeddings/t-SNE.png" alt="t-sne" /></p>
+
+<h2 id="section-1">理解完课程，然后来读例子程序：</h2>
+
+<p><a href="https://github.com/tensorflow/tensorflow/blob/master/tensorflow/examples/udacity/5_word2vec.ipynb">点此查看notebook</a></p>
+
+<p>未完待续</p>
+
+
+</div>
+
+<div id="disqus_thread"></div>
+<script>
+
+/**
+*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+*  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+/*
+var disqus_config = function () {
+this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+};
+*/
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+s.src = '//liu-sidas-homepage.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+                                
+<div class="related">
+  <h2>Related Posts</h2>
+  <ul class="related-posts">
+    
+      <li>
+        <h3>
+          <a href="/2016/11/12/how-to-ask-a-good-question/">
+            如何问一个好问题？
+            <small>12 Nov 2016</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/2016/11/04/rnn-implementation/">
+            Recurrent Neural Network(RNN) Implementation
+            <small>04 Nov 2016</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/2016/10/31/translate-from-tf-2-keras/">
+            from Tensorflow to Keras
+            <small>31 Oct 2016</small>
+          </a>
+        </h3>
+      </li>
+    
+  </ul>
+</div>
+
+    </div>
+
+  </body>
+</html>
