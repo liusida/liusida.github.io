@@ -106,7 +106,7 @@ conda remove mkl mkl-service
 <p><img src="/images/2016-11-14-study-embeddings/word2vecm.png" alt="word2vec" /></p>
 
 <ul>
-  <li>因为Embeddings向量空间是高维的（TODO:具体几维？），要想直观的看到他，可以使用t-SNE降维技术，这个技术据说比原始的PCA降维要先进，能保留更多信息。</li>
+  <li>因为Embeddings向量空间是高维的（需要几维可以自己定义，比如说128维），要想直观的看到他，可以使用t-SNE降维技术，这个技术据说比原始的PCA降维要先进，能保留更多信息。</li>
 </ul>
 
 <p><img src="/images/2016-11-14-study-embeddings/t-SNE.png" alt="t-sne" /></p>
@@ -115,7 +115,344 @@ conda remove mkl mkl-service
 
 <p><a href="https://github.com/tensorflow/tensorflow/blob/master/tensorflow/examples/udacity/5_word2vec.ipynb">点此查看notebook</a></p>
 
-<p>未完待续</p>
+<p>先是引入一些库文件。第一行是如果要在Jupyter Notebook里运行的话，加这一行<code class="highlighter-rouge">%matplotlib inline</code>表示输出的图直接嵌入到Notebook里。</p>
+
+<p><code class="highlighter-rouge">__future__</code> 和 <code class="highlighter-rouge">six</code> 都是保证python2 3兼容的做法。</p>
+
+<p>我们可以看到，<code class="highlighter-rouge">TSNE</code>库，tensorflow并没有，所以使用的是<code class="highlighter-rouge">sklearn</code>的实现。
+<code class="highlighter-rouge">collections</code>是python自带的一个工具库，据说很好，新手可以看这篇<a href="http://www.zlovezl.cn/articles/collections-in-python/">中文介绍博文</a>。</p>
+
+<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="c"># These are all the modules we'll be using later. Make sure you can import them</span>
+<span class="c"># before proceeding further.</span>
+<span class="o">%</span><span class="n">matplotlib</span> <span class="n">inline</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span>
+<span class="kn">import</span> <span class="nn">collections</span>
+<span class="kn">import</span> <span class="nn">math</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">random</span>
+<span class="kn">import</span> <span class="nn">tensorflow</span> <span class="kn">as</span> <span class="nn">tf</span>
+<span class="kn">import</span> <span class="nn">zipfile</span>
+<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pylab</span>
+<span class="kn">from</span> <span class="nn">six.moves</span> <span class="kn">import</span> <span class="nb">range</span>
+<span class="kn">from</span> <span class="nn">six.moves.urllib.request</span> <span class="kn">import</span> <span class="n">urlretrieve</span>
+<span class="kn">from</span> <span class="nn">sklearn.manifold</span> <span class="kn">import</span> <span class="n">TSNE</span>
+</code></pre>
+</div>
+<p>下载数据集。如果网速不快，可以用下载工具下载，地址是 http://mattmahoney.net/dc/text8.zip 。保存到运行目录即可。</p>
+
+<p>如果手工解压开查看具体内容，你会开到这个文件里没有标点，全部小写，词与词之间空格隔开：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>anarchism originated as a term of abuse first used against early working class ...
+</code></pre>
+</div>
+
+<p>英语不太好，去了标题之后，我都看不太懂是啥意思。想起了我们的没有标点古文。</p>
+
+<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="n">url</span> <span class="o">=</span> <span class="s">'http://mattmahoney.net/dc/'</span>
+
+<span class="k">def</span> <span class="nf">maybe_download</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">expected_bytes</span><span class="p">):</span>
+  <span class="s">"""Download a file if not present, and make sure it's the right size."""</span>
+  <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+    <span class="n">filename</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">urlretrieve</span><span class="p">(</span><span class="n">url</span> <span class="o">+</span> <span class="n">filename</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
+  <span class="n">statinfo</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">stat</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+  <span class="k">if</span> <span class="n">statinfo</span><span class="o">.</span><span class="n">st_size</span> <span class="o">==</span> <span class="n">expected_bytes</span><span class="p">:</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">'Found and verified </span><span class="si">%</span><span class="s">s'</span> <span class="o">%</span> <span class="n">filename</span><span class="p">)</span>
+  <span class="k">else</span><span class="p">:</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">statinfo</span><span class="o">.</span><span class="n">st_size</span><span class="p">)</span>
+    <span class="k">raise</span> <span class="nb">Exception</span><span class="p">(</span>
+      <span class="s">'Failed to verify '</span> <span class="o">+</span> <span class="n">filename</span> <span class="o">+</span> <span class="s">'. Can you get to it with a browser?'</span><span class="p">)</span>
+  <span class="k">return</span> <span class="n">filename</span>
+
+<span class="n">filename</span> <span class="o">=</span> <span class="n">maybe_download</span><span class="p">(</span><span class="s">'text8.zip'</span><span class="p">,</span> <span class="mi">31344016</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<p>然后是读入压缩包里第一个文件的所有内容，并以空格分割，形成一个很大的list。</p>
+
+<p>这里tf.compat.as_str只是确保一下是string，应该没什么额外用途。</p>
+
+<p>tf.compat包里面都是一些关于兼容性（compatibility)的小工具。</p>
+
+<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="k">def</span> <span class="nf">read_data</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+  <span class="s">"""Extract the first file enclosed in a zip file as a list of words"""</span>
+  <span class="k">with</span> <span class="n">zipfile</span><span class="o">.</span><span class="n">ZipFile</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">compat</span><span class="o">.</span><span class="n">as_str</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">namelist</span><span class="p">()[</span><span class="mi">0</span><span class="p">]))</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+  <span class="k">return</span> <span class="n">data</span>
+
+<span class="n">words</span> <span class="o">=</span> <span class="n">read_data</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s">'Data size </span><span class="si">%</span><span class="s">d'</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="n">words</span><span class="p">))</span>
+</code></pre>
+</div>
+
+<p><code class="highlighter-rouge">collections.Counter</code>很厉害，可以很方便的数元素出现了几次。以后就不要自己造轮子了，用这个Counter可高效多了。</p>
+
+<p><code class="highlighter-rouge">UNK</code>应该是Unknow的缩写，就是这边只统计50000-1个常用词，剩下的词统称<code class="highlighter-rouge">UNK</code>。</p>
+
+<p><code class="highlighter-rouge">count</code>就是包括<code class="highlighter-rouge">UNK</code>在内的所有50000-1个常用词的词语和出现次数。</p>
+
+<p>按照<code class="highlighter-rouge">count</code>里的词先后顺序，给词进行编号，<code class="highlighter-rouge">UNK</code>是0，出现最多的<code class="highlighter-rouge">the</code>是1，出现第二多的<code class="highlighter-rouge">of</code>是2。</p>
+
+<p><code class="highlighter-rouge">dictionary</code>就是词到编号的对应关系，可以快速查找词的编号：<code class="highlighter-rouge">index = dictionary(word)</code>。</p>
+
+<p><code class="highlighter-rouge">reverse_dictionary</code>则是编号到词的对应关系，可以快速查找某个编号是什么词：<code class="highlighter-rouge">word = reverse_dictionary(index)</code>。</p>
+
+<p>最后<code class="highlighter-rouge">data</code>是把原文的词都转化成对应编码以后的串。</p>
+
+<p>保存<code class="highlighter-rouge">dictionary</code>和<code class="highlighter-rouge">reverse_dictionary</code>这一点十分值的学习，对于频繁的查询，这样的缓存能大大增加速度。如果用函数的方式，每次查都要轮询，就土了。</p>
+
+<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="n">vocabulary_size</span> <span class="o">=</span> <span class="mi">50000</span>
+
+<span class="k">def</span> <span class="nf">build_dataset</span><span class="p">(</span><span class="n">words</span><span class="p">):</span>
+  <span class="n">count</span> <span class="o">=</span> <span class="p">[[</span><span class="s">'UNK'</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]]</span>
+  <span class="n">count</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">collections</span><span class="o">.</span><span class="n">Counter</span><span class="p">(</span><span class="n">words</span><span class="p">)</span><span class="o">.</span><span class="n">most_common</span><span class="p">(</span><span class="n">vocabulary_size</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
+  <span class="n">dictionary</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+  <span class="k">for</span> <span class="n">word</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">count</span><span class="p">:</span>
+    <span class="n">dictionary</span><span class="p">[</span><span class="n">word</span><span class="p">]</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">dictionary</span><span class="p">)</span>
+  <span class="n">data</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+  <span class="n">unk_count</span> <span class="o">=</span> <span class="mi">0</span>
+  <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">words</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">dictionary</span><span class="p">:</span>
+      <span class="n">index</span> <span class="o">=</span> <span class="n">dictionary</span><span class="p">[</span><span class="n">word</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+      <span class="n">index</span> <span class="o">=</span> <span class="mi">0</span>  <span class="c"># dictionary['UNK']</span>
+      <span class="n">unk_count</span> <span class="o">=</span> <span class="n">unk_count</span> <span class="o">+</span> <span class="mi">1</span>
+    <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">index</span><span class="p">)</span>
+  <span class="n">count</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">unk_count</span>
+  <span class="n">reverse_dictionary</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">dictionary</span><span class="o">.</span><span class="n">values</span><span class="p">(),</span> <span class="n">dictionary</span><span class="o">.</span><span class="n">keys</span><span class="p">()))</span>
+  <span class="k">return</span> <span class="n">data</span><span class="p">,</span> <span class="n">count</span><span class="p">,</span> <span class="n">dictionary</span><span class="p">,</span> <span class="n">reverse_dictionary</span>
+
+<span class="n">data</span><span class="p">,</span> <span class="n">count</span><span class="p">,</span> <span class="n">dictionary</span><span class="p">,</span> <span class="n">reverse_dictionary</span> <span class="o">=</span> <span class="n">build_dataset</span><span class="p">(</span><span class="n">words</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s">'Most common words (+UNK)'</span><span class="p">,</span> <span class="n">count</span><span class="p">[:</span><span class="mi">5</span><span class="p">])</span>
+<span class="k">print</span><span class="p">(</span><span class="s">'Sample data'</span><span class="p">,</span> <span class="n">data</span><span class="p">[:</span><span class="mi">10</span><span class="p">])</span>
+<span class="k">del</span> <span class="n">words</span>  <span class="c"># Hint to reduce memory.</span>
+</code></pre>
+</div>
+
+<p>准备要生成可供训练的数据集了。</p>
+
+<p>这里使用全局变量<code class="highlighter-rouge">data_index</code>来记录当前取到哪了，每次取一个batch后会向后移动，如果超出结尾，则又从头开始。<code class="highlighter-rouge">data_index = (data_index + 1) % len(data)</code>（怎么把这东西放在全局变量里，是不是有点不够漂亮？）</p>
+
+<p><code class="highlighter-rouge">skip_window</code>是确定取一个词周边多远的词来训练，比如说<code class="highlighter-rouge">skip_window</code>是2，则取这个词的左右各两个词，来作为它的上下文词。后面正式使用的时候取值是1，也就是只看左右各一个词。</p>
+
+<p>这里的<code class="highlighter-rouge">num_skips</code>我有点疑问，按下面注释是说，<code class="highlighter-rouge">How many times to reuse an input to generate a label.</code>，但是我觉得如果确定了<code class="highlighter-rouge">skip_window</code>之后，完全可以用</p>
+
+<p><code class="highlighter-rouge">num_skips=2*skip_window</code>来确定需要reuse的次数呀，难道还会浪费数据源不成？</p>
+
+<p>这边用了一个双向队列<code class="highlighter-rouge">collections.deque</code>，第一次遇见，看代码与<code class="highlighter-rouge">list</code>没啥区别，从网上简介来看，双向队列主要在左侧插入弹出的时候效率高，但这里并没有左侧的插入弹出呀，所以是不是应该老实用<code class="highlighter-rouge">list</code>会比较好呢？</p>
+
+<p>然后要维护一个<code class="highlighter-rouge">targets_to_avoid</code>，如果不是左右<code class="highlighter-rouge">skip_window</code>个词都用起来的话，则通过随机函数来随机选取对应的词。还是上面那个问题，为啥不直接全用啊？不全用还得随机，想不明白。</p>
+
+<p>这一段代码感觉写的怪怪的，疑点比较多，如果有能知道其中淫巧的同学，可以留言指点一下。</p>
+
+<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="n">data_index</span> <span class="o">=</span> <span class="mi">0</span>
+
+<span class="k">def</span> <span class="nf">generate_batch</span><span class="p">(</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">num_skips</span><span class="p">,</span> <span class="n">skip_window</span><span class="p">):</span>
+  <span class="k">global</span> <span class="n">data_index</span>
+  <span class="k">assert</span> <span class="n">batch_size</span> <span class="o">%</span> <span class="n">num_skips</span> <span class="o">==</span> <span class="mi">0</span>
+  <span class="k">assert</span> <span class="n">num_skips</span> <span class="o">&lt;=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">skip_window</span>
+  <span class="n">batch</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">batch_size</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span>
+  <span class="n">labels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">batch_size</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span>
+  <span class="n">span</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">skip_window</span> <span class="o">+</span> <span class="mi">1</span> <span class="c"># [ skip_window target skip_window ]</span>
+  <span class="nb">buffer</span> <span class="o">=</span> <span class="n">collections</span><span class="o">.</span><span class="n">deque</span><span class="p">(</span><span class="n">maxlen</span><span class="o">=</span><span class="n">span</span><span class="p">)</span>
+  <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">span</span><span class="p">):</span>
+    <span class="nb">buffer</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">data_index</span><span class="p">])</span>
+    <span class="n">data_index</span> <span class="o">=</span> <span class="p">(</span><span class="n">data_index</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+  <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">batch_size</span> <span class="o">//</span> <span class="n">num_skips</span><span class="p">):</span>
+    <span class="n">target</span> <span class="o">=</span> <span class="n">skip_window</span>  <span class="c"># target label at the center of the buffer</span>
+    <span class="n">targets_to_avoid</span> <span class="o">=</span> <span class="p">[</span> <span class="n">skip_window</span> <span class="p">]</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_skips</span><span class="p">):</span>
+      <span class="k">while</span> <span class="n">target</span> <span class="ow">in</span> <span class="n">targets_to_avoid</span><span class="p">:</span>
+        <span class="n">target</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">span</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+      <span class="n">targets_to_avoid</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">target</span><span class="p">)</span>
+      <span class="n">batch</span><span class="p">[</span><span class="n">i</span> <span class="o">*</span> <span class="n">num_skips</span> <span class="o">+</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="nb">buffer</span><span class="p">[</span><span class="n">skip_window</span><span class="p">]</span>
+      <span class="n">labels</span><span class="p">[</span><span class="n">i</span> <span class="o">*</span> <span class="n">num_skips</span> <span class="o">+</span> <span class="n">j</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="nb">buffer</span><span class="p">[</span><span class="n">target</span><span class="p">]</span>
+    <span class="nb">buffer</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">data_index</span><span class="p">])</span>
+    <span class="n">data_index</span> <span class="o">=</span> <span class="p">(</span><span class="n">data_index</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+  <span class="k">return</span> <span class="n">batch</span><span class="p">,</span> <span class="n">labels</span>
+</code></pre>
+</div>
+
+<p>这里是测试一下<code class="highlighter-rouge">generate_batch</code>函数，并无实际用途。</p>
+
+<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="k">print</span><span class="p">(</span><span class="s">'data:'</span><span class="p">,</span> <span class="p">[</span><span class="n">reverse_dictionary</span><span class="p">[</span><span class="n">di</span><span class="p">]</span> <span class="k">for</span> <span class="n">di</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[:</span><span class="mi">8</span><span class="p">]])</span>
+
+<span class="k">for</span> <span class="n">num_skips</span><span class="p">,</span> <span class="n">skip_window</span> <span class="ow">in</span> <span class="p">[(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">)]:</span>
+  <span class="n">data_index</span> <span class="o">=</span> <span class="mi">0</span>
+  <span class="n">batch</span><span class="p">,</span> <span class="n">labels</span> <span class="o">=</span> <span class="n">generate_batch</span><span class="p">(</span><span class="n">batch_size</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">num_skips</span><span class="o">=</span><span class="n">num_skips</span><span class="p">,</span> <span class="n">skip_window</span><span class="o">=</span><span class="n">skip_window</span><span class="p">)</span>
+  <span class="k">print</span><span class="p">(</span><span class="s">'</span><span class="se">\n</span><span class="s">with num_skips = </span><span class="si">%</span><span class="s">d and skip_window = </span><span class="si">%</span><span class="s">d:'</span> <span class="o">%</span> <span class="p">(</span><span class="n">num_skips</span><span class="p">,</span> <span class="n">skip_window</span><span class="p">))</span>
+  <span class="k">print</span><span class="p">(</span><span class="s">'    batch:'</span><span class="p">,</span> <span class="p">[</span><span class="n">reverse_dictionary</span><span class="p">[</span><span class="n">bi</span><span class="p">]</span> <span class="k">for</span> <span class="n">bi</span> <span class="ow">in</span> <span class="n">batch</span><span class="p">])</span>
+  <span class="k">print</span><span class="p">(</span><span class="s">'    labels:'</span><span class="p">,</span> <span class="p">[</span><span class="n">reverse_dictionary</span><span class="p">[</span><span class="n">li</span><span class="p">]</span> <span class="k">for</span> <span class="n">li</span> <span class="ow">in</span> <span class="n">labels</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">8</span><span class="p">)])</span>
+</code></pre>
+</div>
+
+<p>不管怎样，<code class="highlighter-rouge">generate_batch</code>函数算是准备好了，先备用，后面真实训练的时候会用到。</p>
+
+<p>接下来来定义一些超参数吧，这些超参数你也可以根据你的需要修改，来看看是否训练出来的Embeddings更符合你的需要。</p>
+
+<p>从前面图上，有人或许会以为Embeddings向量空间只是三维的，其实不是，它是高维的。这里定义<code class="highlighter-rouge">embedding_size</code>是128维。</p>
+
+<p>然后定义用来供人直观检验validate的一些参数。</p>
+
+<p><code class="highlighter-rouge">num_sampled</code>则是Sample Softmax时候用到的一个超参数，确定选几个词来对比优化。</p>
+
+<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="n">batch_size</span> <span class="o">=</span> <span class="mi">128</span>
+<span class="n">embedding_size</span> <span class="o">=</span> <span class="mi">128</span> <span class="c"># Dimension of the embedding vector.</span>
+<span class="n">skip_window</span> <span class="o">=</span> <span class="mi">1</span> <span class="c"># How many words to consider left and right.</span>
+<span class="n">num_skips</span> <span class="o">=</span> <span class="mi">2</span> <span class="c"># How many times to reuse an input to generate a label.</span>
+<span class="c"># We pick a random validation set to sample nearest neighbors. here we limit the</span>
+<span class="c"># validation samples to the words that have a low numeric ID, which by</span>
+<span class="c"># construction are also the most frequent.</span>
+<span class="n">valid_size</span> <span class="o">=</span> <span class="mi">16</span> <span class="c"># Random set of words to evaluate similarity on.</span>
+<span class="n">valid_window</span> <span class="o">=</span> <span class="mi">100</span> <span class="c"># Only pick dev samples in the head of the distribution.</span>
+<span class="n">valid_examples</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">valid_window</span><span class="p">),</span> <span class="n">valid_size</span><span class="p">))</span>
+<span class="n">num_sampled</span> <span class="o">=</span> <span class="mi">64</span> <span class="c"># Number of negative examples to sample.</span>
+</code></pre>
+</div>
+
+<p>终于要开始定义Tensorflow的模型了。先回顾一下视频截图：</p>
+
+<p><img src="/images/2016-11-14-study-embeddings/word2vecm.png" alt="word2vec" /></p>
+
+<p><code class="highlighter-rouge">train_dataset</code> 和 <code class="highlighter-rouge">train_labels</code> 两个<code class="highlighter-rouge">placeholder</code>用来训练时传入x和y。</p>
+
+<p><code class="highlighter-rouge">valid_dataset</code> 则是用来人工验证的小数据集，是<code class="highlighter-rouge">constant</code>，直接赋值前面生成的<code class="highlighter-rouge">valid_examples</code>。</p>
+
+<p><code class="highlighter-rouge">embeddings</code>是用来存储Embeddings向量空间的变量，初始化成-1到1之间的随机数，后面优化时调整。这里它是一个 <code class="highlighter-rouge">50000</code> * <code class="highlighter-rouge">128</code> 的二维变量。</p>
+
+<p><code class="highlighter-rouge">softmax_weights</code> 和 <code class="highlighter-rouge">softmax_biases</code> 是用来做线性逻辑分类的参数。</p>
+
+<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="n">graph</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">Graph</span><span class="p">()</span>
+
+<span class="k">with</span> <span class="n">graph</span><span class="o">.</span><span class="n">as_default</span><span class="p">():</span>
+
+  <span class="c"># Input data.</span>
+  <span class="n">train_dataset</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">placeholder</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">int32</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">[</span><span class="n">batch_size</span><span class="p">])</span>
+  <span class="n">train_labels</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">placeholder</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">int32</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">[</span><span class="n">batch_size</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+  <span class="n">valid_dataset</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">constant</span><span class="p">(</span><span class="n">valid_examples</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span>
+
+  <span class="c"># Variables.</span>
+  <span class="n">embeddings</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">Variable</span><span class="p">(</span>
+    <span class="n">tf</span><span class="o">.</span><span class="n">random_uniform</span><span class="p">([</span><span class="n">vocabulary_size</span><span class="p">,</span> <span class="n">embedding_size</span><span class="p">],</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">))</span>
+  <span class="n">softmax_weights</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">Variable</span><span class="p">(</span>
+    <span class="n">tf</span><span class="o">.</span><span class="n">truncated_normal</span><span class="p">([</span><span class="n">vocabulary_size</span><span class="p">,</span> <span class="n">embedding_size</span><span class="p">],</span>
+                         <span class="n">stddev</span><span class="o">=</span><span class="mf">1.0</span> <span class="o">/</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">embedding_size</span><span class="p">)))</span>
+  <span class="n">softmax_biases</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">Variable</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="n">vocabulary_size</span><span class="p">]))</span>
+</code></pre>
+</div>
+
+<p>通过<code class="highlighter-rouge">tf.nn.embedding_lookup</code>可以直接根据<code class="highlighter-rouge">embeddings</code>表(50000,128)，取出一个与输入词对应的128个值的<code class="highlighter-rouge">embed</code>，也就是128维向量。其实是一batch同时处理，但说一个好理解一些。</p>
+
+<p>通过<code class="highlighter-rouge">tf.nn.sampled_softmax_loss</code>可以用效率较高的Sample Softmax来得到优化所需要的偏差。这个方法视频里有带过，反正就是全部比对速度慢，这样速度快。这个方法顺带把wX+b这步也一起算了。可能是因为放在一起可以优化计算速度，记得还有那个很长名字的<code class="highlighter-rouge">softmax_cross_entropy_with_logits</code>同时搞定softmax和cross_entropy，也是为了优化计算速度。但，这样的代码读起来就不好看了！</p>
+
+<p>通过<code class="highlighter-rouge">tf.reduce_mean</code>把<code class="highlighter-rouge">loss</code>偏差压到一个数值，用于优化。</p>
+
+<p>然后就是优化，这里使用了<code class="highlighter-rouge">AdagradOptimizer</code>，当然也可以使用其他<code class="highlighter-rouge">SGD</code>、<code class="highlighter-rouge">Adam</code>等各种优化算法，Tensorflow都实现同样的接口，只需要换个函数名就可以。</p>
+
+<p>这里注释提到，因为<code class="highlighter-rouge">embeddings</code>是定义成<code class="highlighter-rouge">tf.Variable</code>的，所以在优化的时候同时也会调整<code class="highlighter-rouge">embeddings</code>里的参数。这是因为<code class="highlighter-rouge">minimize</code>函数会将与传入的<code class="highlighter-rouge">loss</code>连接的所有源头变量进行调整优化。</p>
+
+<div class="language-python highlighter-rouge"><pre class="highlight"><code>  <span class="c"># Model.</span>
+  <span class="c"># Look up embeddings for inputs.</span>
+  <span class="n">embed</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">embedding_lookup</span><span class="p">(</span><span class="n">embeddings</span><span class="p">,</span> <span class="n">train_dataset</span><span class="p">)</span>
+  <span class="c"># Compute the softmax loss, using a sample of the negative labels each time.</span>
+  <span class="n">loss</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">reduce_mean</span><span class="p">(</span>
+    <span class="n">tf</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">sampled_softmax_loss</span><span class="p">(</span><span class="n">softmax_weights</span><span class="p">,</span> <span class="n">softmax_biases</span><span class="p">,</span> <span class="n">embed</span><span class="p">,</span>
+                               <span class="n">train_labels</span><span class="p">,</span> <span class="n">num_sampled</span><span class="p">,</span> <span class="n">vocabulary_size</span><span class="p">))</span>
+
+  <span class="c"># Optimizer.</span>
+  <span class="c"># Note: The optimizer will optimize the softmax_weights AND the embeddings.</span>
+  <span class="c"># This is because the embeddings are defined as a variable quantity and the</span>
+  <span class="c"># optimizer's `minimize` method will by default modify all variable quantities</span>
+  <span class="c"># that contribute to the tensor it is passed.</span>
+  <span class="c"># See docs on `tf.train.Optimizer.minimize()` for more details.</span>
+  <span class="n">optimizer</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">train</span><span class="o">.</span><span class="n">AdagradOptimizer</span><span class="p">(</span><span class="mf">1.0</span><span class="p">)</span><span class="o">.</span><span class="n">minimize</span><span class="p">(</span><span class="n">loss</span><span class="p">)</span>
+
+</code></pre>
+</div>
+
+<p>TODO: 这里看不太懂，回头再刷一次视频。</p>
+
+<div class="language-python highlighter-rouge"><pre class="highlight"><code>  <span class="c"># Compute the similarity between minibatch examples and all embeddings.</span>
+  <span class="c"># We use the cosine distance:</span>
+  <span class="n">norm</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">reduce_sum</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">square</span><span class="p">(</span><span class="n">embeddings</span><span class="p">),</span> <span class="mi">1</span><span class="p">,</span> <span class="n">keep_dims</span><span class="o">=</span><span class="bp">True</span><span class="p">))</span>
+  <span class="n">normalized_embeddings</span> <span class="o">=</span> <span class="n">embeddings</span> <span class="o">/</span> <span class="n">norm</span>
+  <span class="n">valid_embeddings</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">embedding_lookup</span><span class="p">(</span>
+    <span class="n">normalized_embeddings</span><span class="p">,</span> <span class="n">valid_dataset</span><span class="p">)</span>
+  <span class="n">similarity</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">valid_embeddings</span><span class="p">,</span> <span class="n">tf</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">normalized_embeddings</span><span class="p">))</span>
+
+</code></pre>
+</div>
+
+<p>模型定义完，就来执行训练了。</p>
+
+<p>TODO: 这里回头再写。</p>
+
+<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="n">num_steps</span> <span class="o">=</span> <span class="mi">100001</span>
+
+<span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">Session</span><span class="p">(</span><span class="n">graph</span><span class="o">=</span><span class="n">graph</span><span class="p">)</span> <span class="k">as</span> <span class="n">session</span><span class="p">:</span>
+  <span class="n">tf</span><span class="o">.</span><span class="n">global_variables_initializer</span><span class="p">()</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+  <span class="k">print</span><span class="p">(</span><span class="s">'Initialized'</span><span class="p">)</span>
+  <span class="n">average_loss</span> <span class="o">=</span> <span class="mi">0</span>
+  <span class="k">for</span> <span class="n">step</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_steps</span><span class="p">):</span>
+    <span class="n">batch_data</span><span class="p">,</span> <span class="n">batch_labels</span> <span class="o">=</span> <span class="n">generate_batch</span><span class="p">(</span>
+      <span class="n">batch_size</span><span class="p">,</span> <span class="n">num_skips</span><span class="p">,</span> <span class="n">skip_window</span><span class="p">)</span>
+    <span class="n">feed_dict</span> <span class="o">=</span> <span class="p">{</span><span class="n">train_dataset</span> <span class="p">:</span> <span class="n">batch_data</span><span class="p">,</span> <span class="n">train_labels</span> <span class="p">:</span> <span class="n">batch_labels</span><span class="p">}</span>
+    <span class="n">_</span><span class="p">,</span> <span class="n">l</span> <span class="o">=</span> <span class="n">session</span><span class="o">.</span><span class="n">run</span><span class="p">([</span><span class="n">optimizer</span><span class="p">,</span> <span class="n">loss</span><span class="p">],</span> <span class="n">feed_dict</span><span class="o">=</span><span class="n">feed_dict</span><span class="p">)</span>
+    <span class="n">average_loss</span> <span class="o">+=</span> <span class="n">l</span>
+    <span class="k">if</span> <span class="n">step</span> <span class="o">%</span> <span class="mi">2000</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+      <span class="k">if</span> <span class="n">step</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">average_loss</span> <span class="o">=</span> <span class="n">average_loss</span> <span class="o">/</span> <span class="mi">2000</span>
+      <span class="c"># The average loss is an estimate of the loss over the last 2000 batches.</span>
+      <span class="k">print</span><span class="p">(</span><span class="s">'Average loss at step </span><span class="si">%</span><span class="s">d: </span><span class="si">%</span><span class="s">f'</span> <span class="o">%</span> <span class="p">(</span><span class="n">step</span><span class="p">,</span> <span class="n">average_loss</span><span class="p">))</span>
+      <span class="n">average_loss</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="c"># note that this is expensive (~20% slowdown if computed every 500 steps)</span>
+    <span class="k">if</span> <span class="n">step</span> <span class="o">%</span> <span class="mi">10000</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+      <span class="n">sim</span> <span class="o">=</span> <span class="n">similarity</span><span class="o">.</span><span class="nb">eval</span><span class="p">()</span>
+      <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">valid_size</span><span class="p">):</span>
+        <span class="n">valid_word</span> <span class="o">=</span> <span class="n">reverse_dictionary</span><span class="p">[</span><span class="n">valid_examples</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span>
+        <span class="n">top_k</span> <span class="o">=</span> <span class="mi">8</span> <span class="c"># number of nearest neighbors</span>
+        <span class="n">nearest</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="n">sim</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:])</span><span class="o">.</span><span class="n">argsort</span><span class="p">()[</span><span class="mi">1</span><span class="p">:</span><span class="n">top_k</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">log</span> <span class="o">=</span> <span class="s">'Nearest to </span><span class="si">%</span><span class="s">s:'</span> <span class="o">%</span> <span class="n">valid_word</span>
+        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">top_k</span><span class="p">):</span>
+          <span class="n">close_word</span> <span class="o">=</span> <span class="n">reverse_dictionary</span><span class="p">[</span><span class="n">nearest</span><span class="p">[</span><span class="n">k</span><span class="p">]]</span>
+          <span class="n">log</span> <span class="o">=</span> <span class="s">'</span><span class="si">%</span><span class="s">s </span><span class="si">%</span><span class="s">s,'</span> <span class="o">%</span> <span class="p">(</span><span class="n">log</span><span class="p">,</span> <span class="n">close_word</span><span class="p">)</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">log</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<p>训练完成，获取最后得到的embeddings向量空间！</p>
+
+<div class="language-python highlighter-rouge"><pre class="highlight"><code>  <span class="n">final_embeddings</span> <span class="o">=</span> <span class="n">normalized_embeddings</span><span class="o">.</span><span class="nb">eval</span><span class="p">()</span>
+</code></pre>
+</div>
+
+<p>下面把embeddings向量空间通过t-SNE降维到2D，然后打出来看看。</p>
+
+<p>画图部分这里用pylab，就不再赘述，如果喜欢用matplotlib，也是类似的。</p>
+
+<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="n">num_points</span> <span class="o">=</span> <span class="mi">400</span>
+
+<span class="n">tsne</span> <span class="o">=</span> <span class="n">TSNE</span><span class="p">(</span><span class="n">perplexity</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">n_components</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">init</span><span class="o">=</span><span class="s">'pca'</span><span class="p">,</span> <span class="n">n_iter</span><span class="o">=</span><span class="mi">5000</span><span class="p">)</span>
+<span class="n">two_d_embeddings</span> <span class="o">=</span> <span class="n">tsne</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">final_embeddings</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="n">num_points</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="p">:])</span>
+
+<span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="n">embeddings</span><span class="p">,</span> <span class="n">labels</span><span class="p">):</span>
+  <span class="k">assert</span> <span class="n">embeddings</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="nb">len</span><span class="p">(</span><span class="n">labels</span><span class="p">),</span> <span class="s">'More labels than embeddings'</span>
+  <span class="n">pylab</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span><span class="mi">15</span><span class="p">))</span>  <span class="c"># in inches</span>
+  <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">label</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">labels</span><span class="p">):</span>
+    <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">embeddings</span><span class="p">[</span><span class="n">i</span><span class="p">,:]</span>
+    <span class="n">pylab</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+    <span class="n">pylab</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="n">xy</span><span class="o">=</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">),</span> <span class="n">xytext</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">textcoords</span><span class="o">=</span><span class="s">'offset points'</span><span class="p">,</span>
+                   <span class="n">ha</span><span class="o">=</span><span class="s">'right'</span><span class="p">,</span> <span class="n">va</span><span class="o">=</span><span class="s">'bottom'</span><span class="p">)</span>
+  <span class="n">pylab</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="n">words</span> <span class="o">=</span> <span class="p">[</span><span class="n">reverse_dictionary</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">num_points</span><span class="o">+</span><span class="mi">1</span><span class="p">)]</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">two_d_embeddings</span><span class="p">,</span> <span class="n">words</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<p>嗯，我们会看到这样的结果：</p>
+
+<p><img src="/images/2016-11-14-study-embeddings/t-sne-result.png" alt="t-sne result" /></p>
 
 
 </div>
