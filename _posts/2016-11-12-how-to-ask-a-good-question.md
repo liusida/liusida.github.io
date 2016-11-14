@@ -74,4 +74,3 @@ title: 如何问一个好问题？
 [8]: http://www.catb.org/~esr/faqs/smart-questions.html
 [sqlfiddle]: http://sqlfiddle.com/
 [jsbin]: http://jsbin.com/
-
