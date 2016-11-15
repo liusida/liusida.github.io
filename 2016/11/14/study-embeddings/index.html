@@ -108,6 +108,8 @@
 
 <p><a href="https://github.com/tensorflow/tensorflow/blob/master/tensorflow/examples/udacity/5_word2vec.ipynb">点此查看notebook</a></p>
 
+<h3 id="section-2">1. 引入库文件</h3>
+
 <p>先是引入一些库文件。第一行是如果要在Jupyter Notebook里运行的话，加这一行<code class="highlighter-rouge">%matplotlib inline</code>表示输出的图直接嵌入到Notebook里。</p>
 
 <p><code class="highlighter-rouge">__future__</code> 和 <code class="highlighter-rouge">six</code> 都是保证python2 3兼容的做法。</p>
@@ -132,6 +134,9 @@
 <span class="kn">from</span> <span class="nn">sklearn.manifold</span> <span class="kn">import</span> <span class="n">TSNE</span>
 </code></pre>
 </div>
+
+<h3 id="section-3">2. 下载压缩包</h3>
+
 <p>下载数据集。如果网速不快，可以用下载工具下载，地址是 http://mattmahoney.net/dc/text8.zip 。保存到运行目录即可。</p>
 
 <p>如果手工解压开查看具体内容，你会开到这个文件里没有标点，全部小写，词与词之间空格隔开：</p>
@@ -161,6 +166,8 @@
 </code></pre>
 </div>
 
+<h3 id="section-4">3. 读入文本</h3>
+
 <p>然后是读入压缩包里第一个文件的所有内容，并以空格分割，形成一个很大的list。</p>
 
 <p>这里tf.compat.as_str只是确保一下是string，应该没什么额外用途。</p>
@@ -177,6 +184,8 @@
 <span class="k">print</span><span class="p">(</span><span class="s">'Data size </span><span class="si">%</span><span class="s">d'</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="n">words</span><span class="p">))</span>
 </code></pre>
 </div>
+
+<h3 id="section-5">4. 数据预处理</h3>
 
 <p><code class="highlighter-rouge">collections.Counter</code>很厉害，可以很方便的数元素出现了几次。以后就不要自己造轮子了，用这个Counter可高效多了。</p>
 
@@ -221,6 +230,8 @@
 <span class="k">del</span> <span class="n">words</span>  <span class="c"># Hint to reduce memory.</span>
 </code></pre>
 </div>
+
+<h3 id="section-6">5. 生成训练数据集函数</h3>
 
 <p>准备要生成可供训练的数据集了。</p>
 
@@ -279,6 +290,8 @@
 </code></pre>
 </div>
 
+<h3 id="section-7">6. 超参数</h3>
+
 <p>不管怎样，<code class="highlighter-rouge">generate_batch</code>函数算是准备好了，先备用，后面真实训练的时候会用到。</p>
 
 <p>接下来来定义一些超参数吧，这些超参数你也可以根据你的需要修改，来看看是否训练出来的Embeddings更符合你的需要。</p>
@@ -302,6 +315,8 @@
 <span class="n">num_sampled</span> <span class="o">=</span> <span class="mi">64</span> <span class="c"># Number of negative examples to sample.</span>
 </code></pre>
 </div>
+
+<h3 id="tensorflow">7. 定义Tensorflow模型</h3>
 
 <p>终于要开始定义Tensorflow的模型了。先回顾一下视频截图：</p>
 
@@ -334,6 +349,8 @@
 </code></pre>
 </div>
 
+<h3 id="section-8">8. 模型前半部分</h3>
+
 <p>通过<code class="highlighter-rouge">tf.nn.embedding_lookup</code>可以直接根据<code class="highlighter-rouge">embeddings</code>表(50000,128)，取出一个与输入词对应的128个值的<code class="highlighter-rouge">embed</code>，也就是128维向量。其实是一batch同时处理，但说一个好理解一些。</p>
 
 <p>通过<code class="highlighter-rouge">tf.nn.sampled_softmax_loss</code>可以用效率较高的Sample Softmax来得到优化所需要的偏差。这个方法视频里有带过，反正就是全部比对速度慢，这样速度快。这个方法顺带把 wX+b 这步也一起算了。可能是因为放在一起可以优化计算速度，记得还有那个很长名字的<code class="highlighter-rouge">softmax_cross_entropy_with_logits</code>同时搞定softmax和cross_entropy，也是为了优化计算速度。但，这样的代码读起来就不好看了！</p>
@@ -362,6 +379,9 @@
 
 </code></pre>
 </div>
+
+<h3 id="section-9">9. 模型关键部位</h3>
+
 <p><a name="normalization"></a></p>
 
 <p>这里写的有点难看懂，必须再刷一次视频。</p>
@@ -445,6 +465,8 @@
 </code></pre>
 </div>
 
+<h3 id="section-10">10. 迭代训练</h3>
+
 <p>模型定义完，就来执行训练了。</p>
 
 <p>这里有个小bug，新版本的Tensorflow不再支持<code class="highlighter-rouge">global_variables_initializer</code>方法，而改为使用<code class="highlighter-rouge">initialize_all_variables</code>方法，需要手工修改一下教程代码。（年轻而高速发展的Tensorflow里面有很多类似的接口变动，所以如果一个程序跑不通，去github上看看Tensorflow的源代码很有必要。）</p>
@@ -493,6 +515,8 @@
 <div class="language-python highlighter-rouge"><pre class="highlight"><code>  <span class="n">final_embeddings</span> <span class="o">=</span> <span class="n">normalized_embeddings</span><span class="o">.</span><span class="nb">eval</span><span class="p">()</span>
 </code></pre>
 </div>
+
+<h3 id="section-11">11. 降维可视化</h3>
 
 <p>下面把<code class="highlighter-rouge">embeddings</code>向量空间通过t-SNE（t-distributed Stochastic Neighbor Embedding）降维到2D，然后打出来看看。</p>
 

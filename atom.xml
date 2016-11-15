@@ -4,7 +4,7 @@
  <title>Liu Sida's Homepage</title>
  <link href="http://liusida.com/atom.xml" rel="self"/>
  <link href="http://liusida.com/"/>
- <updated>2016-11-15T15:20:12+08:00</updated>
+ <updated>2016-11-15T15:28:21+08:00</updated>
  <id>http://liusida.com</id>
  <author>
    <name>liusida</name>
@@ -62,6 +62,8 @@
 
 &lt;p&gt;&lt;a href=&quot;https://github.com/tensorflow/tensorflow/blob/master/tensorflow/examples/udacity/5_word2vec.ipynb&quot;&gt;点此查看notebook&lt;/a&gt;&lt;/p&gt;
 
+&lt;h3 id=&quot;section-2&quot;&gt;1. 引入库文件&lt;/h3&gt;
+
 &lt;p&gt;先是引入一些库文件。第一行是如果要在Jupyter Notebook里运行的话，加这一行&lt;code class=&quot;highlighter-rouge&quot;&gt;%matplotlib inline&lt;/code&gt;表示输出的图直接嵌入到Notebook里。&lt;/p&gt;
 
 &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;__future__&lt;/code&gt; 和 &lt;code class=&quot;highlighter-rouge&quot;&gt;six&lt;/code&gt; 都是保证python2 3兼容的做法。&lt;/p&gt;
@@ -86,6 +88,9 @@
 &lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;sklearn.manifold&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;TSNE&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
+
+&lt;h3 id=&quot;section-3&quot;&gt;2. 下载压缩包&lt;/h3&gt;
+
 &lt;p&gt;下载数据集。如果网速不快，可以用下载工具下载，地址是 http://mattmahoney.net/dc/text8.zip 。保存到运行目录即可。&lt;/p&gt;
 
 &lt;p&gt;如果手工解压开查看具体内容，你会开到这个文件里没有标点，全部小写，词与词之间空格隔开：&lt;/p&gt;
@@ -115,6 +120,8 @@
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
+&lt;h3 id=&quot;section-4&quot;&gt;3. 读入文本&lt;/h3&gt;
+
 &lt;p&gt;然后是读入压缩包里第一个文件的所有内容，并以空格分割，形成一个很大的list。&lt;/p&gt;
 
 &lt;p&gt;这里tf.compat.as_str只是确保一下是string，应该没什么额外用途。&lt;/p&gt;
@@ -131,6 +138,8 @@
 &lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'Data size &lt;/span&gt;&lt;span class=&quot;si&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;d'&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;len&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;words&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
+
+&lt;h3 id=&quot;section-5&quot;&gt;4. 数据预处理&lt;/h3&gt;
 
 &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;collections.Counter&lt;/code&gt;很厉害，可以很方便的数元素出现了几次。以后就不要自己造轮子了，用这个Counter可高效多了。&lt;/p&gt;
 
@@ -175,6 +184,8 @@
 &lt;span class=&quot;k&quot;&gt;del&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;words&lt;/span&gt;  &lt;span class=&quot;c&quot;&gt;# Hint to reduce memory.&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
+
+&lt;h3 id=&quot;section-6&quot;&gt;5. 生成训练数据集函数&lt;/h3&gt;
 
 &lt;p&gt;准备要生成可供训练的数据集了。&lt;/p&gt;
 
@@ -233,6 +244,8 @@
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
+&lt;h3 id=&quot;section-7&quot;&gt;6. 超参数&lt;/h3&gt;
+
 &lt;p&gt;不管怎样，&lt;code class=&quot;highlighter-rouge&quot;&gt;generate_batch&lt;/code&gt;函数算是准备好了，先备用，后面真实训练的时候会用到。&lt;/p&gt;
 
 &lt;p&gt;接下来来定义一些超参数吧，这些超参数你也可以根据你的需要修改，来看看是否训练出来的Embeddings更符合你的需要。&lt;/p&gt;
@@ -256,6 +269,8 @@
 &lt;span class=&quot;n&quot;&gt;num_sampled&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;64&lt;/span&gt; &lt;span class=&quot;c&quot;&gt;# Number of negative examples to sample.&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
+
+&lt;h3 id=&quot;tensorflow&quot;&gt;7. 定义Tensorflow模型&lt;/h3&gt;
 
 &lt;p&gt;终于要开始定义Tensorflow的模型了。先回顾一下视频截图：&lt;/p&gt;
 
@@ -288,6 +303,8 @@
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
+&lt;h3 id=&quot;section-8&quot;&gt;8. 模型前半部分&lt;/h3&gt;
+
 &lt;p&gt;通过&lt;code class=&quot;highlighter-rouge&quot;&gt;tf.nn.embedding_lookup&lt;/code&gt;可以直接根据&lt;code class=&quot;highlighter-rouge&quot;&gt;embeddings&lt;/code&gt;表(50000,128)，取出一个与输入词对应的128个值的&lt;code class=&quot;highlighter-rouge&quot;&gt;embed&lt;/code&gt;，也就是128维向量。其实是一batch同时处理，但说一个好理解一些。&lt;/p&gt;
 
 &lt;p&gt;通过&lt;code class=&quot;highlighter-rouge&quot;&gt;tf.nn.sampled_softmax_loss&lt;/code&gt;可以用效率较高的Sample Softmax来得到优化所需要的偏差。这个方法视频里有带过，反正就是全部比对速度慢，这样速度快。这个方法顺带把 wX+b 这步也一起算了。可能是因为放在一起可以优化计算速度，记得还有那个很长名字的&lt;code class=&quot;highlighter-rouge&quot;&gt;softmax_cross_entropy_with_logits&lt;/code&gt;同时搞定softmax和cross_entropy，也是为了优化计算速度。但，这样的代码读起来就不好看了！&lt;/p&gt;
@@ -316,6 +333,9 @@
 
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
+
+&lt;h3 id=&quot;section-9&quot;&gt;9. 模型关键部位&lt;/h3&gt;
+
 &lt;p&gt;&lt;a name=&quot;normalization&quot;&gt;&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;这里写的有点难看懂，必须再刷一次视频。&lt;/p&gt;
@@ -399,6 +419,8 @@
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
+&lt;h3 id=&quot;section-10&quot;&gt;10. 迭代训练&lt;/h3&gt;
+
 &lt;p&gt;模型定义完，就来执行训练了。&lt;/p&gt;
 
 &lt;p&gt;这里有个小bug，新版本的Tensorflow不再支持&lt;code class=&quot;highlighter-rouge&quot;&gt;global_variables_initializer&lt;/code&gt;方法，而改为使用&lt;code class=&quot;highlighter-rouge&quot;&gt;initialize_all_variables&lt;/code&gt;方法，需要手工修改一下教程代码。（年轻而高速发展的Tensorflow里面有很多类似的接口变动，所以如果一个程序跑不通，去github上看看Tensorflow的源代码很有必要。）&lt;/p&gt;
@@ -447,6 +469,8 @@
 &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  &lt;span class=&quot;n&quot;&gt;final_embeddings&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;normalized_embeddings&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;eval&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
+
+&lt;h3 id=&quot;section-11&quot;&gt;11. 降维可视化&lt;/h3&gt;
 
 &lt;p&gt;下面把&lt;code class=&quot;highlighter-rouge&quot;&gt;embeddings&lt;/code&gt;向量空间通过t-SNE（t-distributed Stochastic Neighbor Embedding）降维到2D，然后打出来看看。&lt;/p&gt;
 
