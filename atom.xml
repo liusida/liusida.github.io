@@ -4,7 +4,7 @@
  <title>Liu Sida's Homepage</title>
  <link href="http://liusida.com/atom.xml" rel="self"/>
  <link href="http://liusida.com/"/>
- <updated>2016-11-15T15:28:57+08:00</updated>
+ <updated>2016-11-15T15:30:47+08:00</updated>
  <id>http://liusida.com</id>
  <author>
    <name>liusida</name>
@@ -348,11 +348,11 @@
 
 &lt;p&gt;计算&lt;code class=&quot;highlighter-rouge&quot;&gt;norm&lt;/code&gt;的方法，就是向量各维度的平方和：&lt;/p&gt;
 
-&lt;script type=&quot;math/tex; mode=display&quot;&gt;norm = {\sqrt{\sum_{i=1}^N{X_i^2}}}&lt;/script&gt;
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;norm = \|X\| = {\sqrt{\sum_{i=1}^N{X_i^2}}}&lt;/script&gt;
 
 &lt;p&gt;然后利用这个向量长度&lt;code class=&quot;highlighter-rouge&quot;&gt;norm&lt;/code&gt;来给向量标准化：&lt;/p&gt;
 
-&lt;script type=&quot;math/tex; mode=display&quot;&gt;X_{normalized} = {X \over norm}&lt;/script&gt;
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;X_{normalized} = {X \over \|X\|}&lt;/script&gt;
 
 &lt;p&gt;这样得到的就是长度为1的向量。也就是抛弃了向量的长度信息，就剩下方向信息。（感谢潘程同学提醒，这东西就叫“&lt;a href=&quot;https://zh.wikipedia.org/wiki/%E5%8D%95%E4%BD%8D%E5%90%91%E9%87%8F&quot;&gt;单位向量&lt;/a&gt;”，可以表示为 \(\hat{X}\)！）&lt;/p&gt;
 

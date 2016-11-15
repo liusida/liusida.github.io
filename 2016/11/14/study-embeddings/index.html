@@ -394,11 +394,11 @@
 
 <p>计算<code class="highlighter-rouge">norm</code>的方法，就是向量各维度的平方和：</p>
 
-<script type="math/tex; mode=display">norm = {\sqrt{\sum_{i=1}^N{X_i^2}}}</script>
+<script type="math/tex; mode=display">norm = \|X\| = {\sqrt{\sum_{i=1}^N{X_i^2}}}</script>
 
 <p>然后利用这个向量长度<code class="highlighter-rouge">norm</code>来给向量标准化：</p>
 
-<script type="math/tex; mode=display">X_{normalized} = {X \over norm}</script>
+<script type="math/tex; mode=display">X_{normalized} = {X \over \|X\|}</script>
 
 <p>这样得到的就是长度为1的向量。也就是抛弃了向量的长度信息，就剩下方向信息。（感谢潘程同学提醒，这东西就叫“<a href="https://zh.wikipedia.org/wiki/%E5%8D%95%E4%BD%8D%E5%90%91%E9%87%8F">单位向量</a>”，可以表示为 \(\hat{X}\)！）</p>
 
