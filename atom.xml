@@ -4,7 +4,7 @@
  <title>Liu Sida's Homepage</title>
  <link href="http://liusida.com/atom.xml" rel="self"/>
  <link href="http://liusida.com/"/>
- <updated>2016-11-15T11:45:53+08:00</updated>
+ <updated>2016-11-15T14:56:54+08:00</updated>
  <id>http://liusida.com</id>
  <author>
    <name>liusida</name>
@@ -324,17 +324,70 @@
 
 &lt;p&gt;原来这是要计算一个&lt;code class=&quot;highlighter-rouge&quot;&gt;valid_dataset&lt;/code&gt;中单词的相似度。&lt;/p&gt;
 
-&lt;p&gt;Normalization 是标准化，我还不是很理解，可以参考这篇博文&lt;a href=&quot;http://www.zhaokv.com/2016/01/normalization-and-standardization.html&quot;&gt;介绍与 Standardization 归一化的区别和用处&lt;/a&gt;。&lt;/p&gt;
+&lt;p&gt;首先，&lt;code class=&quot;highlighter-rouge&quot;&gt;norm&lt;/code&gt;是模的意思，也就是二范数，就是这个向量和原点的距离，土话就是这个向量的长度。&lt;/p&gt;
 
-&lt;p&gt;似乎是为了简化标准化，这里似乎是假设\( \mu=0 \)。&lt;/p&gt;
+&lt;p&gt;计算&lt;code class=&quot;highlighter-rouge&quot;&gt;norm&lt;/code&gt;的方法，就是向量各维度的平方和：&lt;/p&gt;
 
-&lt;p&gt;计算标准差&lt;code class=&quot;highlighter-rouge&quot;&gt;norm&lt;/code&gt;值： \( \sigma = \sqrt{ \sum_{i=1}^N{ (n_{i} - \mu)^2 } } \)。（这里为啥不再除以N呢？标准差公式不是还要再除以N的吗？）&lt;/p&gt;
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;norm = {\sqrt{\sum_{i=1}^N{X_i^2}}}&lt;/script&gt;
 
-&lt;p&gt;然后计算标准化之后的&lt;code class=&quot;highlighter-rouge&quot;&gt;normalized_embeddings&lt;/code&gt;： \( x’ = {x - \mu \over \sigma} \)。&lt;/p&gt;
+&lt;p&gt;然后利用这个向量长度&lt;code class=&quot;highlighter-rouge&quot;&gt;norm&lt;/code&gt;来给向量标准化：&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;X_{normalized} = {X \over norm}&lt;/script&gt;
+
+&lt;p&gt;这样得到的就是长度为1的向量。也就是抛弃了向量的长度信息，就剩下方向信息。（感谢潘程同学提醒，这东西就叫“&lt;a href=&quot;https://zh.wikipedia.org/wiki/%E5%8D%95%E4%BD%8D%E5%90%91%E9%87%8F&quot;&gt;单位向量&lt;/a&gt;”，可以表示为 \(\hat{X}\)！）&lt;/p&gt;
+
+&lt;p&gt;接下来，&lt;/p&gt;
+
+&lt;p&gt;造一些简单的数据，用&lt;code class=&quot;highlighter-rouge&quot;&gt;numpy&lt;/code&gt;模拟一下这一段代码，确认一下这段代码的意义：&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;embeddings&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;np&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;array&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;6&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;8&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]])&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;[[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+ &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;6&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;8&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+ &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+ &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]]&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;s&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;np&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;square&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;embeddings&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;[[&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;  &lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;  &lt;span class=&quot;mi&quot;&gt;9&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;16&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+ &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;16&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;36&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;64&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+ &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;  &lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;  &lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;  &lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+ &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;9&lt;/span&gt;  &lt;span class=&quot;mi&quot;&gt;9&lt;/span&gt;  &lt;span class=&quot;mi&quot;&gt;9&lt;/span&gt;  &lt;span class=&quot;mi&quot;&gt;9&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]]&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;r&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;np&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;sum&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;s&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;axis&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;keepdims&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;[[&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;30&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+ &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;120&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+ &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;16&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+ &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;36&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]]&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;norm&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;np&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sqrt&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;r&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;[[&lt;/span&gt;  &lt;span class=&quot;mf&quot;&gt;5.47722558&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+ &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;10.95445115&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+ &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;  &lt;span class=&quot;mf&quot;&gt;4.&lt;/span&gt;        &lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+ &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;  &lt;span class=&quot;mf&quot;&gt;6.&lt;/span&gt;        &lt;span class=&quot;p&quot;&gt;]]&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;normalized_embeddings&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;embeddings&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;/&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;norm&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;[[&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0.18257419&lt;/span&gt;  &lt;span class=&quot;mf&quot;&gt;0.36514837&lt;/span&gt;  &lt;span class=&quot;mf&quot;&gt;0.54772256&lt;/span&gt;  &lt;span class=&quot;mf&quot;&gt;0.73029674&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+ &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0.18257419&lt;/span&gt;  &lt;span class=&quot;mf&quot;&gt;0.36514837&lt;/span&gt;  &lt;span class=&quot;mf&quot;&gt;0.54772256&lt;/span&gt;  &lt;span class=&quot;mf&quot;&gt;0.73029674&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+ &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0.5&lt;/span&gt;         &lt;span class=&quot;mf&quot;&gt;0.5&lt;/span&gt;         &lt;span class=&quot;mf&quot;&gt;0.5&lt;/span&gt;         &lt;span class=&quot;mf&quot;&gt;0.5&lt;/span&gt;       &lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+ &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0.5&lt;/span&gt;         &lt;span class=&quot;mf&quot;&gt;0.5&lt;/span&gt;         &lt;span class=&quot;mf&quot;&gt;0.5&lt;/span&gt;         &lt;span class=&quot;mf&quot;&gt;0.5&lt;/span&gt;       &lt;span class=&quot;p&quot;&gt;]]&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sim&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;np&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dot&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;normalized_embeddings&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;normalized_embeddings&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;T&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;[[&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;1.&lt;/span&gt;          &lt;span class=&quot;mf&quot;&gt;1.&lt;/span&gt;          &lt;span class=&quot;mf&quot;&gt;0.91287093&lt;/span&gt;  &lt;span class=&quot;mf&quot;&gt;0.91287093&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+ &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;1.&lt;/span&gt;          &lt;span class=&quot;mf&quot;&gt;1.&lt;/span&gt;          &lt;span class=&quot;mf&quot;&gt;0.91287093&lt;/span&gt;  &lt;span class=&quot;mf&quot;&gt;0.91287093&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+ &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0.91287093&lt;/span&gt;  &lt;span class=&quot;mf&quot;&gt;0.91287093&lt;/span&gt;  &lt;span class=&quot;mf&quot;&gt;1.&lt;/span&gt;          &lt;span class=&quot;mf&quot;&gt;1.&lt;/span&gt;        &lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+ &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;mf&quot;&gt;0.91287093&lt;/span&gt;  &lt;span class=&quot;mf&quot;&gt;0.91287093&lt;/span&gt;  &lt;span class=&quot;mf&quot;&gt;1.&lt;/span&gt;          &lt;span class=&quot;mf&quot;&gt;1.&lt;/span&gt;        &lt;span class=&quot;p&quot;&gt;]]&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;可以看到，向量(1,2,3,4)和向量(2,4,6,8)在经过标准化之后，变成了同样的值(0.18,0.36,0.54,0.73)。同样向量(2,2,2,2)和(3,3,3,3)也都变成了一样的(0.5,0.5,0.5,0.5)。&lt;/p&gt;
+
+&lt;p&gt;也就是说，这个操作是针对每一个向量，各自做 Normalization 标准化。&lt;/p&gt;
+
+&lt;p&gt;也就是说，这个标准化操作抛弃了向量的长度，只关注向量的方向。视频里说，比较两个embeddings向量的时候，用的是cosine距离。&lt;/p&gt;
 
 &lt;p&gt;然后从标准化后的向量空间里，找出用于检验的词语对应的向量值，&lt;code class=&quot;highlighter-rouge&quot;&gt;valid_embeddings&lt;/code&gt; 这个变量名有点迷惑人，我建议将其改名为 &lt;code class=&quot;highlighter-rouge&quot;&gt;valid_embed&lt;/code&gt;，以对应前文中的 &lt;code class=&quot;highlighter-rouge&quot;&gt;embed&lt;/code&gt; 变量，他们俩是有相似意义的。&lt;/p&gt;
 
-&lt;p&gt;最后计算&lt;code class=&quot;highlighter-rouge&quot;&gt;similarity&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;最后通过&lt;a href=&quot;https://zh.wikipedia.org/wiki/%E4%BD%99%E5%BC%A6%E7%9B%B8%E4%BC%BC%E6%80%A7&quot;&gt;余弦相似性原理&lt;/a&gt;，计算出&lt;code class=&quot;highlighter-rouge&quot;&gt;similarity&lt;/code&gt;：&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;similarity = cos(\theta) = { A \cdot B \over \|A\| \cdot \|B\| } = A_{normalized} \cdot B_{normalized}&lt;/script&gt;
+
+&lt;p&gt;当 \(\theta=0\) 时，两者重合， \(similarity=cos(0)=1\)。&lt;/p&gt;
+
+&lt;p&gt;用检索出来的结果矩阵（前面模拟里我用了全部矩阵） 乘以 &lt;code class=&quot;highlighter-rouge&quot;&gt;normalized_embeddings&lt;/code&gt;的转置，得到的结果最大值是1也就是相同，值越大代表越相似。&lt;/p&gt;
 
 &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  &lt;span class=&quot;c&quot;&gt;# Compute the similarity between minibatch examples and all embeddings.&lt;/span&gt;
   &lt;span class=&quot;c&quot;&gt;# We use the cosine distance:&lt;/span&gt;
@@ -343,13 +396,18 @@
   &lt;span class=&quot;n&quot;&gt;valid_embeddings&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;tf&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;nn&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;embedding_lookup&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
     &lt;span class=&quot;n&quot;&gt;normalized_embeddings&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;valid_dataset&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
   &lt;span class=&quot;n&quot;&gt;similarity&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;tf&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;matmul&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;valid_embeddings&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;tf&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;transpose&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;normalized_embeddings&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
-
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
 &lt;p&gt;模型定义完，就来执行训练了。&lt;/p&gt;
 
-&lt;p&gt;TODO: 这里回头再写。&lt;/p&gt;
+&lt;p&gt;这里有个小bug，新版本的Tensorflow不在支持&lt;code class=&quot;highlighter-rouge&quot;&gt;global_variables_initializer&lt;/code&gt;方法，而改为使用&lt;code class=&quot;highlighter-rouge&quot;&gt;initialize_all_variables&lt;/code&gt;方法，需要手工修改一下教程代码。（年轻而高速发展的Tensorflow里面有很多类似的接口变动，所以如果一个程序跑不通，去github上看看Tensorflow的源代码很有必要。）&lt;/p&gt;
+
+&lt;p&gt;定义迭代次数，100001次，每一次迭代，都从&lt;code class=&quot;highlighter-rouge&quot;&gt;generate_batch&lt;/code&gt;里面获取一个batch的训练数据。制作成&lt;code class=&quot;highlighter-rouge&quot;&gt;feed_dict&lt;/code&gt;，对应前面模型里定义的&lt;code class=&quot;highlighter-rouge&quot;&gt;placeholder&lt;/code&gt;。&lt;/p&gt;
+
+&lt;p&gt;跑一次优化，记录下loss并加起来，等到每2000次的时候，输出一次平均loss。（又一个细节：这里的&lt;code class=&quot;highlighter-rouge&quot;&gt;average_loss&lt;/code&gt;是否应该取名叫&lt;code class=&quot;highlighter-rouge&quot;&gt;subtotal_loss&lt;/code&gt;？）&lt;/p&gt;
+
+&lt;p&gt;等到每10000次，获取一下&lt;code class=&quot;highlighter-rouge&quot;&gt;similarity&lt;/code&gt;对应的值，然后把最相似的几个词输出到屏幕，用于人工检验。&lt;code class=&quot;highlighter-rouge&quot;&gt;argsort&lt;/code&gt;是获取排序后的indices。然后通过&lt;code class=&quot;highlighter-rouge&quot;&gt;reverse_dictionary&lt;/code&gt;快速定位到词是什么。&lt;/p&gt;
 
 &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;num_steps&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;100001&lt;/span&gt;
 
@@ -384,15 +442,17 @@
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
-&lt;p&gt;训练完成，获取最后得到的embeddings向量空间！&lt;/p&gt;
+&lt;p&gt;训练完成，获取最后得到的&lt;code class=&quot;highlighter-rouge&quot;&gt;embeddings&lt;/code&gt;向量空间！&lt;/p&gt;
 
 &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  &lt;span class=&quot;n&quot;&gt;final_embeddings&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;normalized_embeddings&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;eval&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
-&lt;p&gt;下面把embeddings向量空间通过t-SNE降维到2D，然后打出来看看。&lt;/p&gt;
+&lt;p&gt;下面把&lt;code class=&quot;highlighter-rouge&quot;&gt;embeddings&lt;/code&gt;向量空间通过t-SNE（t-distributed Stochastic Neighbor Embedding）降维到2D，然后打出来看看。&lt;/p&gt;
 
-&lt;p&gt;画图部分这里用pylab，就不再赘述，如果喜欢用matplotlib，也是类似的。&lt;/p&gt;
+&lt;p&gt;其实根据t-SNE的&lt;a href=&quot;http://scikit-learn.org/stable/modules/generated/sklearn.manifold.TSNE.html&quot;&gt;文档&lt;/a&gt;，如果向量空间维数过高，比如说我们把128维改成1024维，或者更高，那么这里建议先使用PCA降维方法，降到50维左右以后，再使用t-SNE来继续降到二维或者三维。因为直接用t-SNE给高维向量空间做降维的话，效率会比较低。&lt;/p&gt;
+
+&lt;p&gt;画图部分这里用&lt;code class=&quot;highlighter-rouge&quot;&gt;pylab&lt;/code&gt;，就不再赘述，如果喜欢用&lt;code class=&quot;highlighter-rouge&quot;&gt;matplotlib&lt;/code&gt;，也是类似的。（pylab是对标matlab的库，matplotlib也包含在pylab里。）&lt;/p&gt;
 
 &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;num_points&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;400&lt;/span&gt;
 
