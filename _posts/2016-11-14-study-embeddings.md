@@ -38,6 +38,8 @@ Udacity上有一个Google技术人员提供的基于Tensorflow的深度学习课
 
 [点此查看notebook][3]
 
+### 1. 引入库文件
+
 先是引入一些库文件。第一行是如果要在Jupyter Notebook里运行的话，加这一行`%matplotlib inline`表示输出的图直接嵌入到Notebook里。
 
 `__future__` 和 `six` 都是保证python2 3兼容的做法。
@@ -62,6 +64,9 @@ from six.moves import range
 from six.moves.urllib.request import urlretrieve
 from sklearn.manifold import TSNE
 ```
+
+### 2. 下载压缩包
+
 下载数据集。如果网速不快，可以用下载工具下载，地址是 http://mattmahoney.net/dc/text8.zip 。保存到运行目录即可。
 
 如果手工解压开查看具体内容，你会开到这个文件里没有标点，全部小写，词与词之间空格隔开：
@@ -91,6 +96,8 @@ def maybe_download(filename, expected_bytes):
 filename = maybe_download('text8.zip', 31344016)
 ```
 
+### 3. 读入文本
+
 然后是读入压缩包里第一个文件的所有内容，并以空格分割，形成一个很大的list。
 
 这里tf.compat.as_str只是确保一下是string，应该没什么额外用途。
@@ -107,6 +114,8 @@ def read_data(filename):
 words = read_data(filename)
 print('Data size %d' % len(words))
 ```
+
+### 4. 数据预处理
 
 `collections.Counter`很厉害，可以很方便的数元素出现了几次。以后就不要自己造轮子了，用这个Counter可高效多了。
 
@@ -151,6 +160,8 @@ print('Most common words (+UNK)', count[:5])
 print('Sample data', data[:10])
 del words  # Hint to reduce memory.
 ```
+
+### 5. 生成训练数据集函数
 
 准备要生成可供训练的数据集了。
 
@@ -209,6 +220,8 @@ for num_skips, skip_window in [(2, 1), (4, 2)]:
   print('    labels:', [reverse_dictionary[li] for li in labels.reshape(8)])
 ```
 
+### 6. 超参数
+
 不管怎样，`generate_batch`函数算是准备好了，先备用，后面真实训练的时候会用到。
 
 接下来来定义一些超参数吧，这些超参数你也可以根据你的需要修改，来看看是否训练出来的Embeddings更符合你的需要。
@@ -232,6 +245,8 @@ valid_window = 100 # Only pick dev samples in the head of the distribution.
 valid_examples = np.array(random.sample(range(valid_window), valid_size))
 num_sampled = 64 # Number of negative examples to sample.
 ```
+
+### 7. 定义Tensorflow模型
 
 终于要开始定义Tensorflow的模型了。先回顾一下视频截图：
 
@@ -264,6 +279,8 @@ with graph.as_default():
   softmax_biases = tf.Variable(tf.zeros([vocabulary_size]))
 ```
 
+### 8. 模型前半部分
+
 通过`tf.nn.embedding_lookup`可以直接根据`embeddings`表(50000,128)，取出一个与输入词对应的128个值的`embed`，也就是128维向量。其实是一batch同时处理，但说一个好理解一些。
 
 通过`tf.nn.sampled_softmax_loss`可以用效率较高的Sample Softmax来得到优化所需要的偏差。这个方法视频里有带过，反正就是全部比对速度慢，这样速度快。这个方法顺带把 wX+b 这步也一起算了。可能是因为放在一起可以优化计算速度，记得还有那个很长名字的`softmax_cross_entropy_with_logits`同时搞定softmax和cross_entropy，也是为了优化计算速度。但，这样的代码读起来就不好看了！
@@ -292,6 +309,9 @@ with graph.as_default():
   optimizer = tf.train.AdagradOptimizer(1.0).minimize(loss)
 
 ```
+
+### 9. 模型关键部位
+
 <a name='normalization'></a>
 
 这里写的有点难看懂，必须再刷一次视频。
@@ -375,6 +395,8 @@ $$ similarity = cos(\theta) = { A \cdot B \over \|A\| \cdot \|B\| } = A_{normali
   similarity = tf.matmul(valid_embeddings, tf.transpose(normalized_embeddings))
 ```
 
+### 10. 迭代训练
+
 模型定义完，就来执行训练了。
 
 这里有个小bug，新版本的Tensorflow不再支持`global_variables_initializer`方法，而改为使用`initialize_all_variables`方法，需要手工修改一下教程代码。（年轻而高速发展的Tensorflow里面有很多类似的接口变动，所以如果一个程序跑不通，去github上看看Tensorflow的源代码很有必要。）
@@ -423,6 +445,8 @@ with tf.Session(graph=graph) as session:
 ```python
   final_embeddings = normalized_embeddings.eval()
 ```
+
+### 11. 降维可视化
 
 下面把`embeddings`向量空间通过t-SNE（t-distributed Stochastic Neighbor Embedding）降维到2D，然后打出来看看。
 
