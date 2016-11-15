@@ -377,7 +377,7 @@ $$ similarity = cos(\theta) = { A \cdot B \over \|A\| \cdot \|B\| } = A_{normali
 
 模型定义完，就来执行训练了。
 
-这里有个小bug，新版本的Tensorflow不在支持`global_variables_initializer`方法，而改为使用`initialize_all_variables`方法，需要手工修改一下教程代码。（年轻而高速发展的Tensorflow里面有很多类似的接口变动，所以如果一个程序跑不通，去github上看看Tensorflow的源代码很有必要。）
+这里有个小bug，新版本的Tensorflow不再支持`global_variables_initializer`方法，而改为使用`initialize_all_variables`方法，需要手工修改一下教程代码。（年轻而高速发展的Tensorflow里面有很多类似的接口变动，所以如果一个程序跑不通，去github上看看Tensorflow的源代码很有必要。）
 
 定义迭代次数，100001次，每一次迭代，都从`generate_batch`里面获取一个batch的训练数据。制作成`feed_dict`，对应前面模型里定义的`placeholder`。
 
