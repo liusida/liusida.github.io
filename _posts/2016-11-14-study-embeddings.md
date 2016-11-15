@@ -4,23 +4,13 @@ title: 学习Tensorflow的Embeddings例子
 ---
 Udacity上有一个Google技术人员提供的基于Tensorflow的深度学习课程，今天学到Embeddings，有点难理解，所以写个笔记记录下，以备日后回忆。
 
-链接： [Udacity课程视频][4] [例子Github地址][3]
+链接：
 
-## 一个小debug
+[Udacity课程视频][4]
 
-这个例子里用到了sklearn的tSNE来降维作显示，但每次运行到这里Jupyter都提醒Kernel死掉了，Kernel重启。于是把源码复制到单独python文件里执行，看到如下错误：
-```
-Intel MKL FATAL ERROR: Cannot load libmkl_avx2.so or libmkl_def.so.
-```
-这个问题似乎是Intel的MKL有问题，网上查到这篇[为Anaconda2.5提供MKL优化][1]，里面也提供了去掉MKL优化的方法：
-```
-conda install nomkl numpy scipy scikit-learn numexpr
-conda remove mkl mkl-service
-```
-执行过之后，就去除了mkl库，import mkl就找不到了，同时例子程序里的问题也没有再出现。
-如果还是想使用Intel MKL优化的话，或许可以参考Anaconda官方文档[MKL OPTIMIZATIONS][2]来重新安装过。不过，我先不装了。
+[例子Github地址][3]
 
-## 解决完程序安装的问题，开始理解课程：
+## 理解课程：
 
 - 课程使用的实现无监督文本学习的根据：**相似的词，会伴随相似的上下文**。
 （我记得有人说过，看一个人的朋友，就知道这个人大致是怎样，看来词也一样。）如下图：
@@ -44,7 +34,7 @@ conda remove mkl mkl-service
 ![t-sne](/images/2016-11-14-study-embeddings/t-SNE.png)
 
 
-## 理解完课程，然后来读例子程序：
+## 读例子程序：
 
 [点此查看notebook][3]
 
@@ -276,7 +266,7 @@ with graph.as_default():
 
 通过`tf.nn.embedding_lookup`可以直接根据`embeddings`表(50000,128)，取出一个与输入词对应的128个值的`embed`，也就是128维向量。其实是一batch同时处理，但说一个好理解一些。
 
-通过`tf.nn.sampled_softmax_loss`可以用效率较高的Sample Softmax来得到优化所需要的偏差。这个方法视频里有带过，反正就是全部比对速度慢，这样速度快。这个方法顺带把wX+b这步也一起算了。可能是因为放在一起可以优化计算速度，记得还有那个很长名字的`softmax_cross_entropy_with_logits`同时搞定softmax和cross_entropy，也是为了优化计算速度。但，这样的代码读起来就不好看了！
+通过`tf.nn.sampled_softmax_loss`可以用效率较高的Sample Softmax来得到优化所需要的偏差。这个方法视频里有带过，反正就是全部比对速度慢，这样速度快。这个方法顺带把 wX+b 这步也一起算了。可能是因为放在一起可以优化计算速度，记得还有那个很长名字的`softmax_cross_entropy_with_logits`同时搞定softmax和cross_entropy，也是为了优化计算速度。但，这样的代码读起来就不好看了！
 
 通过`tf.reduce_mean`把`loss`偏差压到一个数值，用于优化。
 
@@ -302,9 +292,25 @@ with graph.as_default():
   optimizer = tf.train.AdagradOptimizer(1.0).minimize(loss)
 
 ```
+<a name='normalization'></a>
 
-TODO: 这里看不太懂，回头再刷一次视频。
+这里写的有点难看懂，必须再刷一次视频。
 
+![cosine compare](/images/2016-11-14-study-embeddings/cosine.png)
+
+原来这是要计算一个`valid_dataset`中单词的相似度。
+
+Normalization 是标准化，我还不是很理解，可以参考这篇博文[介绍与 Standardization 归一化的区别和用处][6]。
+
+似乎是为了简化标准化，这里似乎是假设\\( \mu=0 \\)。
+
+计算标准差`norm`值： \\( \sigma = \sqrt{ \sum_{i=1}^N{ (n_{i} - \mu)^2 } } \\)。（这里为啥不再除以N呢？标准差公式不是还要再除以N的吗？）
+
+然后计算标准化之后的`normalized_embeddings`： \\( x' = {x - \mu \over \sigma} \\)。
+
+然后从标准化后的向量空间里，找出用于检验的词语对应的向量值，`valid_embeddings` 这个变量名有点迷惑人，我建议将其改名为 `valid_embed`，以对应前文中的 `embed` 变量，他们俩是有相似意义的。
+
+最后计算`similarity`。
 
 ```python
   # Compute the similarity between minibatch examples and all embeddings.
@@ -389,6 +395,33 @@ plot(two_d_embeddings, words)
 ![t-sne result](/images/2016-11-14-study-embeddings/t-sne-result.png)
 
 
+## 一个小debug处理
+
+这个例子里用到了sklearn的tSNE来降维作显示，但每次运行到这里Jupyter都提醒Kernel死掉了，Kernel重启。于是把源码复制到单独python文件里执行，看到如下错误：
+```
+Intel MKL FATAL ERROR: Cannot load libmkl_avx2.so or libmkl_def.so.
+```
+这个问题似乎是Intel的MKL有问题，网上查到这篇[为Anaconda2.5提供MKL优化][1]，里面也提供了去掉MKL优化的方法：
+```
+conda install nomkl numpy scipy scikit-learn numexpr
+conda remove mkl mkl-service
+```
+执行过之后，就去除了mkl库，import mkl就找不到了，同时例子程序里的问题也没有再出现。
+如果还是想使用Intel MKL优化的话，或许可以参考Anaconda官方文档[MKL OPTIMIZATIONS][2]来重新安装过。不过，我先不装了。
+
+## 张量 Tensor 的 阶数 Rank ，向量空间 Vector Space 和 向量 Vector 的 维数 Dimension
+
+前面我在写到Embeddings是128维的时候，脑子有点晕，原来是混淆了Tensor的维数和Vector的维数。
+
+为了搞清楚概念，我查了下资料，应该是这样的：
+
+我们平时说的128维向量，是指一个向量，值是有128个数组成，代表128个方向上的量，例子里的 `embed` 变量就是一个batch的128维向量。
+
+向量空间是一群向量的集合，我们这里 `embeddings` 变量就是一个50000个向量集合起来的向量空间，所以他的`shape`是`(50000,128)`。
+
+张量 Tensor 也有一个维数，为了和向量的维数区分，一般成其为阶数 Rank。比如说变量 `embeddings` 是一个128维的向量空间，同时他也是一个二阶张量，也就是一张二维表格，行是单词，列是这个单词的128个值。假设其他地方我们看到`128维张量`的话，那么它的`shape`应该是(xx,xx,xx,xx,....,xx)一共128个xx数，一般来说现在我们学习中还没有碰到这么高阶的张量，可能4阶张量已经很多了，在Convolutional Neural Network里用到的输入，它的`shape`是`(batch, image_width, image_height, image_channel)`，就是一个4阶张量（其实应该算一个batch的3阶张量的集合）。注意这里的`image_width`不是说输入的是图片的宽度值，而是输入的是宽度为`image_width`的图片本身。
+
+这就是阶和维的区别。
 
 
 [1]:https://www.continuum.io/blog/developer-blog/anaconda-25-release-now-mkl-optimizations
@@ -396,3 +429,4 @@ plot(two_d_embeddings, words)
 [3]:https://github.com/tensorflow/tensorflow/blob/master/tensorflow/examples/udacity/5_word2vec.ipynb
 [4]:https://classroom.udacity.com/courses/ud730/lessons/6378983156/concepts/63742734590923
 [5]:http://www.zlovezl.cn/articles/collections-in-python/
+[6]:http://www.zhaokv.com/2016/01/normalization-and-standardization.html
