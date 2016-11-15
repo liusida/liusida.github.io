@@ -4,7 +4,7 @@
  <title>Liu Sida's Homepage</title>
  <link href="http://liusida.com/atom.xml" rel="self"/>
  <link href="http://liusida.com/"/>
- <updated>2016-11-15T14:56:54+08:00</updated>
+ <updated>2016-11-15T15:14:05+08:00</updated>
  <id>http://liusida.com</id>
  <author>
    <name>liusida</name>
@@ -401,7 +401,7 @@
 
 &lt;p&gt;模型定义完，就来执行训练了。&lt;/p&gt;
 
-&lt;p&gt;这里有个小bug，新版本的Tensorflow不在支持&lt;code class=&quot;highlighter-rouge&quot;&gt;global_variables_initializer&lt;/code&gt;方法，而改为使用&lt;code class=&quot;highlighter-rouge&quot;&gt;initialize_all_variables&lt;/code&gt;方法，需要手工修改一下教程代码。（年轻而高速发展的Tensorflow里面有很多类似的接口变动，所以如果一个程序跑不通，去github上看看Tensorflow的源代码很有必要。）&lt;/p&gt;
+&lt;p&gt;这里有个小bug，新版本的Tensorflow不再支持&lt;code class=&quot;highlighter-rouge&quot;&gt;global_variables_initializer&lt;/code&gt;方法，而改为使用&lt;code class=&quot;highlighter-rouge&quot;&gt;initialize_all_variables&lt;/code&gt;方法，需要手工修改一下教程代码。（年轻而高速发展的Tensorflow里面有很多类似的接口变动，所以如果一个程序跑不通，去github上看看Tensorflow的源代码很有必要。）&lt;/p&gt;
 
 &lt;p&gt;定义迭代次数，100001次，每一次迭代，都从&lt;code class=&quot;highlighter-rouge&quot;&gt;generate_batch&lt;/code&gt;里面获取一个batch的训练数据。制作成&lt;code class=&quot;highlighter-rouge&quot;&gt;feed_dict&lt;/code&gt;，对应前面模型里定义的&lt;code class=&quot;highlighter-rouge&quot;&gt;placeholder&lt;/code&gt;。&lt;/p&gt;
 

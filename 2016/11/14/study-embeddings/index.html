@@ -447,7 +447,7 @@
 
 <p>模型定义完，就来执行训练了。</p>
 
-<p>这里有个小bug，新版本的Tensorflow不在支持<code class="highlighter-rouge">global_variables_initializer</code>方法，而改为使用<code class="highlighter-rouge">initialize_all_variables</code>方法，需要手工修改一下教程代码。（年轻而高速发展的Tensorflow里面有很多类似的接口变动，所以如果一个程序跑不通，去github上看看Tensorflow的源代码很有必要。）</p>
+<p>这里有个小bug，新版本的Tensorflow不再支持<code class="highlighter-rouge">global_variables_initializer</code>方法，而改为使用<code class="highlighter-rouge">initialize_all_variables</code>方法，需要手工修改一下教程代码。（年轻而高速发展的Tensorflow里面有很多类似的接口变动，所以如果一个程序跑不通，去github上看看Tensorflow的源代码很有必要。）</p>
 
 <p>定义迭代次数，100001次，每一次迭代，都从<code class="highlighter-rouge">generate_batch</code>里面获取一个batch的训练数据。制作成<code class="highlighter-rouge">feed_dict</code>，对应前面模型里定义的<code class="highlighter-rouge">placeholder</code>。</p>
 
