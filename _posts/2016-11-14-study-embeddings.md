@@ -324,11 +324,11 @@ with graph.as_default():
 
 计算`norm`的方法，就是向量各维度的平方和：
 
-$$ norm = {\sqrt{\sum_{i=1}^N{X_i^2}}} $$
+$$ norm = \|X\| = {\sqrt{\sum_{i=1}^N{X_i^2}}} $$
 
 然后利用这个向量长度`norm`来给向量标准化：
 
-$$ X_{normalized} = {X \over norm} $$
+$$ X_{normalized} = {X \over \|X\|} $$
 
 这样得到的就是长度为1的向量。也就是抛弃了向量的长度信息，就剩下方向信息。（感谢潘程同学提醒，这东西就叫“[单位向量][7]”，可以表示为 \\(\hat{X}\\)！）
 
