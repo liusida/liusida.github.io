@@ -4,7 +4,7 @@
  <title>Liu Sida's Homepage</title>
  <link href="http://liusida.com/atom.xml" rel="self"/>
  <link href="http://liusida.com/"/>
- <updated>2016-11-14T23:48:43+08:00</updated>
+ <updated>2016-11-15T11:45:53+08:00</updated>
  <id>http://liusida.com</id>
  <author>
    <name>liusida</name>
@@ -19,23 +19,13 @@
    <id>http://liusida.com/2016/11/14/study-embeddings</id>
    <content type="html">&lt;p&gt;Udacity上有一个Google技术人员提供的基于Tensorflow的深度学习课程，今天学到Embeddings，有点难理解，所以写个笔记记录下，以备日后回忆。&lt;/p&gt;
 
-&lt;p&gt;链接： &lt;a href=&quot;https://classroom.udacity.com/courses/ud730/lessons/6378983156/concepts/63742734590923&quot;&gt;Udacity课程视频&lt;/a&gt; &lt;a href=&quot;https://github.com/tensorflow/tensorflow/blob/master/tensorflow/examples/udacity/5_word2vec.ipynb&quot;&gt;例子Github地址&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;链接：&lt;/p&gt;
 
-&lt;h2 id=&quot;debug&quot;&gt;一个小debug&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&quot;https://classroom.udacity.com/courses/ud730/lessons/6378983156/concepts/63742734590923&quot;&gt;Udacity课程视频&lt;/a&gt;&lt;/p&gt;
 
-&lt;p&gt;这个例子里用到了sklearn的tSNE来降维作显示，但每次运行到这里Jupyter都提醒Kernel死掉了，Kernel重启。于是把源码复制到单独python文件里执行，看到如下错误：&lt;/p&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Intel MKL FATAL ERROR: Cannot load libmkl_avx2.so or libmkl_def.so.
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;p&gt;这个问题似乎是Intel的MKL有问题，网上查到这篇&lt;a href=&quot;https://www.continuum.io/blog/developer-blog/anaconda-25-release-now-mkl-optimizations&quot;&gt;为Anaconda2.5提供MKL优化&lt;/a&gt;，里面也提供了去掉MKL优化的方法：&lt;/p&gt;
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;conda install nomkl numpy scipy scikit-learn numexpr
-conda remove mkl mkl-service
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;p&gt;执行过之后，就去除了mkl库，import mkl就找不到了，同时例子程序里的问题也没有再出现。
-如果还是想使用Intel MKL优化的话，或许可以参考Anaconda官方文档&lt;a href=&quot;https://docs.continuum.io/mkl-optimizations/&quot;&gt;MKL OPTIMIZATIONS&lt;/a&gt;来重新安装过。不过，我先不装了。&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://github.com/tensorflow/tensorflow/blob/master/tensorflow/examples/udacity/5_word2vec.ipynb&quot;&gt;例子Github地址&lt;/a&gt;&lt;/p&gt;
 
-&lt;h2 id=&quot;section&quot;&gt;解决完程序安装的问题，开始理解课程：&lt;/h2&gt;
+&lt;h2 id=&quot;section&quot;&gt;理解课程：&lt;/h2&gt;
 
 &lt;ul&gt;
   &lt;li&gt;课程使用的实现无监督文本学习的根据：&lt;strong&gt;相似的词，会伴随相似的上下文&lt;/strong&gt;。
@@ -68,7 +58,7 @@ conda remove mkl mkl-service
 
 &lt;p&gt;&lt;img src=&quot;/images/2016-11-14-study-embeddings/t-SNE.png&quot; alt=&quot;t-sne&quot; /&gt;&lt;/p&gt;
 
-&lt;h2 id=&quot;section-1&quot;&gt;理解完课程，然后来读例子程序：&lt;/h2&gt;
+&lt;h2 id=&quot;section-1&quot;&gt;读例子程序：&lt;/h2&gt;
 
 &lt;p&gt;&lt;a href=&quot;https://github.com/tensorflow/tensorflow/blob/master/tensorflow/examples/udacity/5_word2vec.ipynb&quot;&gt;点此查看notebook&lt;/a&gt;&lt;/p&gt;
 
@@ -300,7 +290,7 @@ conda remove mkl mkl-service
 
 &lt;p&gt;通过&lt;code class=&quot;highlighter-rouge&quot;&gt;tf.nn.embedding_lookup&lt;/code&gt;可以直接根据&lt;code class=&quot;highlighter-rouge&quot;&gt;embeddings&lt;/code&gt;表(50000,128)，取出一个与输入词对应的128个值的&lt;code class=&quot;highlighter-rouge&quot;&gt;embed&lt;/code&gt;，也就是128维向量。其实是一batch同时处理，但说一个好理解一些。&lt;/p&gt;
 
-&lt;p&gt;通过&lt;code class=&quot;highlighter-rouge&quot;&gt;tf.nn.sampled_softmax_loss&lt;/code&gt;可以用效率较高的Sample Softmax来得到优化所需要的偏差。这个方法视频里有带过，反正就是全部比对速度慢，这样速度快。这个方法顺带把wX+b这步也一起算了。可能是因为放在一起可以优化计算速度，记得还有那个很长名字的&lt;code class=&quot;highlighter-rouge&quot;&gt;softmax_cross_entropy_with_logits&lt;/code&gt;同时搞定softmax和cross_entropy，也是为了优化计算速度。但，这样的代码读起来就不好看了！&lt;/p&gt;
+&lt;p&gt;通过&lt;code class=&quot;highlighter-rouge&quot;&gt;tf.nn.sampled_softmax_loss&lt;/code&gt;可以用效率较高的Sample Softmax来得到优化所需要的偏差。这个方法视频里有带过，反正就是全部比对速度慢，这样速度快。这个方法顺带把 wX+b 这步也一起算了。可能是因为放在一起可以优化计算速度，记得还有那个很长名字的&lt;code class=&quot;highlighter-rouge&quot;&gt;softmax_cross_entropy_with_logits&lt;/code&gt;同时搞定softmax和cross_entropy，也是为了优化计算速度。但，这样的代码读起来就不好看了！&lt;/p&gt;
 
 &lt;p&gt;通过&lt;code class=&quot;highlighter-rouge&quot;&gt;tf.reduce_mean&lt;/code&gt;把&lt;code class=&quot;highlighter-rouge&quot;&gt;loss&lt;/code&gt;偏差压到一个数值，用于优化。&lt;/p&gt;
 
@@ -326,8 +316,25 @@ conda remove mkl mkl-service
 
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
+&lt;p&gt;&lt;a name=&quot;normalization&quot;&gt;&lt;/a&gt;&lt;/p&gt;
 
-&lt;p&gt;TODO: 这里看不太懂，回头再刷一次视频。&lt;/p&gt;
+&lt;p&gt;这里写的有点难看懂，必须再刷一次视频。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/2016-11-14-study-embeddings/cosine.png&quot; alt=&quot;cosine compare&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;原来这是要计算一个&lt;code class=&quot;highlighter-rouge&quot;&gt;valid_dataset&lt;/code&gt;中单词的相似度。&lt;/p&gt;
+
+&lt;p&gt;Normalization 是标准化，我还不是很理解，可以参考这篇博文&lt;a href=&quot;http://www.zhaokv.com/2016/01/normalization-and-standardization.html&quot;&gt;介绍与 Standardization 归一化的区别和用处&lt;/a&gt;。&lt;/p&gt;
+
+&lt;p&gt;似乎是为了简化标准化，这里似乎是假设\( \mu=0 \)。&lt;/p&gt;
+
+&lt;p&gt;计算标准差&lt;code class=&quot;highlighter-rouge&quot;&gt;norm&lt;/code&gt;值： \( \sigma = \sqrt{ \sum_{i=1}^N{ (n_{i} - \mu)^2 } } \)。（这里为啥不再除以N呢？标准差公式不是还要再除以N的吗？）&lt;/p&gt;
+
+&lt;p&gt;然后计算标准化之后的&lt;code class=&quot;highlighter-rouge&quot;&gt;normalized_embeddings&lt;/code&gt;： \( x’ = {x - \mu \over \sigma} \)。&lt;/p&gt;
+
+&lt;p&gt;然后从标准化后的向量空间里，找出用于检验的词语对应的向量值，&lt;code class=&quot;highlighter-rouge&quot;&gt;valid_embeddings&lt;/code&gt; 这个变量名有点迷惑人，我建议将其改名为 &lt;code class=&quot;highlighter-rouge&quot;&gt;valid_embed&lt;/code&gt;，以对应前文中的 &lt;code class=&quot;highlighter-rouge&quot;&gt;embed&lt;/code&gt; 变量，他们俩是有相似意义的。&lt;/p&gt;
+
+&lt;p&gt;最后计算&lt;code class=&quot;highlighter-rouge&quot;&gt;similarity&lt;/code&gt;。&lt;/p&gt;
 
 &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  &lt;span class=&quot;c&quot;&gt;# Compute the similarity between minibatch examples and all embeddings.&lt;/span&gt;
   &lt;span class=&quot;c&quot;&gt;# We use the cosine distance:&lt;/span&gt;
@@ -410,6 +417,34 @@ conda remove mkl mkl-service
 &lt;p&gt;嗯，我们会看到这样的结果：&lt;/p&gt;
 
 &lt;p&gt;&lt;img src=&quot;/images/2016-11-14-study-embeddings/t-sne-result.png&quot; alt=&quot;t-sne result&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;debug&quot;&gt;一个小debug处理&lt;/h2&gt;
+
+&lt;p&gt;这个例子里用到了sklearn的tSNE来降维作显示，但每次运行到这里Jupyter都提醒Kernel死掉了，Kernel重启。于是把源码复制到单独python文件里执行，看到如下错误：&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Intel MKL FATAL ERROR: Cannot load libmkl_avx2.so or libmkl_def.so.
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;这个问题似乎是Intel的MKL有问题，网上查到这篇&lt;a href=&quot;https://www.continuum.io/blog/developer-blog/anaconda-25-release-now-mkl-optimizations&quot;&gt;为Anaconda2.5提供MKL优化&lt;/a&gt;，里面也提供了去掉MKL优化的方法：&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;conda install nomkl numpy scipy scikit-learn numexpr
+conda remove mkl mkl-service
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;执行过之后，就去除了mkl库，import mkl就找不到了，同时例子程序里的问题也没有再出现。
+如果还是想使用Intel MKL优化的话，或许可以参考Anaconda官方文档&lt;a href=&quot;https://docs.continuum.io/mkl-optimizations/&quot;&gt;MKL OPTIMIZATIONS&lt;/a&gt;来重新安装过。不过，我先不装了。&lt;/p&gt;
+
+&lt;h2 id=&quot;tensor---rank--vector-space---vector---dimension&quot;&gt;张量 Tensor 的 阶数 Rank ，向量空间 Vector Space 和 向量 Vector 的 维数 Dimension&lt;/h2&gt;
+
+&lt;p&gt;前面我在写到Embeddings是128维的时候，脑子有点晕，原来是混淆了Tensor的维数和Vector的维数。&lt;/p&gt;
+
+&lt;p&gt;为了搞清楚概念，我查了下资料，应该是这样的：&lt;/p&gt;
+
+&lt;p&gt;我们平时说的128维向量，是指一个向量，值是有128个数组成，代表128个方向上的量，例子里的 &lt;code class=&quot;highlighter-rouge&quot;&gt;embed&lt;/code&gt; 变量就是一个batch的128维向量。&lt;/p&gt;
+
+&lt;p&gt;向量空间是一群向量的集合，我们这里 &lt;code class=&quot;highlighter-rouge&quot;&gt;embeddings&lt;/code&gt; 变量就是一个50000个向量集合起来的向量空间，所以他的&lt;code class=&quot;highlighter-rouge&quot;&gt;shape&lt;/code&gt;是&lt;code class=&quot;highlighter-rouge&quot;&gt;(50000,128)&lt;/code&gt;。&lt;/p&gt;
+
+&lt;p&gt;张量 Tensor 也有一个维数，为了和向量的维数区分，一般成其为阶数 Rank。比如说变量 &lt;code class=&quot;highlighter-rouge&quot;&gt;embeddings&lt;/code&gt; 是一个128维的向量空间，同时他也是一个二阶张量，也就是一张二维表格，行是单词，列是这个单词的128个值。假设其他地方我们看到&lt;code class=&quot;highlighter-rouge&quot;&gt;128维张量&lt;/code&gt;的话，那么它的&lt;code class=&quot;highlighter-rouge&quot;&gt;shape&lt;/code&gt;应该是(xx,xx,xx,xx,….,xx)一共128个xx数，一般来说现在我们学习中还没有碰到这么高阶的张量，可能4阶张量已经很多了，在Convolutional Neural Network里用到的输入，它的&lt;code class=&quot;highlighter-rouge&quot;&gt;shape&lt;/code&gt;是&lt;code class=&quot;highlighter-rouge&quot;&gt;(batch, image_width, image_height, image_channel)&lt;/code&gt;，就是一个4阶张量（其实应该算一个batch的3阶张量的集合）。注意这里的&lt;code class=&quot;highlighter-rouge&quot;&gt;image_width&lt;/code&gt;不是说输入的是图片的宽度值，而是输入的是宽度为&lt;code class=&quot;highlighter-rouge&quot;&gt;image_width&lt;/code&gt;的图片本身。&lt;/p&gt;
+
+&lt;p&gt;这就是阶和维的区别。&lt;/p&gt;
 
 </content>
  </entry>

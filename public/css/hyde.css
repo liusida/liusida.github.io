@@ -208,8 +208,8 @@ img {
 
 a {
   font-weight: 600;
-  color: #222;
-  text-decoration: none;
+  color: #228;
+  text-decoration: underline;
 }
 a:hover,
 a:focus {
