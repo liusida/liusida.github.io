@@ -111,11 +111,11 @@ print(id2char(1), id2char(26), id2char(0))
 
 ### 6. 生成训练数据集函数
 
-这次`BatchGenerator`做的比前两天的那个要认真了，用了成员变量来记录位置，而不是用全局变量。
+这次 `BatchGenerator` 做的比前两天的那个要认真了，用了成员变量来记录位置，而不是用全局变量。
 
-用`BatchGenerator.next()`方法，可以获取一批子字符串用于训练。
+用 `BatchGenerator.next()` 方法，可以获取一批子字符串用于训练。
 
-`batch_size`是每批几串字符串，`num_unrollings`是每串子字符串的长度（实际上字符串开头还加了上一次获取的最后一个字符，所以实际上字符串长度要比`num_unrollings`多一个）。
+`batch_size` 是每批几串字符串，`num_unrollings` 是每串子字符串的长度（实际上字符串开头还加了上一次获取的最后一个字符，所以实际上字符串长度要比 `num_unrollings` 多一个）。
 
 ```python
 batch_size=64
@@ -152,23 +152,23 @@ class BatchGenerator(object):
 
 真不愧是优秀程序员写的代码，这个函数写的又让我学习了！
 
-它在初始化的时候先根据`batch_size`把段分好，然后设立一组游标`_cursor`，是一组哦，不是一个哦！然后定义好`_last_batch`看或许到哪了。
+它在初始化的时候先根据 `batch_size` 把段分好，然后设立一组游标 `_cursor` ，是一组哦，不是一个哦！然后定义好 `_last_batch` 看或许到哪了。
 
 然后获取需要的字符串的时候，是一批一批的获取各个字符。
 
 这样做，就可以针对整段字符串均匀的取样，从而避免某些地方学的太细，某些地方又没有学到。
 
-值得注意的是，在RNN准备数据的时候，所喂数据的结构是很容易搞错的。在前面博客中，也有很多同学对于他使用`transpose`的意义没法理解。这里需要详细记录一下。
+值得注意的是，在RNN准备数据的时候，所喂数据的结构是很容易搞错的。在前面博客中，也有很多同学对于他使用 `transpose` 的意义没法理解。这里需要详细记录一下。
 
-`BatchGenerator.next()`返回的数据格式，是一个list，list的长度是`num_unrollings+1`，每一个元素，都是一个(`batch_size`,27)的array，27是`vocabulary_size`，一个27维向量代表一个字符，是one-hot encoding的格式。
+`BatchGenerator.next()` 返回的数据格式，是一个list，list的长度是 `num_unrollings+1`，每一个元素，都是一个(`batch_size`,27)的array，27是 `vocabulary_size`，一个27维向量代表一个字符，是one-hot encoding的格式。
 
 所以，**喂这一批数据进神经网络的时候，理论上是先进去一批的首字符，然后再进去同一批的第二个字符，然后再进去同一批的第三个字符...**
 
-也就是说，下图才是真正的RNN的结构，我们要做的，是按照顺序一个一个的按顺序把东西喂进去。这个图，我看到名字叫`RNN-rolled`：
+也就是说，下图才是真正的RNN的结构，我们要做的，是按照顺序一个一个的按顺序把东西喂进去。这个图，我看到名字叫 `RNN-rolled`：
 
 ![RNN-rolled](/images/2016-11-16-study-lstm/RNN-rolled.png)
 
-我们平时看到的向右一路展开的RNN其实向右方向（我用了虚线）是代表先后顺序（同时也带记忆数据流），跟上下方向意义是不一样的。有没有同学误解那么一排东西是可以同时喂进去的？这个图，我看到名字叫`RNN-unrolled`。
+我们平时看到的向右一路展开的RNN其实向右方向（我用了虚线）是代表先后顺序（同时也带记忆数据流），跟上下方向意义是不一样的。有没有同学误解那么一排东西是可以同时喂进去的？这个图，我看到名字叫 `RNN-unrolled`。
 
 ![RNN-unrolled](/images/2016-11-16-study-lstm/RNN-unrolled.png)
 
@@ -177,9 +177,9 @@ class BatchGenerator(object):
 
 再定义两个用来把训练数据转换成可展现字符串的函数。
 
-`characters`先从one-hot encoding变回数字，再用id2char变成字符。
+`characters` 先从one-hot encoding变回数字，再用id2char变成字符。
 
-`batches2string`则将训练数据变成可以展现的字符串。高手这么一批一批的处理数据逻辑还这么绕，而不是按凡人逻辑一个一个的处理让我觉得有点窒息的感觉，自感智商捉急了。
+`batches2string` 则将训练数据变成可以展现的字符串。高手这么一批一批的处理数据逻辑还这么绕，而不是按凡人逻辑一个一个的处理让我觉得有点窒息的感觉，自感智商捉急了。
 
 ```python
 def characters(probabilities):
@@ -206,7 +206,7 @@ print(batches2string(valid_batches.next()))
 
 ### 8. 另外四个工具函数
 
-四个函数，用途未知
+四个函数，给训练中输出摘要时使用。
 
 ```python
 def logprob(predictions, labels):
@@ -354,6 +354,10 @@ Colah 图例解释：
   train_labels = train_data[1:]  # labels are inputs shifted by one time step.
 ```
 
+这里也是一个 batch 同时处理的。但为了容易理解，我先假设 `batch_size=1` ，然后假设我们要训练一个字符串 abcdefg。
+
+那么 `train_inputs` 是 abcdef，`train_labels` 是 bcdefg 。
+
 #### 4) 循环执行LSTM Cell
 
 ```python
@@ -365,6 +369,10 @@ Colah 图例解释：
     output, state = lstm_cell(i, output, state)
     outputs.append(output)
 ```
+
+根据前面定义变量的时候规定，初始 `saved_output` 和 `saved_state` 都是全零。
+
+依次输入 a b c d e f ，把每一次的输出放在一起形成一个 list 就是 `outputs`。
 
 #### 5) 定义loss
 
@@ -379,6 +387,16 @@ Colah 图例解释：
         logits, tf.concat(0, train_labels)))
 ```
 
+因为不是顺序执行语言，一般模型如果不是相关的语句，其执行是没有先后顺序的，`control_dependencies` 的作用就是建立先后顺序，保证前面两句被执行后，才执行后面的内容。
+
+这里也就是先把 `saved_output` 和 `saved_state` 保存之后，再计算 `logits` 和 `loss`。否则因为下面计算时没有关联到 `saved_output` 和 `saved_state`，如果不用 `control_dependencies` 那上面两句保存就不会被优化语句触发。
+
+[`tf.concat(0, values)`][manual-concat] 是指在 0 维上把 values 连接起来。本来 outputs 是一个 list，每一个元素都是一个27维向量表示一个字母（还是假设 `batch_size=1`）。
+
+通过 `tf.concat` 把结果连接起来，成为一个向量，可以拿来乘以 w 加上 b 这样进入一个 full connection，从而得到 logits 。
+
+然后再通过 `softmax_cross_entropy_with_logits` 比较连接并 full connection 的 `outputs` 和 连接起来的 `train_labels` ，得到 `loss` 。
+
 #### 6) 定义优化
 
 ```python
@@ -392,6 +410,22 @@ Colah 图例解释：
   optimizer = optimizer.apply_gradients(
     zip(gradients, v), global_step=global_step)
 ```
+
+[`tf.train.exponential_decay`][manual-exp-decay] 可以用来实现 `learning_rate` 的指数型衰减，越到后面 `learning_rate` 越小。（依赖后面修改 `global_step` 值来实现）
+
+`optimizer` 定义成使用标准 Gradient Descent 。每一种 `optimizer` 都有几个标准接口，我们前面常用的是 `minimize` 接口，他自动的调整整个 `Graph` 中可调节的 `Variables` 尝试最小化 `loss`。其实 `minimize` 函数就是这两步并起来： `compute_gradients` 和 `apply_gradients`。先计算梯度值，然后再把那些参数减去梯度值。这里把两步分开了，为了在 apply 之前先处理一下梯度值，Tensorflow 给了详细解释，我们来看看[手册][manual-compute-gradients]。
+
+`compute_gradients` 函数返回一个list，里面是一对一对的 `gradient` 和 `variable`，说明针对某个可调整的变量，他的梯度是多少。
+
+`clip_by_global_norm` 避免梯度值过大产生 Exploding Gradients 梯度爆炸问题，视频里有这么一个图：
+
+![clip gradients](/images/2016-11-16-study-lstm/clip_gradient.png)
+
+`clip_by_global_norm` 的具体计算是，先计算 `global_norm` ，也就是整个 `tensor` 的模（二范数）。看这个模是否大于文中的`1.25`，如果大于，则结果等于 `gradients * 1.25 / global_norm`，如果不大于，就不变。
+
+最后，`apply_gradients`。这里传入的 `global_step` 是会被修改的，每次加一，这样下次计算 `learning_rate` 的时候就会使用新的 `global_step` 值。
+
+
 
 #### 7) 定义预测
 
@@ -413,12 +447,77 @@ Colah 图例解释：
     sample_prediction = tf.nn.softmax(tf.nn.xw_plus_b(sample_output, w, b))
 ```
 
+### 10. 开始训练
 
+#### 1) 训练
 
-# 未完待续...
+注意到这里喂进去的字符串长度正好是 `num_unrollings + 1`，恰好对应前面 `BatchGenerator.next()` 获取的时候得到的字符串长度，也恰好对应了模型定义里 `train_inputs` 和 `train_labels` 错开1个字符。
+
+`mean_loss` 用来加总各步的 `loss` 值，用来后面输出。（还是建议叫 `subtotal_loss`）
+
+```python
+num_steps = 7001
+summary_frequency = 100
+
+with tf.Session(graph=graph) as session:
+  tf.initialize_all_variables().run()
+  print('Initialized')
+  mean_loss = 0
+  for step in range(num_steps):
+    batches = train_batches.next()
+    feed_dict = dict()
+    for i in range(num_unrollings + 1):
+      feed_dict[train_data[i]] = batches[i]
+    _, l, predictions, lr = session.run(
+      [optimizer, loss, train_prediction, learning_rate], feed_dict=feed_dict)
+    mean_loss += l
+```
+
+#### 2) 定期输出摘要
+
+他怎么不用 tensorflow 来计算呀，反而用 numpy 来计算，很奇怪。回头再仔细看看。
+
+```python
+    if step % summary_frequency == 0:
+      if step > 0:
+        mean_loss = mean_loss / summary_frequency
+      # The mean loss is an estimate of the loss over the last few batches.
+      print(
+        'Average loss at step %d: %f learning rate: %f' % (step, mean_loss, lr))
+      mean_loss = 0
+      labels = np.concatenate(list(batches)[1:])
+      print('Minibatch perplexity: %.2f' % float(
+        np.exp(logprob(predictions, labels))))
+      if step % (summary_frequency * 10) == 0:
+        # Generate some samples.
+        print('=' * 80)
+        for _ in range(5):
+          feed = sample(random_distribution())
+          sentence = characters(feed)[0]
+          reset_sample_state.run()
+          for _ in range(79):
+            prediction = sample_prediction.eval({sample_input: feed})
+            feed = sample(prediction)
+            sentence += characters(feed)[0]
+          print(sentence)
+        print('=' * 80)
+      # Measure validation set perplexity.
+      reset_sample_state.run()
+      valid_logprob = 0
+      for _ in range(valid_size):
+        b = valid_batches.next()
+        predictions = sample_prediction.eval({sample_input: b[0]})
+        valid_logprob = valid_logprob + logprob(predictions, b[1])
+      print('Validation set perplexity: %.2f' % float(np.exp(
+        valid_logprob / valid_size)))
+```
+
 
 [embeddings]:https://liusida.github.io/2016/11/14/study-embeddings/
 [udacity]:https://classroom.udacity.com/courses/ud730/lessons/6378983156/concepts/63770919610923
 [github-source]:https://github.com/tensorflow/tensorflow/blob/master/tensorflow/examples/udacity/6_lstm.ipynb
 [blog-rnn]:https://liusida.github.io/2016/11/04/rnn-implementation/
 [colah]:http://colah.github.io/posts/2015-08-Understanding-LSTMs/
+[manual-exp-decay]:https://www.tensorflow.org/versions/r0.11/api_docs/python/train.html#exponential_decay
+[manual-concat]:https://www.tensorflow.org/versions/r0.11/api_docs/python/array_ops.html#concat
+[manual-gradients]:https://www.tensorflow.org/versions/r0.11/api_docs/python/train.html#processing-gradients-before-applying-them
