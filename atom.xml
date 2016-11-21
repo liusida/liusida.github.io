@@ -4,7 +4,7 @@
  <title>Liu Sida's Homepage</title>
  <link href="http://liusida.com/atom.xml" rel="self"/>
  <link href="http://liusida.com/"/>
- <updated>2016-11-21T13:50:07+08:00</updated>
+ <updated>2016-11-21T15:45:53+08:00</updated>
  <id>http://liusida.com</id>
  <author>
    <name>liusida</name>
@@ -125,11 +125,11 @@
 
 &lt;h3 id=&quot;section-6&quot;&gt;6. 生成训练数据集函数&lt;/h3&gt;
 
-&lt;p&gt;这次&lt;code class=&quot;highlighter-rouge&quot;&gt;BatchGenerator&lt;/code&gt;做的比前两天的那个要认真了，用了成员变量来记录位置，而不是用全局变量。&lt;/p&gt;
+&lt;p&gt;这次 &lt;code class=&quot;highlighter-rouge&quot;&gt;BatchGenerator&lt;/code&gt; 做的比前两天的那个要认真了，用了成员变量来记录位置，而不是用全局变量。&lt;/p&gt;
 
-&lt;p&gt;用&lt;code class=&quot;highlighter-rouge&quot;&gt;BatchGenerator.next()&lt;/code&gt;方法，可以获取一批子字符串用于训练。&lt;/p&gt;
+&lt;p&gt;用 &lt;code class=&quot;highlighter-rouge&quot;&gt;BatchGenerator.next()&lt;/code&gt; 方法，可以获取一批子字符串用于训练。&lt;/p&gt;
 
-&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;batch_size&lt;/code&gt;是每批几串字符串，&lt;code class=&quot;highlighter-rouge&quot;&gt;num_unrollings&lt;/code&gt;是每串子字符串的长度（实际上字符串开头还加了上一次获取的最后一个字符，所以实际上字符串长度要比&lt;code class=&quot;highlighter-rouge&quot;&gt;num_unrollings&lt;/code&gt;多一个）。&lt;/p&gt;
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;batch_size&lt;/code&gt; 是每批几串字符串，&lt;code class=&quot;highlighter-rouge&quot;&gt;num_unrollings&lt;/code&gt; 是每串子字符串的长度（实际上字符串开头还加了上一次获取的最后一个字符，所以实际上字符串长度要比 &lt;code class=&quot;highlighter-rouge&quot;&gt;num_unrollings&lt;/code&gt; 多一个）。&lt;/p&gt;
 
 &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;batch_size&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;64&lt;/span&gt;
 &lt;span class=&quot;n&quot;&gt;num_unrollings&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt;
@@ -166,23 +166,23 @@
 
 &lt;p&gt;真不愧是优秀程序员写的代码，这个函数写的又让我学习了！&lt;/p&gt;
 
-&lt;p&gt;它在初始化的时候先根据&lt;code class=&quot;highlighter-rouge&quot;&gt;batch_size&lt;/code&gt;把段分好，然后设立一组游标&lt;code class=&quot;highlighter-rouge&quot;&gt;_cursor&lt;/code&gt;，是一组哦，不是一个哦！然后定义好&lt;code class=&quot;highlighter-rouge&quot;&gt;_last_batch&lt;/code&gt;看或许到哪了。&lt;/p&gt;
+&lt;p&gt;它在初始化的时候先根据 &lt;code class=&quot;highlighter-rouge&quot;&gt;batch_size&lt;/code&gt; 把段分好，然后设立一组游标 &lt;code class=&quot;highlighter-rouge&quot;&gt;_cursor&lt;/code&gt; ，是一组哦，不是一个哦！然后定义好 &lt;code class=&quot;highlighter-rouge&quot;&gt;_last_batch&lt;/code&gt; 看或许到哪了。&lt;/p&gt;
 
 &lt;p&gt;然后获取需要的字符串的时候，是一批一批的获取各个字符。&lt;/p&gt;
 
 &lt;p&gt;这样做，就可以针对整段字符串均匀的取样，从而避免某些地方学的太细，某些地方又没有学到。&lt;/p&gt;
 
-&lt;p&gt;值得注意的是，在RNN准备数据的时候，所喂数据的结构是很容易搞错的。在前面博客中，也有很多同学对于他使用&lt;code class=&quot;highlighter-rouge&quot;&gt;transpose&lt;/code&gt;的意义没法理解。这里需要详细记录一下。&lt;/p&gt;
+&lt;p&gt;值得注意的是，在RNN准备数据的时候，所喂数据的结构是很容易搞错的。在前面博客中，也有很多同学对于他使用 &lt;code class=&quot;highlighter-rouge&quot;&gt;transpose&lt;/code&gt; 的意义没法理解。这里需要详细记录一下。&lt;/p&gt;
 
-&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;BatchGenerator.next()&lt;/code&gt;返回的数据格式，是一个list，list的长度是&lt;code class=&quot;highlighter-rouge&quot;&gt;num_unrollings+1&lt;/code&gt;，每一个元素，都是一个(&lt;code class=&quot;highlighter-rouge&quot;&gt;batch_size&lt;/code&gt;,27)的array，27是&lt;code class=&quot;highlighter-rouge&quot;&gt;vocabulary_size&lt;/code&gt;，一个27维向量代表一个字符，是one-hot encoding的格式。&lt;/p&gt;
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;BatchGenerator.next()&lt;/code&gt; 返回的数据格式，是一个list，list的长度是 &lt;code class=&quot;highlighter-rouge&quot;&gt;num_unrollings+1&lt;/code&gt;，每一个元素，都是一个(&lt;code class=&quot;highlighter-rouge&quot;&gt;batch_size&lt;/code&gt;,27)的array，27是 &lt;code class=&quot;highlighter-rouge&quot;&gt;vocabulary_size&lt;/code&gt;，一个27维向量代表一个字符，是one-hot encoding的格式。&lt;/p&gt;
 
 &lt;p&gt;所以，&lt;strong&gt;喂这一批数据进神经网络的时候，理论上是先进去一批的首字符，然后再进去同一批的第二个字符，然后再进去同一批的第三个字符…&lt;/strong&gt;&lt;/p&gt;
 
-&lt;p&gt;也就是说，下图才是真正的RNN的结构，我们要做的，是按照顺序一个一个的按顺序把东西喂进去。这个图，我看到名字叫&lt;code class=&quot;highlighter-rouge&quot;&gt;RNN-rolled&lt;/code&gt;：&lt;/p&gt;
+&lt;p&gt;也就是说，下图才是真正的RNN的结构，我们要做的，是按照顺序一个一个的按顺序把东西喂进去。这个图，我看到名字叫 &lt;code class=&quot;highlighter-rouge&quot;&gt;RNN-rolled&lt;/code&gt;：&lt;/p&gt;
 
 &lt;p&gt;&lt;img src=&quot;/images/2016-11-16-study-lstm/RNN-rolled.png&quot; alt=&quot;RNN-rolled&quot; /&gt;&lt;/p&gt;
 
-&lt;p&gt;我们平时看到的向右一路展开的RNN其实向右方向（我用了虚线）是代表先后顺序（同时也带记忆数据流），跟上下方向意义是不一样的。有没有同学误解那么一排东西是可以同时喂进去的？这个图，我看到名字叫&lt;code class=&quot;highlighter-rouge&quot;&gt;RNN-unrolled&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;我们平时看到的向右一路展开的RNN其实向右方向（我用了虚线）是代表先后顺序（同时也带记忆数据流），跟上下方向意义是不一样的。有没有同学误解那么一排东西是可以同时喂进去的？这个图，我看到名字叫 &lt;code class=&quot;highlighter-rouge&quot;&gt;RNN-unrolled&lt;/code&gt;。&lt;/p&gt;
 
 &lt;p&gt;&lt;img src=&quot;/images/2016-11-16-study-lstm/RNN-unrolled.png&quot; alt=&quot;RNN-unrolled&quot; /&gt;&lt;/p&gt;
 
@@ -190,9 +190,9 @@
 
 &lt;p&gt;再定义两个用来把训练数据转换成可展现字符串的函数。&lt;/p&gt;
 
-&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;characters&lt;/code&gt;先从one-hot encoding变回数字，再用id2char变成字符。&lt;/p&gt;
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;characters&lt;/code&gt; 先从one-hot encoding变回数字，再用id2char变成字符。&lt;/p&gt;
 
-&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;batches2string&lt;/code&gt;则将训练数据变成可以展现的字符串。高手这么一批一批的处理数据逻辑还这么绕，而不是按凡人逻辑一个一个的处理让我觉得有点窒息的感觉，自感智商捉急了。&lt;/p&gt;
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;batches2string&lt;/code&gt; 则将训练数据变成可以展现的字符串。高手这么一批一批的处理数据逻辑还这么绕，而不是按凡人逻辑一个一个的处理让我觉得有点窒息的感觉，自感智商捉急了。&lt;/p&gt;
 
 &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;characters&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;probabilities&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
   &lt;span class=&quot;s&quot;&gt;&quot;&quot;&quot;Turn a 1-hot encoding or a probability distribution over the possible
@@ -219,7 +219,7 @@
 
 &lt;h3 id=&quot;section-8&quot;&gt;8. 另外四个工具函数&lt;/h3&gt;
 
-&lt;p&gt;四个函数，用途未知&lt;/p&gt;
+&lt;p&gt;四个函数，给训练中输出摘要时使用。&lt;/p&gt;
 
 &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;logprob&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;predictions&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;labels&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
   &lt;span class=&quot;s&quot;&gt;&quot;&quot;&quot;Log-probability of the true labels in a predicted batch.&quot;&quot;&quot;&lt;/span&gt;
@@ -369,6 +369,10 @@
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
+&lt;p&gt;这里也是一个 batch 同时处理的。但为了容易理解，我先假设 &lt;code class=&quot;highlighter-rouge&quot;&gt;batch_size=1&lt;/code&gt; ，然后假设我们要训练一个字符串 abcdefg。&lt;/p&gt;
+
+&lt;p&gt;那么 &lt;code class=&quot;highlighter-rouge&quot;&gt;train_inputs&lt;/code&gt; 是 abcdef，&lt;code class=&quot;highlighter-rouge&quot;&gt;train_labels&lt;/code&gt; 是 bcdefg 。&lt;/p&gt;
+
 &lt;h4 id=&quot;lstm-cell-1&quot;&gt;4) 循环执行LSTM Cell&lt;/h4&gt;
 
 &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  &lt;span class=&quot;c&quot;&gt;# Unrolled LSTM loop.&lt;/span&gt;
@@ -380,6 +384,10 @@
     &lt;span class=&quot;n&quot;&gt;outputs&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;append&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;output&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
+
+&lt;p&gt;根据前面定义变量的时候规定，初始 &lt;code class=&quot;highlighter-rouge&quot;&gt;saved_output&lt;/code&gt; 和 &lt;code class=&quot;highlighter-rouge&quot;&gt;saved_state&lt;/code&gt; 都是全零。&lt;/p&gt;
+
+&lt;p&gt;依次输入 a b c d e f ，把每一次的输出放在一起形成一个 list 就是 &lt;code class=&quot;highlighter-rouge&quot;&gt;outputs&lt;/code&gt;。&lt;/p&gt;
 
 &lt;h4 id=&quot;loss&quot;&gt;5) 定义loss&lt;/h4&gt;
 
@@ -394,6 +402,16 @@
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
+&lt;p&gt;因为不是顺序执行语言，一般模型如果不是相关的语句，其执行是没有先后顺序的，&lt;code class=&quot;highlighter-rouge&quot;&gt;control_dependencies&lt;/code&gt; 的作用就是建立先后顺序，保证前面两句被执行后，才执行后面的内容。&lt;/p&gt;
+
+&lt;p&gt;这里也就是先把 &lt;code class=&quot;highlighter-rouge&quot;&gt;saved_output&lt;/code&gt; 和 &lt;code class=&quot;highlighter-rouge&quot;&gt;saved_state&lt;/code&gt; 保存之后，再计算 &lt;code class=&quot;highlighter-rouge&quot;&gt;logits&lt;/code&gt; 和 &lt;code class=&quot;highlighter-rouge&quot;&gt;loss&lt;/code&gt;。否则因为下面计算时没有关联到 &lt;code class=&quot;highlighter-rouge&quot;&gt;saved_output&lt;/code&gt; 和 &lt;code class=&quot;highlighter-rouge&quot;&gt;saved_state&lt;/code&gt;，如果不用 &lt;code class=&quot;highlighter-rouge&quot;&gt;control_dependencies&lt;/code&gt; 那上面两句保存就不会被优化语句触发。&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://www.tensorflow.org/versions/r0.11/api_docs/python/array_ops.html#concat&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;tf.concat(0, values)&lt;/code&gt;&lt;/a&gt; 是指在 0 维上把 values 连接起来。本来 outputs 是一个 list，每一个元素都是一个27维向量表示一个字母（还是假设 &lt;code class=&quot;highlighter-rouge&quot;&gt;batch_size=1&lt;/code&gt;）。&lt;/p&gt;
+
+&lt;p&gt;通过 &lt;code class=&quot;highlighter-rouge&quot;&gt;tf.concat&lt;/code&gt; 把结果连接起来，成为一个向量，可以拿来乘以 w 加上 b 这样进入一个 full connection，从而得到 logits 。&lt;/p&gt;
+
+&lt;p&gt;然后再通过 &lt;code class=&quot;highlighter-rouge&quot;&gt;softmax_cross_entropy_with_logits&lt;/code&gt; 比较连接并 full connection 的 &lt;code class=&quot;highlighter-rouge&quot;&gt;outputs&lt;/code&gt; 和 连接起来的 &lt;code class=&quot;highlighter-rouge&quot;&gt;train_labels&lt;/code&gt; ，得到 &lt;code class=&quot;highlighter-rouge&quot;&gt;loss&lt;/code&gt; 。&lt;/p&gt;
+
 &lt;h4 id=&quot;section-11&quot;&gt;6) 定义优化&lt;/h4&gt;
 
 &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  &lt;span class=&quot;c&quot;&gt;# Optimizer.&lt;/span&gt;
@@ -407,6 +425,20 @@
     &lt;span class=&quot;nb&quot;&gt;zip&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;gradients&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;v&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;global_step&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;global_step&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://www.tensorflow.org/versions/r0.11/api_docs/python/train.html#exponential_decay&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;tf.train.exponential_decay&lt;/code&gt;&lt;/a&gt; 可以用来实现 &lt;code class=&quot;highlighter-rouge&quot;&gt;learning_rate&lt;/code&gt; 的指数型衰减，越到后面 &lt;code class=&quot;highlighter-rouge&quot;&gt;learning_rate&lt;/code&gt; 越小。（依赖后面修改 &lt;code class=&quot;highlighter-rouge&quot;&gt;global_step&lt;/code&gt; 值来实现）&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;optimizer&lt;/code&gt; 定义成使用标准 Gradient Descent 。每一种 &lt;code class=&quot;highlighter-rouge&quot;&gt;optimizer&lt;/code&gt; 都有几个标准接口，我们前面常用的是 &lt;code class=&quot;highlighter-rouge&quot;&gt;minimize&lt;/code&gt; 接口，他自动的调整整个 &lt;code class=&quot;highlighter-rouge&quot;&gt;Graph&lt;/code&gt; 中可调节的 &lt;code class=&quot;highlighter-rouge&quot;&gt;Variables&lt;/code&gt; 尝试最小化 &lt;code class=&quot;highlighter-rouge&quot;&gt;loss&lt;/code&gt;。其实 &lt;code class=&quot;highlighter-rouge&quot;&gt;minimize&lt;/code&gt; 函数就是这两步并起来： &lt;code class=&quot;highlighter-rouge&quot;&gt;compute_gradients&lt;/code&gt; 和 &lt;code class=&quot;highlighter-rouge&quot;&gt;apply_gradients&lt;/code&gt;。先计算梯度值，然后再把那些参数减去梯度值。这里把两步分开了，为了在 apply 之前先处理一下梯度值，Tensorflow 给了详细解释，我们来看看[手册][manual-compute-gradients]。&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;compute_gradients&lt;/code&gt; 函数返回一个list，里面是一对一对的 &lt;code class=&quot;highlighter-rouge&quot;&gt;gradient&lt;/code&gt; 和 &lt;code class=&quot;highlighter-rouge&quot;&gt;variable&lt;/code&gt;，说明针对某个可调整的变量，他的梯度是多少。&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;clip_by_global_norm&lt;/code&gt; 避免梯度值过大产生 Exploding Gradients 梯度爆炸问题，视频里有这么一个图：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/2016-11-16-study-lstm/clip_gradient.png&quot; alt=&quot;clip gradients&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;clip_by_global_norm&lt;/code&gt; 的具体计算是，先计算 &lt;code class=&quot;highlighter-rouge&quot;&gt;global_norm&lt;/code&gt; ，也就是整个 &lt;code class=&quot;highlighter-rouge&quot;&gt;tensor&lt;/code&gt; 的模（二范数）。看这个模是否大于文中的&lt;code class=&quot;highlighter-rouge&quot;&gt;1.25&lt;/code&gt;，如果大于，则结果等于 &lt;code class=&quot;highlighter-rouge&quot;&gt;gradients * 1.25 / global_norm&lt;/code&gt;，如果不大于，就不变。&lt;/p&gt;
+
+&lt;p&gt;最后，&lt;code class=&quot;highlighter-rouge&quot;&gt;apply_gradients&lt;/code&gt;。这里传入的 &lt;code class=&quot;highlighter-rouge&quot;&gt;global_step&lt;/code&gt; 是会被修改的，每次加一，这样下次计算 &lt;code class=&quot;highlighter-rouge&quot;&gt;learning_rate&lt;/code&gt; 的时候就会使用新的 &lt;code class=&quot;highlighter-rouge&quot;&gt;global_step&lt;/code&gt; 值。&lt;/p&gt;
 
 &lt;h4 id=&quot;section-12&quot;&gt;7) 定义预测&lt;/h4&gt;
 
@@ -428,7 +460,70 @@
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
-&lt;h1 id=&quot;section-13&quot;&gt;未完待续…&lt;/h1&gt;
+&lt;h3 id=&quot;section-13&quot;&gt;10. 开始训练&lt;/h3&gt;
+
+&lt;h4 id=&quot;section-14&quot;&gt;1) 训练&lt;/h4&gt;
+
+&lt;p&gt;注意到这里喂进去的字符串长度正好是 &lt;code class=&quot;highlighter-rouge&quot;&gt;num_unrollings + 1&lt;/code&gt;，恰好对应前面 &lt;code class=&quot;highlighter-rouge&quot;&gt;BatchGenerator.next()&lt;/code&gt; 获取的时候得到的字符串长度，也恰好对应了模型定义里 &lt;code class=&quot;highlighter-rouge&quot;&gt;train_inputs&lt;/code&gt; 和 &lt;code class=&quot;highlighter-rouge&quot;&gt;train_labels&lt;/code&gt; 错开1个字符。&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;mean_loss&lt;/code&gt; 用来加总各步的 &lt;code class=&quot;highlighter-rouge&quot;&gt;loss&lt;/code&gt; 值，用来后面输出。（还是建议叫 &lt;code class=&quot;highlighter-rouge&quot;&gt;subtotal_loss&lt;/code&gt;）&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;num_steps&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;7001&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;summary_frequency&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;100&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;with&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;tf&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Session&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;graph&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;graph&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;as&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;session&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;tf&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;initialize_all_variables&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;run&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'Initialized'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;mean_loss&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;step&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;range&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;num_steps&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;batches&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;train_batches&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;next&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;feed_dict&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;dict&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;range&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;num_unrollings&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+      &lt;span class=&quot;n&quot;&gt;feed_dict&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;train_data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;batches&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;_&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;l&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;predictions&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lr&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;session&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;run&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
+      &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;optimizer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;loss&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;train_prediction&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;learning_rate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;feed_dict&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;feed_dict&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;mean_loss&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;l&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h4 id=&quot;section-15&quot;&gt;2) 定期输出摘要&lt;/h4&gt;
+
+&lt;p&gt;他怎么不用 tensorflow 来计算呀，反而用 numpy 来计算，很奇怪。回头再仔细看看。&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;step&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;summary_frequency&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+      &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;step&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;mean_loss&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;mean_loss&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;/&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;summary_frequency&lt;/span&gt;
+      &lt;span class=&quot;c&quot;&gt;# The mean loss is an estimate of the loss over the last few batches.&lt;/span&gt;
+      &lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
+        &lt;span class=&quot;s&quot;&gt;'Average loss at step &lt;/span&gt;&lt;span class=&quot;si&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;d: &lt;/span&gt;&lt;span class=&quot;si&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;f learning rate: &lt;/span&gt;&lt;span class=&quot;si&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;f'&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;step&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;mean_loss&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+      &lt;span class=&quot;n&quot;&gt;mean_loss&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;
+      &lt;span class=&quot;n&quot;&gt;labels&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;np&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;concatenate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;list&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;batches&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:])&lt;/span&gt;
+      &lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'Minibatch perplexity: &lt;/span&gt;&lt;span class=&quot;si&quot;&gt;%.2&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;f'&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;float&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;np&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;exp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;logprob&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;predictions&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;labels&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))))&lt;/span&gt;
+      &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;step&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;summary_frequency&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+        &lt;span class=&quot;c&quot;&gt;# Generate some samples.&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'='&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;80&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;_&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;range&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+          &lt;span class=&quot;n&quot;&gt;feed&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sample&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;random_distribution&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;())&lt;/span&gt;
+          &lt;span class=&quot;n&quot;&gt;sentence&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;characters&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;feed&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+          &lt;span class=&quot;n&quot;&gt;reset_sample_state&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;run&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+          &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;_&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;range&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;79&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;prediction&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sample_prediction&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;eval&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;({&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sample_input&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;feed&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;})&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;feed&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sample&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;prediction&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;sentence&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;characters&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;feed&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+          &lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sentence&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'='&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;80&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+      &lt;span class=&quot;c&quot;&gt;# Measure validation set perplexity.&lt;/span&gt;
+      &lt;span class=&quot;n&quot;&gt;reset_sample_state&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;run&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+      &lt;span class=&quot;n&quot;&gt;valid_logprob&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;
+      &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;_&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;range&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;valid_size&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;b&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;valid_batches&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;next&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;predictions&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sample_prediction&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;eval&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;({&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sample_input&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;b&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]})&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;valid_logprob&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;valid_logprob&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;logprob&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;predictions&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;b&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
+      &lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'Validation set perplexity: &lt;/span&gt;&lt;span class=&quot;si&quot;&gt;%.2&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;f'&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;float&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;np&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;exp&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;valid_logprob&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;/&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;valid_size&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)))&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
 
 </content>
  </entry>
