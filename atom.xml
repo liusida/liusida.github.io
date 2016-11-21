@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
  <title>Liu Sida's Homepage</title>
- <link href="http://liusida.com/atom.xml" rel="self"/>
- <link href="http://liusida.com/"/>
- <updated>2016-11-21T15:45:53+08:00</updated>
- <id>http://liusida.com</id>
+ <link href="http://liusida.github.io//atom.xml" rel="self"/>
+ <link href="http://liusida.github.io//"/>
+ <updated>2016-11-21T16:00:02+08:00</updated>
+ <id>http://liusida.github.io/</id>
  <author>
    <name>liusida</name>
    <email></email>
@@ -14,9 +14,9 @@
  
  <entry>
    <title>学习Tensorflow的LSTM的RNN例子</title>
-   <link href="http://liusida.com/2016/11/16/study-lstm/"/>
+   <link href="http://liusida.github.io//2016/11/16/study-lstm/"/>
    <updated>2016-11-16T00:00:00+08:00</updated>
-   <id>http://liusida.com/2016/11/16/study-lstm</id>
+   <id>http://liusida.github.io//2016/11/16/study-lstm</id>
    <content type="html">&lt;p&gt;前几天写了&lt;a href=&quot;https://liusida.github.io/2016/11/14/study-embeddings/&quot;&gt;学习Embeddings的例子&lt;/a&gt;，因为琢磨了各个细节，自己也觉得受益匪浅。于是，开始写下一个LSTM的教程吧。&lt;/p&gt;
 
 &lt;p&gt;还是&lt;a href=&quot;https://classroom.udacity.com/courses/ud730/lessons/6378983156/concepts/63770919610923&quot;&gt;Udacity上那个课程&lt;/a&gt;。&lt;/p&gt;
@@ -530,9 +530,9 @@
  
  <entry>
    <title>学习Tensorflow的Embeddings例子</title>
-   <link href="http://liusida.com/2016/11/14/study-embeddings/"/>
+   <link href="http://liusida.github.io//2016/11/14/study-embeddings/"/>
    <updated>2016-11-14T00:00:00+08:00</updated>
-   <id>http://liusida.com/2016/11/14/study-embeddings</id>
+   <id>http://liusida.github.io//2016/11/14/study-embeddings</id>
    <content type="html">&lt;p&gt;Udacity上有一个Google技术人员提供的基于Tensorflow的深度学习课程，今天学到Embeddings，有点难理解，所以写个笔记记录下，以备日后回忆。&lt;/p&gt;
 
 &lt;p&gt;链接：&lt;/p&gt;
@@ -1051,9 +1051,9 @@ conda remove mkl mkl-service
  
  <entry>
    <title>如何问一个好问题？</title>
-   <link href="http://liusida.com/2016/11/12/how-to-ask-a-good-question/"/>
+   <link href="http://liusida.github.io//2016/11/12/how-to-ask-a-good-question/"/>
    <updated>2016-11-12T00:00:00+08:00</updated>
-   <id>http://liusida.com/2016/11/12/how-to-ask-a-good-question</id>
+   <id>http://liusida.github.io//2016/11/12/how-to-ask-a-good-question</id>
    <content type="html">&lt;p&gt;&lt;a href=&quot;http://stackoverflow.com/help/how-to-ask&quot;&gt;本文翻译自StackOverflow.com，原文链接（英文）&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;首先，我们很愿意帮助你。为了提高你获得回答的机会，这里有几个小提示：&lt;/p&gt;
@@ -1126,9 +1126,9 @@ conda remove mkl mkl-service
  
  <entry>
    <title>Recurrent Neural Network(RNN) Implementation</title>
-   <link href="http://liusida.com/2016/11/04/rnn-implementation/"/>
+   <link href="http://liusida.github.io//2016/11/04/rnn-implementation/"/>
    <updated>2016-11-04T00:00:00+08:00</updated>
-   <id>http://liusida.com/2016/11/04/rnn-implementation</id>
+   <id>http://liusida.github.io//2016/11/04/rnn-implementation</id>
    <content type="html">&lt;p&gt;I heard about RNN for a long time, and have learned the concept several times, but until yesterday, I can’t implement any useful code to solve my own problem.&lt;/p&gt;
 
 &lt;p&gt;So I checked some tutorial. The most basic one is applying RNN to the MNIST dataset. The sample code is from &lt;a href=&quot;https://pythonprogramming.net/rnn-tensorflow-python-machine-learning-tutorial/&quot;&gt;sentdex’s video tutorial&lt;/a&gt;:&lt;/p&gt;
@@ -1303,9 +1303,9 @@ Finally, we will input all images in this batch, and get a batch of result.&lt;/
  
  <entry>
    <title>from Tensorflow to Keras</title>
-   <link href="http://liusida.com/2016/10/31/translate-from-tf-2-keras/"/>
+   <link href="http://liusida.github.io//2016/10/31/translate-from-tf-2-keras/"/>
    <updated>2016-10-31T00:00:00+08:00</updated>
-   <id>http://liusida.com/2016/10/31/translate-from-tf-2-keras</id>
+   <id>http://liusida.github.io//2016/10/31/translate-from-tf-2-keras</id>
    <content type="html">&lt;p&gt;I know 3 high level api for deep learning. They are Tensorflow.contrib.learn(SKFlow), TFLearn and Keras. All of them are great tools, but maybe I like Keras because of the easy style of code.&lt;/p&gt;
 
 &lt;p&gt;When I came through the &lt;a href=&quot;https://www.tensorflow.org/versions/r0.11/tutorials/wide_and_deep/index.html&quot;&gt;Tensorflow Tutorial of Deep and Wide Learning&lt;/a&gt;, I felt I can translate the code from tf.contrib.learn into Keras.&lt;/p&gt;
@@ -1397,9 +1397,9 @@ Finally, we will input all images in this batch, and get a batch of result.&lt;/
  
  <entry>
    <title>About sparse_column_with_hash_bucket</title>
-   <link href="http://liusida.com/2016/10/30/hash-bucket/"/>
+   <link href="http://liusida.github.io//2016/10/30/hash-bucket/"/>
    <updated>2016-10-30T00:00:00+08:00</updated>
-   <id>http://liusida.com/2016/10/30/hash-bucket</id>
+   <id>http://liusida.github.io//2016/10/30/hash-bucket</id>
    <content type="html">&lt;p&gt;Yesterday, I saw tf.contrib.layers.sparse_column_with_hash_bucket in a &lt;a href=&quot;https://www.tensorflow.org/versions/r0.11/tutorials/wide/index.html&quot;&gt;tutorial&lt;/a&gt;. That’s a very useful function! I thought. I never met such a function in Keras or TFLearn.&lt;/p&gt;
 
 &lt;p&gt;Basically, the function do something like this:&lt;/p&gt;
@@ -1497,9 +1497,9 @@ Finally, we will input all images in this batch, and get a batch of result.&lt;/
  
  <entry>
    <title>Thank you, GitHub and Jekyll</title>
-   <link href="http://liusida.com/2016/10/29/thank-you-github-n-jekyll/"/>
+   <link href="http://liusida.github.io//2016/10/29/thank-you-github-n-jekyll/"/>
    <updated>2016-10-29T00:00:00+08:00</updated>
-   <id>http://liusida.com/2016/10/29/thank-you-github-n-jekyll</id>
+   <id>http://liusida.github.io//2016/10/29/thank-you-github-n-jekyll</id>
    <content type="html">&lt;p&gt;Thank you, GitHub and Jekyll.&lt;/p&gt;
 
 &lt;p&gt;Now I have my homepage again.&lt;/p&gt;
