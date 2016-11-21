@@ -415,7 +415,7 @@ Colah 图例解释：
 
 
 
-未完待续...
+#未完待续...
 
 [embeddings]:https://liusida.github.io/2016/11/14/study-embeddings/
 [udacity]:https://classroom.udacity.com/courses/ud730/lessons/6378983156/concepts/63770919610923
