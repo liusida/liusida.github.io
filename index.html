@@ -64,6 +64,18 @@
   
   <div class="post">
     <h1>
+      <a href="/2016/11/16/study-lstm/">
+        学习Tensorflow的LSTM的RNN例子
+      </a>
+    </h1>
+
+    <span class="post-date">16 Nov 2016</span>
+
+    <p>前几天写了<a href="https://liusida.github.io/2016/11/14/study-embeddings/">学习Embeddings的例子</a>，因为琢磨了各个细节，自己也觉得受益匪浅。于是，开始写下一个LSTM的教程吧。</p> <p>还是<a href="https://classroom.udacity.com/courses/ud730/lessons/6378983156/concepts/63770919610923">Udacity上那个课程</a>。</p> <p><a href="https://github.com/tensorflow/tensorflow/blob/master/tensorflow/examples/udacity/6_lstm.ipynb">源码也在Github上</a>。</p> <p>RNN是一个<strong>非常棒</strong>的技术，可能它已经向我们揭示了“活”的意义。RNN我已经尝试学习了几次，包括前面我<a href="https://liusida.github.io/2016/11/04/rnn-implementation/">这篇笔记</a>，所以就直接进入代码阅读吧。</p> <p>先引入一些库</p> <div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="c"># These are all the modules we'll be using later. Make sure you can import them</span> <span class="c"># before proceeding further.</span> <span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span> <span class="kn">import</span> <span class="nn">os</span> <span class="kn">import</span> <span class="nn">numpy</span>...
+  </div>
+  
+  <div class="post">
+    <h1>
       <a href="/2016/11/14/study-embeddings/">
         学习Tensorflow的Embeddings例子
       </a>
@@ -108,18 +120,6 @@
     <span class="post-date">31 Oct 2016</span>
 
     <p>I know 3 high level api for deep learning. They are Tensorflow.contrib.learn(SKFlow), TFLearn and Keras. All of them are great tools, but maybe I like Keras because of the easy style of code.</p> <p>When I came through the <a href="https://www.tensorflow.org/versions/r0.11/tutorials/wide_and_deep/index.html">Tensorflow Tutorial of Deep and Wide Learning</a>, I felt I can...
-  </div>
-  
-  <div class="post">
-    <h1>
-      <a href="/2016/10/30/hash-bucket/">
-        About sparse_column_with_hash_bucket
-      </a>
-    </h1>
-
-    <span class="post-date">30 Oct 2016</span>
-
-    <p>Yesterday, I saw tf.contrib.layers.sparse_column_with_hash_bucket in a <a href="https://www.tensorflow.org/versions/r0.11/tutorials/wide/index.html">tutorial</a>. That’s a very useful function! I thought. I never met such a function in Keras or TFLearn.</p> <p>Basically, the function do something like this:</p> <div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="nb">hash</span><span class="p">(</span><span class="n">category_string</span><span class="p">)</span> <span class="o">%</span> <span class="n">dim</span> </code></pre> </div> <p>Let’s say the text...
   </div>
   
 </div>
