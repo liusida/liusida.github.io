@@ -238,6 +238,22 @@ def random_distribution():
   return b/np.sum(b, 1)[:,None]
 ```
 
+`logprob`： 用来测量预测工作完成的如何。
+
+先回忆一下 `cross_entropy`：
+
+$$ Cross Entropy = - \sum_{i}^N({predictions \cdot \log(labels)}) $$
+
+那么，
+
+$$ logprob = { Cross Entropy \over N } $$
+
+后面三个函数 `sample_distribution` `sample` `random_distribution` 是一起使用的。
+
+`random_distribution` 就是生成一个平均分布的，加总和为 1 的 array。但是我不知道为何写的这么花哨，我试了半天，似乎 `b/np.sum(b, 1)[:,None]` 和 `b/np.sum(b)` 的意思是一样的。
+
+`sample` 则是靠 `sample_distribution` 以传入的 `prediction` 的概率，随机取一个维设成 1 ，其他都设成 0 ，也就是按照 `prediction` 的概率获得一个随机字母。（为啥不直接取概率最大的那个字母呢？搞这么复杂真的好吗？）
+
 ### 9. 定义Tensorflow模型
 
 分为几个部分：定义变量，定义LSTM Cell，定义输入接口，循环执行LSTM Cell，定义loss，定义优化，定义预测。
@@ -447,6 +463,10 @@ Colah 图例解释：
     sample_prediction = tf.nn.softmax(tf.nn.xw_plus_b(sample_output, w, b))
 ```
 
+`sample_input` 是一个1-hot编码过的字符。
+
+建立初始 state 和 output，经过同样的 LSTM Cell，得到下一个预测的字符 `sample_prediction`。
+
 ### 10. 开始训练
 
 #### 1) 训练
@@ -475,7 +495,7 @@ with tf.Session(graph=graph) as session:
 
 #### 2) 定期输出摘要
 
-他怎么不用 tensorflow 来计算呀，反而用 numpy 来计算，很奇怪。回头再仔细看看。
+他怎么不用 tensorflow 来计算呀，反而用 numpy 来计算，很奇怪。来仔细看看。
 
 ```python
     if step % summary_frequency == 0:
@@ -512,6 +532,30 @@ with tf.Session(graph=graph) as session:
         valid_logprob / valid_size)))
 ```
 
+每当 `summary_frequency` 整数倍步的时候，输出平均 `loss` 值和 `learning_rate` ，看看是否有 clip 掉，如果没有 clip 掉，那么都是 10.0 。然后再计算这一部分 train set perplexity。
+
+每当 `summary_frequency * 10` 整数倍步的时候，尝试输出一些文字结果。
+
+这里尝试得到 5 句，每局 80 个字符的文字结果。
+
+首先以平均分布随机得到一个字符，并作为 `sentence` 的第一个字符。
+
+然后 `reset_sample_state` 一下，保证初始化的 `state` 和 `output` 都设成 0 。
+
+然后传入第一个字符作为输入，得到第一个预测字符的预测概率 `prediction`，通过 `sample` 将其蜕化成一个确定的字符 `feed`，然后接到 `sentence` 上，并下一次传给模型作为输入。
+
+这样就得到了一句80字符的句子。重复这个过程 5 次，得到 5 句。
+
+继而，又是每当 `summary_frequency` 整数倍步的时候，（写的不好啊，明明应当把相近的写在一起。）用 valid_text 来计算平均的 validation set perplexity。
+
+根据信息论，perplexity [wikipedia定义][perplexity] 和 cross_entropy 的关系如下：
+
+$$ perplexity = e^{cross\_entropy} $$
+
+## 结束
+
+谢谢阅读，敬请留言。
+
 
 [embeddings]:https://liusida.github.io/2016/11/14/study-embeddings/
 [udacity]:https://classroom.udacity.com/courses/ud730/lessons/6378983156/concepts/63770919610923
@@ -521,3 +565,4 @@ with tf.Session(graph=graph) as session:
 [manual-exp-decay]:https://www.tensorflow.org/versions/r0.11/api_docs/python/train.html#exponential_decay
 [manual-concat]:https://www.tensorflow.org/versions/r0.11/api_docs/python/array_ops.html#concat
 [manual-gradients]:https://www.tensorflow.org/versions/r0.11/api_docs/python/train.html#processing-gradients-before-applying-them
+[perplexity]:https://en.wikipedia.org/wiki/Perplexity
