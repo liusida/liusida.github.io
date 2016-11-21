@@ -11,7 +11,9 @@ title: 学习Tensorflow的LSTM的RNN例子
 
 RNN是一个**非常棒**的技术，可能它已经向我们揭示了“活”的意义。RNN我已经尝试学习了几次，包括前面我[这篇笔记][blog-rnn]，所以就直接进入代码阅读吧。
 
-先引入一些库
+## 读例子程序：
+
+### 1. 引入库文件
 
 ```python
 # These are all the modules we'll be using later. Make sure you can import them
@@ -27,7 +29,9 @@ from six.moves import range
 from six.moves.urllib.request import urlretrieve
 ```
 
-然后下载数据，如果前面已经下载过，那直接把text8.zip拷过来就可以用。
+### 2. 下载数据
+
+然后下载数据，如果[前面][blog-rnn]已经下载过，那直接把text8.zip拷过来就可以用。
 
 ```python
 url = 'http://mattmahoney.net/dc/'
@@ -48,6 +52,8 @@ def maybe_download(filename, expected_bytes):
 filename = maybe_download('text8.zip', 31344016)
 ```
 
+### 3. 读入文本
+
 读文件稍微有些不一样，不是处理成list，而是直接读成一个字符串，因为后面用到的就是串数据。
 
 ```python
@@ -61,6 +67,8 @@ text = read_data(filename)
 print('Data size %d' % len(text))
 ```
 
+### 4. 生成训练数据集函数
+
 切割一下，留1000个字符做检验，其他99999000个字符拿来训练。
 
 ```python
@@ -71,6 +79,8 @@ train_size = len(train_text)
 print(train_size, train_text[:64])
 print(valid_size, valid_text[:64])
 ```
+
+### 5. 两个工具函数
 
 建立两个函数`char2id`和`id2char`，用来把字符对应成数字。
 
@@ -98,6 +108,8 @@ def id2char(dictid):
 print(char2id('a'), char2id('z'), char2id(' '), char2id('ï'))
 print(id2char(1), id2char(26), id2char(0))
 ```
+
+### 6. 生成训练数据集函数
 
 这次`BatchGenerator`做的比前两天的那个要认真了，用了成员变量来记录位置，而不是用全局变量。
 
@@ -161,7 +173,7 @@ class BatchGenerator(object):
 ![RNN-unrolled](/images/2016-11-16-study-lstm/RNN-unrolled.png)
 
 
-### next
+### 7. 另外两个工具函数
 
 再定义两个用来把训练数据转换成可展现字符串的函数。
 
@@ -192,7 +204,7 @@ print(batches2string(valid_batches.next()))
 print(batches2string(valid_batches.next()))
 ```
 
-### next
+### 8. 另外四个工具函数
 
 四个函数，用途未知
 
@@ -226,20 +238,20 @@ def random_distribution():
   return b/np.sum(b, 1)[:,None]
 ```
 
-# 开始建立模型
+### 9. 定义Tensorflow模型
 
 分为几个部分：定义变量，定义LSTM Cell，定义输入接口，循环执行LSTM Cell，定义loss，定义优化，定义预测。
 
 num_nodes 是代表这个神经网络中LSTM Cell层的Cell个数。
 
-``python
+```python
 num_nodes = 64
 
 graph = tf.Graph()
 with graph.as_default():
 ```
 
-### 1) 定义变量
+#### 1) 定义变量
 
 ```python
 
@@ -276,7 +288,7 @@ saved_output 是向上的产出，saved_state 是自己的状态记忆。
 
 w 和 b 是最后用来做一个 full connection 的标准神经网络层，把结果变为 vocabulary_size 个之一。
 
-### 2) 定义LSTM Cell
+#### 2) 定义LSTM Cell
 
 ```python
   # Definition of the cell computation.
@@ -330,7 +342,7 @@ Colah 图例解释：
 
 所以像论文里指出的，这里实现的 LSTM Cell 含有更多参数，效果更好？这种比较目前超出我的认知范围，以后再细看。
 
-### 3) 使用 LSTM Cell 构建 RNN
+#### 3) 定义输入接口
 
 ```python
   # Input data.
@@ -340,7 +352,11 @@ Colah 图例解释：
       tf.placeholder(tf.float32, shape=[batch_size,vocabulary_size]))
   train_inputs = train_data[:num_unrollings]
   train_labels = train_data[1:]  # labels are inputs shifted by one time step.
+```
 
+#### 4) 循环执行LSTM Cell
+
+```python
   # Unrolled LSTM loop.
   outputs = list()
   output = saved_output
@@ -348,7 +364,11 @@ Colah 图例解释：
   for i in train_inputs:
     output, state = lstm_cell(i, output, state)
     outputs.append(output)
+```
 
+#### 5) 定义loss
+
+```python
   # State saving across unrollings.
   with tf.control_dependencies([saved_output.assign(output),
                                 saved_state.assign(state)]):
@@ -357,7 +377,11 @@ Colah 图例解释：
     loss = tf.reduce_mean(
       tf.nn.softmax_cross_entropy_with_logits(
         logits, tf.concat(0, train_labels)))
+```
 
+#### 6) 定义优化
+
+```python
   # Optimizer.
   global_step = tf.Variable(0)
   learning_rate = tf.train.exponential_decay(
@@ -367,7 +391,11 @@ Colah 图例解释：
   gradients, _ = tf.clip_by_global_norm(gradients, 1.25)
   optimizer = optimizer.apply_gradients(
     zip(gradients, v), global_step=global_step)
+```
 
+#### 7) 定义预测
+
+```python
   # Predictions.
   train_prediction = tf.nn.softmax(logits)
 
