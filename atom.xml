@@ -4,7 +4,7 @@
  <title>Liu Sida's Homepage</title>
  <link href="http://liusida.github.io//atom.xml" rel="self"/>
  <link href="http://liusida.github.io//"/>
- <updated>2016-11-21T16:00:02+08:00</updated>
+ <updated>2016-11-21T21:03:40+08:00</updated>
  <id>http://liusida.github.io/</id>
  <author>
    <name>liusida</name>
@@ -251,6 +251,22 @@
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;logprob&lt;/code&gt;： 用来测量预测工作完成的如何。&lt;/p&gt;
+
+&lt;p&gt;先回忆一下 &lt;code class=&quot;highlighter-rouge&quot;&gt;cross_entropy&lt;/code&gt;：&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;Cross Entropy = - \sum_{i}^N({predictions \cdot \log(labels)})&lt;/script&gt;
+
+&lt;p&gt;那么，&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;logprob = { Cross Entropy \over N }&lt;/script&gt;
+
+&lt;p&gt;后面三个函数 &lt;code class=&quot;highlighter-rouge&quot;&gt;sample_distribution&lt;/code&gt; &lt;code class=&quot;highlighter-rouge&quot;&gt;sample&lt;/code&gt; &lt;code class=&quot;highlighter-rouge&quot;&gt;random_distribution&lt;/code&gt; 是一起使用的。&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;random_distribution&lt;/code&gt; 就是生成一个平均分布的，加总和为 1 的 array。但是我不知道为何写的这么花哨，我试了半天，似乎 &lt;code class=&quot;highlighter-rouge&quot;&gt;b/np.sum(b, 1)[:,None]&lt;/code&gt; 和 &lt;code class=&quot;highlighter-rouge&quot;&gt;b/np.sum(b)&lt;/code&gt; 的意思是一样的。&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;sample&lt;/code&gt; 则是靠 &lt;code class=&quot;highlighter-rouge&quot;&gt;sample_distribution&lt;/code&gt; 以传入的 &lt;code class=&quot;highlighter-rouge&quot;&gt;prediction&lt;/code&gt; 的概率，随机取一个维设成 1 ，其他都设成 0 ，也就是按照 &lt;code class=&quot;highlighter-rouge&quot;&gt;prediction&lt;/code&gt; 的概率获得一个随机字母。（为啥不直接取概率最大的那个字母呢？搞这么复杂真的好吗？）&lt;/p&gt;
+
 &lt;h3 id=&quot;tensorflow&quot;&gt;9. 定义Tensorflow模型&lt;/h3&gt;
 
 &lt;p&gt;分为几个部分：定义变量，定义LSTM Cell，定义输入接口，循环执行LSTM Cell，定义loss，定义优化，定义预测。&lt;/p&gt;
@@ -460,6 +476,10 @@
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;sample_input&lt;/code&gt; 是一个1-hot编码过的字符。&lt;/p&gt;
+
+&lt;p&gt;建立初始 state 和 output，经过同样的 LSTM Cell，得到下一个预测的字符 &lt;code class=&quot;highlighter-rouge&quot;&gt;sample_prediction&lt;/code&gt;。&lt;/p&gt;
+
 &lt;h3 id=&quot;section-13&quot;&gt;10. 开始训练&lt;/h3&gt;
 
 &lt;h4 id=&quot;section-14&quot;&gt;1) 训练&lt;/h4&gt;
@@ -488,7 +508,7 @@
 
 &lt;h4 id=&quot;section-15&quot;&gt;2) 定期输出摘要&lt;/h4&gt;
 
-&lt;p&gt;他怎么不用 tensorflow 来计算呀，反而用 numpy 来计算，很奇怪。回头再仔细看看。&lt;/p&gt;
+&lt;p&gt;他怎么不用 tensorflow 来计算呀，反而用 numpy 来计算，很奇怪。来仔细看看。&lt;/p&gt;
 
 &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;step&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;summary_frequency&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
       &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;step&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
@@ -524,6 +544,30 @@
         &lt;span class=&quot;n&quot;&gt;valid_logprob&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;/&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;valid_size&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)))&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
+
+&lt;p&gt;每当 &lt;code class=&quot;highlighter-rouge&quot;&gt;summary_frequency&lt;/code&gt; 整数倍步的时候，输出平均 &lt;code class=&quot;highlighter-rouge&quot;&gt;loss&lt;/code&gt; 值和 &lt;code class=&quot;highlighter-rouge&quot;&gt;learning_rate&lt;/code&gt; ，看看是否有 clip 掉，如果没有 clip 掉，那么都是 10.0 。然后再计算这一部分 train set perplexity。&lt;/p&gt;
+
+&lt;p&gt;每当 &lt;code class=&quot;highlighter-rouge&quot;&gt;summary_frequency * 10&lt;/code&gt; 整数倍步的时候，尝试输出一些文字结果。&lt;/p&gt;
+
+&lt;p&gt;这里尝试得到 5 句，每局 80 个字符的文字结果。&lt;/p&gt;
+
+&lt;p&gt;首先以平均分布随机得到一个字符，并作为 &lt;code class=&quot;highlighter-rouge&quot;&gt;sentence&lt;/code&gt; 的第一个字符。&lt;/p&gt;
+
+&lt;p&gt;然后 &lt;code class=&quot;highlighter-rouge&quot;&gt;reset_sample_state&lt;/code&gt; 一下，保证初始化的 &lt;code class=&quot;highlighter-rouge&quot;&gt;state&lt;/code&gt; 和 &lt;code class=&quot;highlighter-rouge&quot;&gt;output&lt;/code&gt; 都设成 0 。&lt;/p&gt;
+
+&lt;p&gt;然后传入第一个字符作为输入，得到第一个预测字符的预测概率 &lt;code class=&quot;highlighter-rouge&quot;&gt;prediction&lt;/code&gt;，通过 &lt;code class=&quot;highlighter-rouge&quot;&gt;sample&lt;/code&gt; 将其蜕化成一个确定的字符 &lt;code class=&quot;highlighter-rouge&quot;&gt;feed&lt;/code&gt;，然后接到 &lt;code class=&quot;highlighter-rouge&quot;&gt;sentence&lt;/code&gt; 上，并下一次传给模型作为输入。&lt;/p&gt;
+
+&lt;p&gt;这样就得到了一句80字符的句子。重复这个过程 5 次，得到 5 句。&lt;/p&gt;
+
+&lt;p&gt;继而，又是每当 &lt;code class=&quot;highlighter-rouge&quot;&gt;summary_frequency&lt;/code&gt; 整数倍步的时候，（写的不好啊，明明应当把相近的写在一起。）用 valid_text 来计算平均的 validation set perplexity。&lt;/p&gt;
+
+&lt;p&gt;根据信息论，perplexity &lt;a href=&quot;https://en.wikipedia.org/wiki/Perplexity&quot;&gt;wikipedia定义&lt;/a&gt; 和 cross_entropy 的关系如下：&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;perplexity = e^{cross\_entropy}&lt;/script&gt;
+
+&lt;h2 id=&quot;section-16&quot;&gt;结束&lt;/h2&gt;
+
+&lt;p&gt;谢谢阅读，敬请留言。&lt;/p&gt;
 
 </content>
  </entry>

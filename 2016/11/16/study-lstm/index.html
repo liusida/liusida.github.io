@@ -297,6 +297,22 @@
 </code></pre>
 </div>
 
+<p><code class="highlighter-rouge">logprob</code>： 用来测量预测工作完成的如何。</p>
+
+<p>先回忆一下 <code class="highlighter-rouge">cross_entropy</code>：</p>
+
+<script type="math/tex; mode=display">Cross Entropy = - \sum_{i}^N({predictions \cdot \log(labels)})</script>
+
+<p>那么，</p>
+
+<script type="math/tex; mode=display">logprob = { Cross Entropy \over N }</script>
+
+<p>后面三个函数 <code class="highlighter-rouge">sample_distribution</code> <code class="highlighter-rouge">sample</code> <code class="highlighter-rouge">random_distribution</code> 是一起使用的。</p>
+
+<p><code class="highlighter-rouge">random_distribution</code> 就是生成一个平均分布的，加总和为 1 的 array。但是我不知道为何写的这么花哨，我试了半天，似乎 <code class="highlighter-rouge">b/np.sum(b, 1)[:,None]</code> 和 <code class="highlighter-rouge">b/np.sum(b)</code> 的意思是一样的。</p>
+
+<p><code class="highlighter-rouge">sample</code> 则是靠 <code class="highlighter-rouge">sample_distribution</code> 以传入的 <code class="highlighter-rouge">prediction</code> 的概率，随机取一个维设成 1 ，其他都设成 0 ，也就是按照 <code class="highlighter-rouge">prediction</code> 的概率获得一个随机字母。（为啥不直接取概率最大的那个字母呢？搞这么复杂真的好吗？）</p>
+
 <h3 id="tensorflow">9. 定义Tensorflow模型</h3>
 
 <p>分为几个部分：定义变量，定义LSTM Cell，定义输入接口，循环执行LSTM Cell，定义loss，定义优化，定义预测。</p>
@@ -506,6 +522,10 @@
 </code></pre>
 </div>
 
+<p><code class="highlighter-rouge">sample_input</code> 是一个1-hot编码过的字符。</p>
+
+<p>建立初始 state 和 output，经过同样的 LSTM Cell，得到下一个预测的字符 <code class="highlighter-rouge">sample_prediction</code>。</p>
+
 <h3 id="section-13">10. 开始训练</h3>
 
 <h4 id="section-14">1) 训练</h4>
@@ -534,7 +554,7 @@
 
 <h4 id="section-15">2) 定期输出摘要</h4>
 
-<p>他怎么不用 tensorflow 来计算呀，反而用 numpy 来计算，很奇怪。回头再仔细看看。</p>
+<p>他怎么不用 tensorflow 来计算呀，反而用 numpy 来计算，很奇怪。来仔细看看。</p>
 
 <div class="language-python highlighter-rouge"><pre class="highlight"><code>    <span class="k">if</span> <span class="n">step</span> <span class="o">%</span> <span class="n">summary_frequency</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
       <span class="k">if</span> <span class="n">step</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
@@ -570,6 +590,30 @@
         <span class="n">valid_logprob</span> <span class="o">/</span> <span class="n">valid_size</span><span class="p">)))</span>
 </code></pre>
 </div>
+
+<p>每当 <code class="highlighter-rouge">summary_frequency</code> 整数倍步的时候，输出平均 <code class="highlighter-rouge">loss</code> 值和 <code class="highlighter-rouge">learning_rate</code> ，看看是否有 clip 掉，如果没有 clip 掉，那么都是 10.0 。然后再计算这一部分 train set perplexity。</p>
+
+<p>每当 <code class="highlighter-rouge">summary_frequency * 10</code> 整数倍步的时候，尝试输出一些文字结果。</p>
+
+<p>这里尝试得到 5 句，每局 80 个字符的文字结果。</p>
+
+<p>首先以平均分布随机得到一个字符，并作为 <code class="highlighter-rouge">sentence</code> 的第一个字符。</p>
+
+<p>然后 <code class="highlighter-rouge">reset_sample_state</code> 一下，保证初始化的 <code class="highlighter-rouge">state</code> 和 <code class="highlighter-rouge">output</code> 都设成 0 。</p>
+
+<p>然后传入第一个字符作为输入，得到第一个预测字符的预测概率 <code class="highlighter-rouge">prediction</code>，通过 <code class="highlighter-rouge">sample</code> 将其蜕化成一个确定的字符 <code class="highlighter-rouge">feed</code>，然后接到 <code class="highlighter-rouge">sentence</code> 上，并下一次传给模型作为输入。</p>
+
+<p>这样就得到了一句80字符的句子。重复这个过程 5 次，得到 5 句。</p>
+
+<p>继而，又是每当 <code class="highlighter-rouge">summary_frequency</code> 整数倍步的时候，（写的不好啊，明明应当把相近的写在一起。）用 valid_text 来计算平均的 validation set perplexity。</p>
+
+<p>根据信息论，perplexity <a href="https://en.wikipedia.org/wiki/Perplexity">wikipedia定义</a> 和 cross_entropy 的关系如下：</p>
+
+<script type="math/tex; mode=display">perplexity = e^{cross\_entropy}</script>
+
+<h2 id="section-16">结束</h2>
+
+<p>谢谢阅读，敬请留言。</p>
 
 
 </div>
