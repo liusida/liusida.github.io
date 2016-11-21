@@ -71,7 +71,9 @@
 
 <p>RNN是一个<strong>非常棒</strong>的技术，可能它已经向我们揭示了“活”的意义。RNN我已经尝试学习了几次，包括前面我<a href="https://liusida.github.io/2016/11/04/rnn-implementation/">这篇笔记</a>，所以就直接进入代码阅读吧。</p>
 
-<p>先引入一些库</p>
+<h2 id="section">读例子程序：</h2>
+
+<h3 id="section-1">1. 引入库文件</h3>
 
 <div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="c"># These are all the modules we'll be using later. Make sure you can import them</span>
 <span class="c"># before proceeding further.</span>
@@ -87,7 +89,9 @@
 </code></pre>
 </div>
 
-<p>然后下载数据，如果前面已经下载过，那直接把text8.zip拷过来就可以用。</p>
+<h3 id="section-2">2. 下载数据</h3>
+
+<p>然后下载数据，如果<a href="https://liusida.github.io/2016/11/04/rnn-implementation/">前面</a>已经下载过，那直接把text8.zip拷过来就可以用。</p>
 
 <div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="n">url</span> <span class="o">=</span> <span class="s">'http://mattmahoney.net/dc/'</span>
 
@@ -108,6 +112,8 @@
 </code></pre>
 </div>
 
+<h3 id="section-3">3. 读入文本</h3>
+
 <p>读文件稍微有些不一样，不是处理成list，而是直接读成一个字符串，因为后面用到的就是串数据。</p>
 
 <div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="k">def</span> <span class="nf">read_data</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
@@ -121,6 +127,8 @@
 </code></pre>
 </div>
 
+<h3 id="section-4">4. 生成训练数据集函数</h3>
+
 <p>切割一下，留1000个字符做检验，其他99999000个字符拿来训练。</p>
 
 <div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="n">valid_size</span> <span class="o">=</span> <span class="mi">1000</span>
@@ -131,6 +139,8 @@
 <span class="k">print</span><span class="p">(</span><span class="n">valid_size</span><span class="p">,</span> <span class="n">valid_text</span><span class="p">[:</span><span class="mi">64</span><span class="p">])</span>
 </code></pre>
 </div>
+
+<h3 id="section-5">5. 两个工具函数</h3>
 
 <p>建立两个函数<code class="highlighter-rouge">char2id</code>和<code class="highlighter-rouge">id2char</code>，用来把字符对应成数字。</p>
 
@@ -158,6 +168,8 @@
 <span class="k">print</span><span class="p">(</span><span class="n">id2char</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">id2char</span><span class="p">(</span><span class="mi">26</span><span class="p">),</span> <span class="n">id2char</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
 </code></pre>
 </div>
+
+<h3 id="section-6">6. 生成训练数据集函数</h3>
 
 <p>这次<code class="highlighter-rouge">BatchGenerator</code>做的比前两天的那个要认真了，用了成员变量来记录位置，而不是用全局变量。</p>
 
@@ -220,7 +232,7 @@
 
 <p><img src="/images/2016-11-16-study-lstm/RNN-unrolled.png" alt="RNN-unrolled" /></p>
 
-<h3 id="next">next</h3>
+<h3 id="section-7">7. 另外两个工具函数</h3>
 
 <p>再定义两个用来把训练数据转换成可展现字符串的函数。</p>
 
@@ -251,7 +263,7 @@
 </code></pre>
 </div>
 
-<h3 id="next-1">next</h3>
+<h3 id="section-8">8. 另外四个工具函数</h3>
 
 <p>四个函数，用途未知</p>
 
@@ -285,45 +297,45 @@
 </code></pre>
 </div>
 
-<h1 id="section">开始建立模型</h1>
+<h3 id="tensorflow">9. 定义Tensorflow模型</h3>
 
 <p>分为几个部分：定义变量，定义LSTM Cell，定义输入接口，循环执行LSTM Cell，定义loss，定义优化，定义预测。</p>
 
 <p>num_nodes 是代表这个神经网络中LSTM Cell层的Cell个数。</p>
 
-<p>``python
-num_nodes = 64</p>
+<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="n">num_nodes</span> <span class="o">=</span> <span class="mi">64</span>
 
-<p>graph = tf.Graph()
-with graph.as_default():</p>
-<div class="highlighter-rouge"><pre class="highlight"><code>
-### 1) 定义变量
+<span class="n">graph</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">Graph</span><span class="p">()</span>
+<span class="k">with</span> <span class="n">graph</span><span class="o">.</span><span class="n">as_default</span><span class="p">():</span>
+</code></pre>
+</div>
 
-```python
+<h4 id="section-9">1) 定义变量</h4>
 
-  # Parameters:
-  # Input gate: input, previous output, and bias.
-  ix = tf.Variable(tf.truncated_normal([vocabulary_size, num_nodes], -0.1, 0.1))
-  im = tf.Variable(tf.truncated_normal([num_nodes, num_nodes], -0.1, 0.1))
-  ib = tf.Variable(tf.zeros([1, num_nodes]))
-  # Forget gate: input, previous output, and bias.
-  fx = tf.Variable(tf.truncated_normal([vocabulary_size, num_nodes], -0.1, 0.1))
-  fm = tf.Variable(tf.truncated_normal([num_nodes, num_nodes], -0.1, 0.1))
-  fb = tf.Variable(tf.zeros([1, num_nodes]))
-  # Memory cell: input, state and bias.                             
-  cx = tf.Variable(tf.truncated_normal([vocabulary_size, num_nodes], -0.1, 0.1))
-  cm = tf.Variable(tf.truncated_normal([num_nodes, num_nodes], -0.1, 0.1))
-  cb = tf.Variable(tf.zeros([1, num_nodes]))
-  # Output gate: input, previous output, and bias.
-  ox = tf.Variable(tf.truncated_normal([vocabulary_size, num_nodes], -0.1, 0.1))
-  om = tf.Variable(tf.truncated_normal([num_nodes, num_nodes], -0.1, 0.1))
-  ob = tf.Variable(tf.zeros([1, num_nodes]))
-  # Variables saving state across unrollings.
-  saved_output = tf.Variable(tf.zeros([batch_size, num_nodes]), trainable=False)
-  saved_state = tf.Variable(tf.zeros([batch_size, num_nodes]), trainable=False)
-  # Classifier weights and biases.
-  w = tf.Variable(tf.truncated_normal([num_nodes, vocabulary_size], -0.1, 0.1))
-  b = tf.Variable(tf.zeros([vocabulary_size]))
+<div class="language-python highlighter-rouge"><pre class="highlight"><code>
+  <span class="c"># Parameters:</span>
+  <span class="c"># Input gate: input, previous output, and bias.</span>
+  <span class="n">ix</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">Variable</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">truncated_normal</span><span class="p">([</span><span class="n">vocabulary_size</span><span class="p">,</span> <span class="n">num_nodes</span><span class="p">],</span> <span class="o">-</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">))</span>
+  <span class="n">im</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">Variable</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">truncated_normal</span><span class="p">([</span><span class="n">num_nodes</span><span class="p">,</span> <span class="n">num_nodes</span><span class="p">],</span> <span class="o">-</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">))</span>
+  <span class="n">ib</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">Variable</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="n">num_nodes</span><span class="p">]))</span>
+  <span class="c"># Forget gate: input, previous output, and bias.</span>
+  <span class="n">fx</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">Variable</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">truncated_normal</span><span class="p">([</span><span class="n">vocabulary_size</span><span class="p">,</span> <span class="n">num_nodes</span><span class="p">],</span> <span class="o">-</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">))</span>
+  <span class="n">fm</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">Variable</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">truncated_normal</span><span class="p">([</span><span class="n">num_nodes</span><span class="p">,</span> <span class="n">num_nodes</span><span class="p">],</span> <span class="o">-</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">))</span>
+  <span class="n">fb</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">Variable</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="n">num_nodes</span><span class="p">]))</span>
+  <span class="c"># Memory cell: input, state and bias.                             </span>
+  <span class="n">cx</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">Variable</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">truncated_normal</span><span class="p">([</span><span class="n">vocabulary_size</span><span class="p">,</span> <span class="n">num_nodes</span><span class="p">],</span> <span class="o">-</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">))</span>
+  <span class="n">cm</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">Variable</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">truncated_normal</span><span class="p">([</span><span class="n">num_nodes</span><span class="p">,</span> <span class="n">num_nodes</span><span class="p">],</span> <span class="o">-</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">))</span>
+  <span class="n">cb</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">Variable</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="n">num_nodes</span><span class="p">]))</span>
+  <span class="c"># Output gate: input, previous output, and bias.</span>
+  <span class="n">ox</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">Variable</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">truncated_normal</span><span class="p">([</span><span class="n">vocabulary_size</span><span class="p">,</span> <span class="n">num_nodes</span><span class="p">],</span> <span class="o">-</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">))</span>
+  <span class="n">om</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">Variable</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">truncated_normal</span><span class="p">([</span><span class="n">num_nodes</span><span class="p">,</span> <span class="n">num_nodes</span><span class="p">],</span> <span class="o">-</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">))</span>
+  <span class="n">ob</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">Variable</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="n">num_nodes</span><span class="p">]))</span>
+  <span class="c"># Variables saving state across unrollings.</span>
+  <span class="n">saved_output</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">Variable</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">num_nodes</span><span class="p">]),</span> <span class="n">trainable</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+  <span class="n">saved_state</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">Variable</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">num_nodes</span><span class="p">]),</span> <span class="n">trainable</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+  <span class="c"># Classifier weights and biases.</span>
+  <span class="n">w</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">Variable</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">truncated_normal</span><span class="p">([</span><span class="n">num_nodes</span><span class="p">,</span> <span class="n">vocabulary_size</span><span class="p">],</span> <span class="o">-</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">))</span>
+  <span class="n">b</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">Variable</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="n">vocabulary_size</span><span class="p">]))</span>
 </code></pre>
 </div>
 
@@ -335,7 +347,7 @@ with graph.as_default():</p>
 
 <p>w 和 b 是最后用来做一个 full connection 的标准神经网络层，把结果变为 vocabulary_size 个之一。</p>
 
-<h3 id="lstm-cell">2) 定义LSTM Cell</h3>
+<h4 id="lstm-cell">2) 定义LSTM Cell</h4>
 
 <div class="language-python highlighter-rouge"><pre class="highlight"><code>  <span class="c"># Definition of the cell computation.</span>
   <span class="k">def</span> <span class="nf">lstm_cell</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">o</span><span class="p">,</span> <span class="n">state</span><span class="p">):</span>
@@ -391,7 +403,7 @@ with graph.as_default():</p>
 
 <p>所以像论文里指出的，这里实现的 LSTM Cell 含有更多参数，效果更好？这种比较目前超出我的认知范围，以后再细看。</p>
 
-<h3 id="lstm-cell--rnn">3) 使用 LSTM Cell 构建 RNN</h3>
+<h4 id="section-10">3) 定义输入接口</h4>
 
 <div class="language-python highlighter-rouge"><pre class="highlight"><code>  <span class="c"># Input data.</span>
   <span class="n">train_data</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
@@ -400,16 +412,24 @@ with graph.as_default():</p>
       <span class="n">tf</span><span class="o">.</span><span class="n">placeholder</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">float32</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">[</span><span class="n">batch_size</span><span class="p">,</span><span class="n">vocabulary_size</span><span class="p">]))</span>
   <span class="n">train_inputs</span> <span class="o">=</span> <span class="n">train_data</span><span class="p">[:</span><span class="n">num_unrollings</span><span class="p">]</span>
   <span class="n">train_labels</span> <span class="o">=</span> <span class="n">train_data</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>  <span class="c"># labels are inputs shifted by one time step.</span>
+</code></pre>
+</div>
 
-  <span class="c"># Unrolled LSTM loop.</span>
+<h4 id="lstm-cell-1">4) 循环执行LSTM Cell</h4>
+
+<div class="language-python highlighter-rouge"><pre class="highlight"><code>  <span class="c"># Unrolled LSTM loop.</span>
   <span class="n">outputs</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
   <span class="n">output</span> <span class="o">=</span> <span class="n">saved_output</span>
   <span class="n">state</span> <span class="o">=</span> <span class="n">saved_state</span>
   <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">train_inputs</span><span class="p">:</span>
     <span class="n">output</span><span class="p">,</span> <span class="n">state</span> <span class="o">=</span> <span class="n">lstm_cell</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">output</span><span class="p">,</span> <span class="n">state</span><span class="p">)</span>
     <span class="n">outputs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">output</span><span class="p">)</span>
+</code></pre>
+</div>
 
-  <span class="c"># State saving across unrollings.</span>
+<h4 id="loss">5) 定义loss</h4>
+
+<div class="language-python highlighter-rouge"><pre class="highlight"><code>  <span class="c"># State saving across unrollings.</span>
   <span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">control_dependencies</span><span class="p">([</span><span class="n">saved_output</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="n">output</span><span class="p">),</span>
                                 <span class="n">saved_state</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="n">state</span><span class="p">)]):</span>
     <span class="c"># Classifier.</span>
@@ -417,8 +437,12 @@ with graph.as_default():</p>
     <span class="n">loss</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">reduce_mean</span><span class="p">(</span>
       <span class="n">tf</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">softmax_cross_entropy_with_logits</span><span class="p">(</span>
         <span class="n">logits</span><span class="p">,</span> <span class="n">tf</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">train_labels</span><span class="p">)))</span>
+</code></pre>
+</div>
 
-  <span class="c"># Optimizer.</span>
+<h4 id="section-11">6) 定义优化</h4>
+
+<div class="language-python highlighter-rouge"><pre class="highlight"><code>  <span class="c"># Optimizer.</span>
   <span class="n">global_step</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">Variable</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
   <span class="n">learning_rate</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">train</span><span class="o">.</span><span class="n">exponential_decay</span><span class="p">(</span>
     <span class="mf">10.0</span><span class="p">,</span> <span class="n">global_step</span><span class="p">,</span> <span class="mi">5000</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="n">staircase</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
@@ -427,8 +451,12 @@ with graph.as_default():</p>
   <span class="n">gradients</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">clip_by_global_norm</span><span class="p">(</span><span class="n">gradients</span><span class="p">,</span> <span class="mf">1.25</span><span class="p">)</span>
   <span class="n">optimizer</span> <span class="o">=</span> <span class="n">optimizer</span><span class="o">.</span><span class="n">apply_gradients</span><span class="p">(</span>
     <span class="nb">zip</span><span class="p">(</span><span class="n">gradients</span><span class="p">,</span> <span class="n">v</span><span class="p">),</span> <span class="n">global_step</span><span class="o">=</span><span class="n">global_step</span><span class="p">)</span>
+</code></pre>
+</div>
 
-  <span class="c"># Predictions.</span>
+<h4 id="section-12">7) 定义预测</h4>
+
+<div class="language-python highlighter-rouge"><pre class="highlight"><code>  <span class="c"># Predictions.</span>
   <span class="n">train_prediction</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">softmax</span><span class="p">(</span><span class="n">logits</span><span class="p">)</span>
 
   <span class="c"># Sampling and validation eval: batch 1, no unrolling.</span>
