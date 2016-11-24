@@ -71,13 +71,11 @@
 
     <span class="post-date">24 Nov 2016</span>
 
-    <p>今天学习一篇挺有意思的文章《<a href="http://r2rt.com/written-memories-understanding-deriving-and-extending-the-lstm.html">写下记忆：理解、推导、扩展LSTM</a>》（英文），从 RNN 的原理开始讲起，并讲述 RNN 为什么理论上很美好，实践起来要出问题，以及各种问题是怎么被解决的，从而诞生了 LSTM 。</p>
+    今天学习一篇挺有意思的文章《写下记忆：理解、推导、扩展LSTM》（英文），从 RNN 的原理开始讲起，并讲述 RNN 为什么理论上很美好，实践起来要出问题，以及各种问题是怎么被解决的，从而诞生了 LSTM 。<br><br>
 
-<p>不过似乎作者隐藏了他的私人信息，不知道是谁，本来还想看看是哪国人，因为感觉不是英语母语。:P</p>
+不过似乎作者隐藏了他的私人信息，不知道是谁，本来还想看看是哪国人，因为感觉不是英语母语。:P<br><br>
 
-<p>这回应该不会忘记为什么 Basic LSTM 的模型是那样的了，因为都是有原因的，虽然并不能全懂。</p>
-
-
+这回应该不会忘记为什么 Basic LSTM 的模型是那样的了...
   </div>
   
   <div class="post">
@@ -89,7 +87,17 @@
 
     <span class="post-date">16 Nov 2016</span>
 
-    <p>前几天写了<a href="https://liusida.github.io/2016/11/14/study-embeddings/">学习Embeddings的例子</a>，因为琢磨了各个细节，自己也觉得受益匪浅。于是，开始写下一个LSTM的教程吧。</p> <p>还是<a href="https://classroom.udacity.com/courses/ud730/lessons/6378983156/concepts/63770919610923">Udacity上那个课程</a>。</p> <p><a href="https://github.com/tensorflow/tensorflow/blob/master/tensorflow/examples/udacity/6_lstm.ipynb">源码也在Github上</a>。</p> <p>RNN是一个<strong>非常棒</strong>的技术，可能它已经向我们揭示了“活”的意义。RNN我已经尝试学习了几次，包括前面我<a href="https://liusida.github.io/2016/11/04/rnn-implementation/">这篇笔记</a>，所以就直接进入代码阅读吧。</p> <h2 id="section">读例子程序：</h2> <h3 id="section-1">1. 引入库文件</h3> <div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="c"># These are all the modules we'll be using later. Make sure you can import them</span> <span class="c"># before proceeding further.</span> <span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span> <span class="kn">import</span> <span class="nn">os</span>...
+    前几天写了学习Embeddings的例子，因为琢磨了各个细节，自己也觉得受益匪浅。于是，开始写下一个LSTM的教程吧。<br><br>
+
+还是Udacity上那个课程。<br><br>
+
+源码也在Github上。<br><br>
+
+RNN是一个非常棒的技术，可能它已经向我们揭示了“活”的意义。RNN我已经尝试学习了几次，包括前面我这篇笔记，所以就直接进入代码阅读吧。<br><br>
+
+读例子程序：
+
+1. ...
   </div>
   
   <div class="post">
@@ -101,7 +109,15 @@
 
     <span class="post-date">14 Nov 2016</span>
 
-    <p>Udacity上有一个Google技术人员提供的基于Tensorflow的深度学习课程，今天学到Embeddings，有点难理解，所以写个笔记记录下，以备日后回忆。</p> <p>链接：</p> <p><a href="https://classroom.udacity.com/courses/ud730/lessons/6378983156/concepts/63742734590923">Udacity课程视频</a></p> <p><a href="https://github.com/tensorflow/tensorflow/blob/master/tensorflow/examples/udacity/5_word2vec.ipynb">例子Github地址</a></p> <h2 id="section">理解课程：</h2> <ul> <li>课程使用的实现无监督文本学习的根据：<strong>相似的词，会伴随相似的上下文</strong>。 （我记得有人说过，看一个人的朋友，就知道这个人大致是怎样，看来词也一样。）如下图：</li> </ul> <p><img src="/images/2016-11-14-study-embeddings/catandkitty.png" alt="word cat and kitty" /></p> <ul> <li>Embeddings的目标，就是把词都放到一个向量空间里去，这样相近的词就聚集在一起。有了这个模型以后，就可以做很多应用，例如找近义词、某一类词聚类、甚至进行向量加减来寻找衍生词。如下图：</li> </ul> <p><img src="/images/2016-11-14-study-embeddings/embeddings.png" alt="embeddings" /></p> <ul> <li>如何建立这个Embeddings呢？首先使用一个工具叫word2vec。word2vec算法描述是这样，载入句子，从句子中取出一个词，例如FOX，将他放入Embeddings向量空间（最初位置肯定是随机的），然后通过一次逻辑回归分类预测出他对应的词语，然后与文中实际的QUICK BROWN JUMPS OVER四个词比对，并修正他在Embeddings向量空间里的位置。反复上述步骤，便可得到Embeddings向量空间。（TODO:我这段还需要再理解下）如下图：</li> </ul> <p><img src="/images/2016-11-14-study-embeddings/word2vec.png" alt="word2vec" /></p> <ul> <li>再来看一下word2vec的具体流程图：把词<code class="highlighter-rouge">cat</code>放进Embeddings向量空间，然后做一次线性计算，然后取softmax，得到一个一批0-1的数值，然后cross_entropy，产出预测词<code class="highlighter-rouge">purr</code>。跟目标比对，然后调整。这就是训练过程。如下图：</li> </ul> <p><img src="/images/2016-11-14-study-embeddings/word2vecm.png" alt="word2vec" /></p> <ul> <li>因为Embeddings向量空间是高维的（需要几维可以自己定义，比如说128维），要想直观的看到他，可以使用t-SNE降维技术，这个技术据说比原始的PCA降维要先进，能保留更多信息。</li> </ul> <p><img src="/images/2016-11-14-study-embeddings/t-SNE.png"...
+    Udacity 上有一个 Google 技术人员提供的基于 Tensorflow 的深度学习课程，今天学到 Embeddings ，有点难理解，所以写个笔记记录下，以备日后回忆。<br><br>
+
+链接：<br><br>
+
+Udacity课程视频 这个课程在 Udacity 上的难度级别已经是 高 了。估计再下去就更少视频学习内容了。:~(<br><br>
+
+例子Github地址<br><br>
+
+理解课程...
   </div>
   
   <div class="post">
@@ -113,7 +129,15 @@
 
     <span class="post-date">12 Nov 2016</span>
 
-    <p><a href="http://stackoverflow.com/help/how-to-ask">本文翻译自StackOverflow.com，原文链接（英文）</a></p> <p>首先，我们很愿意帮助你。为了提高你获得回答的机会，这里有几个小提示：</p> <h2 id="section">先搜索，再搜索。</h2> <p>把你找到的东西记下来。就算你在搜索的时候找不到其他有用的答案，把你搜到的跟你问题有关的链接放进来并说明为什么没有回答你的问题，这样能够让来回答的人更明白你问题的意思。</p> <h2 id="section-1">写一个能够准确概括你问题的<strong>标题</strong>。</h2> <p>标题是潜在回答者首先看到的东西，如果你的标题没有引起他们的兴趣，他们是不会点进去读到你其他内容的。你可以这样：</p> <ul> <li>假装你是要问一个很忙的同事，你需要把你整个问题用一句话总结：什么细节可以让人马上分辨出你想要问的？错误提示、关键API、不寻常的情况，这些细节可以让你的问题更具识别度，如果跟其他问题回答过的没什么区别，别人可能就不会再受累回答了。</li> <li>拼写、语法、标点，这些都很重要！请记住，标题是你给人家的第一印象。如果你不习惯使用英语，你可以找个朋友帮你过一下标题。</li> <li>如果你觉得总结问题关键点有点难，你可以写完正文以后再写标题。有时候先把问题写出来后，就很自然能总结这个问题关键了。</li> </ul> <p>举一些例子：</p> <ul> <li><strong>坏</strong> ：C# Math Confusion</li> <li><strong>好</strong> ：Why does using float instead of int give me different results when all of my inputs are integers?</li> <li><strong>坏</strong> ：[php] session doubt</li> <li><strong>好</strong> ：How can I redirect users to...
+    本文翻译自StackOverflow.com，原文链接（英文）<br><br>
+
+首先，我们很愿意帮助你。为了提高你获得回答的机会，这里有几个小提示：<br><br>
+
+先搜索，再搜索。
+
+把你找到的东西记下来。就算你在搜索的时候找不到其他有用的答案，把你搜到的跟你问题有关的链接放进来并说明为什么没有回答你的问题，这样能够让来回答的人更明白你问题的意思。<br><br>
+
+写一个能够准确概括你问题的标题...
   </div>
   
   <div class="post">
@@ -125,7 +149,53 @@
 
     <span class="post-date">04 Nov 2016</span>
 
-    <p>I heard about RNN for a long time, and have learned the concept several times, but until yesterday, I can’t implement any useful code to solve my own problem.</p> <p>So I checked some tutorial. The most basic one is applying RNN to the MNIST dataset. The sample code is from...
+    I heard about RNN for a long time, and have learned the concept several times, but until yesterday, I can’t implement any useful code to solve my own problem.<br><br>
+
+So I checked some tutorial. The...
+  </div>
+  
+  <div class="post">
+    <h1>
+      <a href="/2016/10/31/translate-from-tf-2-keras/">
+        from Tensorflow to Keras
+      </a>
+    </h1>
+
+    <span class="post-date">31 Oct 2016</span>
+
+    I know 3 high level api for deep learning. They are Tensorflow.contrib.learn(SKFlow), TFLearn and Keras. All of them are great tools, but maybe I like Keras because of the easy style of code.<br><br>...
+  </div>
+  
+  <div class="post">
+    <h1>
+      <a href="/2016/10/30/hash-bucket/">
+        About sparse_column_with_hash_bucket
+      </a>
+    </h1>
+
+    <span class="post-date">30 Oct 2016</span>
+
+    Yesterday, I saw tf.contrib.layers.sparse_column_with_hash_bucket in a tutorial. That’s a very useful function! I thought. I never met such a function in Keras or TFLearn.<br><br>
+
+Basically, the fun...
+  </div>
+  
+  <div class="post">
+    <h1>
+      <a href="/2016/10/29/thank-you-github-n-jekyll/">
+        Thank you, GitHub and Jekyll
+      </a>
+    </h1>
+
+    <span class="post-date">29 Oct 2016</span>
+
+    Thank you, GitHub and Jekyll.<br><br>
+
+Now I have my homepage again.<br><br>
+
+I’d like to share my thoughts and ideas and source codes here. Hope they helped.<br><br>
+
+btw, I am so happy to see Jekyll’s ...
   </div>
   
 </div>
@@ -133,12 +203,13 @@
 <!-- Pagination links -->
 <div class="pagination">
   
-    <a href="/page2" class="older">Older</a>
+    <span class="next">Older</span>
   
   
     <span class="previous">Newer</span>
   
 </div>
+
     </div>
 
   </body>

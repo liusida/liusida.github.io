@@ -4,7 +4,7 @@
  <title>Liu Sida's Homepage</title>
  <link href="http://liusida.github.io//atom.xml" rel="self"/>
  <link href="http://liusida.github.io//"/>
- <updated>2016-11-25T00:02:05+08:00</updated>
+ <updated>2016-11-25T00:41:22+08:00</updated>
  <id>http://liusida.github.io/</id>
  <author>
    <name>liusida</name>
@@ -591,11 +591,11 @@
    <link href="http://liusida.github.io//2016/11/14/study-embeddings/"/>
    <updated>2016-11-14T00:00:00+08:00</updated>
    <id>http://liusida.github.io//2016/11/14/study-embeddings</id>
-   <content type="html">&lt;p&gt;Udacity上有一个Google技术人员提供的基于Tensorflow的深度学习课程，今天学到Embeddings，有点难理解，所以写个笔记记录下，以备日后回忆。&lt;/p&gt;
+   <content type="html">&lt;p&gt;Udacity 上有一个 Google 技术人员提供的基于 Tensorflow 的深度学习课程，今天学到 Embeddings ，有点难理解，所以写个笔记记录下，以备日后回忆。&lt;/p&gt;
 
 &lt;p&gt;链接：&lt;/p&gt;
 
-&lt;p&gt;&lt;a href=&quot;https://classroom.udacity.com/courses/ud730/lessons/6378983156/concepts/63742734590923&quot;&gt;Udacity课程视频&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://classroom.udacity.com/courses/ud730/lessons/6378983156/concepts/63742734590923&quot;&gt;Udacity课程视频&lt;/a&gt; 这个课程在 Udacity 上的难度级别已经是 &lt;em&gt;高&lt;/em&gt; 了。估计再下去就更少视频学习内容了。:~(&lt;/p&gt;
 
 &lt;p&gt;&lt;a href=&quot;https://github.com/tensorflow/tensorflow/blob/master/tensorflow/examples/udacity/5_word2vec.ipynb&quot;&gt;例子Github地址&lt;/a&gt;&lt;/p&gt;
 
