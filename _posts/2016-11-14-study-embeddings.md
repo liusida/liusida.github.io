@@ -2,11 +2,11 @@
 layout: post
 title: 学习Tensorflow的Embeddings例子
 ---
-Udacity上有一个Google技术人员提供的基于Tensorflow的深度学习课程，今天学到Embeddings，有点难理解，所以写个笔记记录下，以备日后回忆。
+Udacity 上有一个 Google 技术人员提供的基于 Tensorflow 的深度学习课程，今天学到 Embeddings ，有点难理解，所以写个笔记记录下，以备日后回忆。
 
 链接：
 
-[Udacity课程视频][4]
+[Udacity课程视频][4] 这个课程在 Udacity 上的难度级别已经是 *高* 了。估计再下去就更少视频学习内容了。:~(
 
 [例子Github地址][3]
 

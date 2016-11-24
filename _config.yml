@@ -12,5 +12,5 @@ kramdown:
   syntax_highlighter: rouge
 permalink:    pretty
 highlighter:  true
-paginate:     5
+paginate:     20
 gems: [jekyll-paginate]

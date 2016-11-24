@@ -13,7 +13,7 @@ layout: default
 
     <span class="post-date">{{ post.date | date_to_string }}</span>
 
-    {{ post.content | truncatewords:50 }}
+    {{ post.content | replace: "</p>", "==br==" | strip_html | truncate:200 | replace: "==br==", "<br><br>" }}
   </div>
   {% endfor %}
 </div>
