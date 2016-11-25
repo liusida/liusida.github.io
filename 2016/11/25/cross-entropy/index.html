@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+
+  <head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+
+  <title>
+    Cross Entropy 的通俗意义 &middot; 
+    Liu Sida’s Homepage
+  </title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/public/css/hyde.css">
+  <link rel="stylesheet" href="/public/css/syntax.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400italic,400,600,700|Abril+Fatface">
+
+  <!-- Icons -->
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/public/touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" href="/public/favicon.png">
+
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml">
+  <script type="text/javascript"
+      src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  </script>
+</head>
+
+
+  <body>
+
+    <header class="masthead">
+          <p>
+            <a href='https://github.com/liusida/'>
+            <span class="icon github">
+              <svg version="1.1" class="github-icon-svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                 viewBox="0 0 16 16" enable-background="new 0 0 16 16" xml:space="preserve">
+                <path fill-rule="evenodd" clip-rule="evenodd" fill="#333" d="M7.999,0.431c-4.285,0-7.76,3.474-7.76,7.761
+                c0,3.428,2.223,6.337,5.307,7.363c0.388,0.071,0.53-0.168,0.53-0.374c0-0.184-0.007-0.672-0.01-1.32
+                c-2.159,0.469-2.614-1.04-2.614-1.04c-0.353-0.896-0.862-1.135-0.862-1.135c-0.705-0.481,0.053-0.472,0.053-0.472
+                c0.779,0.055,1.189,0.8,1.189,0.8c0.692,1.186,1.816,0.843,2.258,0.645c0.071-0.502,0.271-0.843,0.493-1.037
+                C4.86,11.425,3.049,10.76,3.049,7.786c0-0.847,0.302-1.54,0.799-2.082C3.768,5.507,3.501,4.718,3.924,3.65
+                c0,0,0.652-0.209,2.134,0.796C6.677,4.273,7.34,4.187,8,4.184c0.659,0.003,1.323,0.089,1.943,0.261
+                c1.482-1.004,2.132-0.796,2.132-0.796c0.423,1.068,0.157,1.857,0.077,2.054c0.497,0.542,0.798,1.235,0.798,2.082
+                c0,2.981-1.814,3.637-3.543,3.829c0.279,0.24,0.527,0.713,0.527,1.437c0,1.037-0.01,1.874-0.01,2.129
+                c0,0.208,0.14,0.449,0.534,0.373c3.081-1.028,5.302-3.935,5.302-7.362C15.76,3.906,12.285,0.431,7.999,0.431z"/>
+              </svg>
+            </span>
+            </a>
+          </p>
+      <div class="masthead-inner">
+        <h1><a href='/'>Liu Sida's Homepage</a></h1>
+        <p class="lead">Machine Learning & Human Learning</p>
+
+        <div class="colophon">
+          <p>&copy; 2014. liusida All rights reserved.</p>
+        </div>
+      </div>
+    </header>
+
+    <div class="content container">
+      <div class="post">
+  <h1>Cross Entropy 的通俗意义</h1>
+  <span class="post-date">25 Nov 2016</span>
+  <p>cross_entropy 公式如下：</p>
+
+<script type="math/tex; mode=display">CrossEntropy = - \sum_i( L_i \cdot \log( S_i ) )</script>
+
+<p>它描述的是<strong>可能性 S 到 L 的距离</strong>，也可以说是描述<strong>用 S 来描述 L 还需要多少信息</strong>（如果是以2为底的log，则代表还需要多少bit的信息；如果是以10为底的log，则代表还需要多少位十进制数的信息）。</p>
+
+<p>当年 香农 Shannon 创立信息论的时候，考虑的是每一次都是扔硬币，结果只有2个可能，所以用的是以2为底，发明了bit计量单位。</p>
+
+<p>而软件实现，例如 Tensorflow 里的实现，则是使用以 e 为底的log。</p>
+
+<p>Tensorflow 中有个经常用到的函数叫 <code class="highlighter-rouge">tf.nn.softmax_cross_entropy_with_logits</code> 。这个函数的实现并不在 Python 中，所以我用 Numpy 实现一个同样功能的函数进行比对，确认它使用的是以 e 为底的log。理由很简单，因为 Softmax 函数里使用了 e 的指数，所以当 Cross Entropy 也使用以 e 的log，然后这两个函数放到一起实现，可以进行很好的性能优化。</p>
+
+<p>其中对于 logits 这个称呼，我仍然没有明白是为什么。</p>
+
+<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">tensorflow</span> <span class="kn">as</span> <span class="nn">tf</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+
+
+<span class="c"># Make up some testing data, need to be rank 2</span>
+
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
+		<span class="p">[</span><span class="mf">0.</span><span class="p">,</span><span class="mf">2.</span><span class="p">,</span><span class="mf">1.</span><span class="p">],</span>
+		<span class="p">[</span><span class="mf">0.</span><span class="p">,</span><span class="mf">0.</span><span class="p">,</span><span class="mf">2.</span><span class="p">]</span>
+		<span class="p">])</span>
+<span class="n">label</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
+		<span class="p">[</span><span class="mf">0.</span><span class="p">,</span><span class="mf">0.</span><span class="p">,</span><span class="mf">1.</span><span class="p">],</span>
+		<span class="p">[</span><span class="mf">0.</span><span class="p">,</span><span class="mf">0.</span><span class="p">,</span><span class="mf">1.</span><span class="p">]</span>
+		<span class="p">])</span>
+
+
+<span class="c"># Numpy part #</span>
+
+<span class="k">def</span> <span class="nf">softmax</span><span class="p">(</span><span class="n">logits</span><span class="p">):</span>
+    <span class="n">sf</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">logits</span><span class="p">)</span>
+    <span class="n">sf</span> <span class="o">=</span> <span class="n">sf</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="nb">sum</span><span class="p">(</span><span class="n">sf</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">sf</span>
+
+<span class="k">def</span> <span class="nf">cross_entropy</span><span class="p">(</span><span class="n">softmax</span><span class="p">,</span> <span class="n">labels</span><span class="p">):</span>
+	<span class="k">return</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="nb">sum</span><span class="p">(</span> <span class="n">labels</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">softmax</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span> <span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">loss</span><span class="p">(</span><span class="n">cross_entropy</span><span class="p">):</span>
+	<span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span> <span class="n">cross_entropy</span> <span class="p">)</span>
+
+<span class="n">numpy_result</span> <span class="o">=</span> <span class="n">loss</span><span class="p">(</span><span class="n">cross_entropy</span><span class="p">(</span> <span class="n">softmax</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">label</span> <span class="p">))</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">numpy_result</span><span class="p">)</span>
+
+<span class="c"># Tensorflow part #</span>
+
+<span class="n">g</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">Graph</span><span class="p">()</span>
+<span class="k">with</span> <span class="n">g</span><span class="o">.</span><span class="n">as_default</span><span class="p">():</span>
+	<span class="n">tf_x</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">constant</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+	<span class="n">tf_label</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">constant</span><span class="p">(</span><span class="n">label</span><span class="p">)</span>
+	<span class="n">tf_ret</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">reduce_mean</span><span class="p">(</span> <span class="n">tf</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">softmax_cross_entropy_with_logits</span><span class="p">(</span><span class="n">tf_x</span><span class="p">,</span><span class="n">tf_label</span><span class="p">)</span> <span class="p">)</span>
+
+<span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">Session</span><span class="p">(</span><span class="n">graph</span><span class="o">=</span><span class="n">g</span><span class="p">)</span> <span class="k">as</span> <span class="n">ss</span><span class="p">:</span>
+	<span class="n">tensorflow_result</span> <span class="o">=</span> <span class="n">ss</span><span class="o">.</span><span class="n">run</span><span class="p">([</span><span class="n">tf_ret</span><span class="p">])</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">tensorflow_result</span><span class="p">)</span>
+
+</code></pre>
+</div>
+
+<h2 id="section">附各公式</h2>
+<h3 id="softmax">1. Softmax</h3>
+<p><script type="math/tex">S_i = { e^{X_i} \over \sum_j( e^{X_j})}</script>
+这里的 X 就是 logits，S 表示一次判断，Si 表示一次判断中的第i个选项。</p>
+<h3 id="cross-entropy">2. Cross Entropy</h3>
+<p><script type="math/tex">D = - \sum_i( L_i \cdot \log( S_i ) )</script>
+这里 D 表示一次判断，Li 是一次判断中一个 label 的第 i 个选项。log 是以 e 为底。</p>
+<h3 id="loss">3. loss</h3>
+<p><script type="math/tex">loss = {1\over N} \sum_k(Dk)</script>
+这里的 Dk 表示第 k 次判断，N 表示总次数，也就是取平均值。</p>
+
+</div>
+
+<div id="disqus_thread"></div>
+<script>
+
+/**
+*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+*  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+/*
+var disqus_config = function () {
+this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+};
+*/
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+s.src = '//liu-sidas-homepage.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+                                
+<div class="related">
+  <h2>Related Posts</h2>
+  <ul class="related-posts">
+    
+      <li>
+        <h3>
+          <a href="/2016/11/24/deriving-lstm/">
+            推荐《写下记忆：理解、推导、扩展LSTM》
+            <small>24 Nov 2016</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/2016/11/16/study-lstm/">
+            学习Tensorflow的LSTM的RNN例子
+            <small>16 Nov 2016</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/2016/11/14/study-embeddings/">
+            学习Tensorflow的Embeddings例子
+            <small>14 Nov 2016</small>
+          </a>
+        </h3>
+      </li>
+    
+  </ul>
+</div>
+
+    </div>
+
+  </body>
+</html>
