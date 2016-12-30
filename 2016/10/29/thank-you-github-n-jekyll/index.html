@@ -82,10 +82,10 @@
 
   <p>I got another way to using template. Anyway, it may be not so securable, but it’s very easy to use.</p>
 
-  <p>1, Make HTML pages, and give them PHP extension name. 
+  <p>1, Make HTML pages, and give them PHP extension name. <br />
 Like: template.php</p>
 
-  <div class="language-php highlighter-rouge"><pre class="highlight"><code><span class="nt">&lt;html&gt;</span> 
+  <div class="highlighter-rouge"><pre class="highlight"><code><span class="nt">&lt;html&gt;</span> 
 <span class="nt">&lt;body&gt;</span> 
 hello, world. 
 <span class="nt">&lt;/body&gt;</span> 
@@ -93,10 +93,10 @@ hello, world.
 </code></pre>
   </div>
 
-  <p>2, Create different pages which really need to show. 
+  <p>2, Create different pages which really need to show. <br />
 Like: page.php</p>
 
-  <div class="language-php highlighter-rouge"><pre class="highlight"><code><span class="cp">&lt;?</span> 
+  <div class="highlighter-rouge"><pre class="highlight"><code><span class="cp">&lt;?</span> 
   <span class="nv">$str</span> <span class="o">=</span> <span class="nx">hello</span><span class="p">,</span> <span class="nx">world</span><span class="o">.</span> 
   <span class="k">include</span><span class="p">(</span><span class="s1">'template.php'</span><span class="p">);</span> 
 <span class="cp">?&gt;</span> 
@@ -104,11 +104,11 @@ Like: page.php</p>
   </div>
 
   <ol>
-    <li>Replace the string using the PHP vars. 
+    <li>Replace the string using the PHP vars. <br />
 Like: template.php</li>
   </ol>
 
-  <div class="language-php highlighter-rouge"><pre class="highlight"><code><span class="nt">&lt;html&gt;</span> 
+  <div class="highlighter-rouge"><pre class="highlight"><code><span class="nt">&lt;html&gt;</span> 
 <span class="nt">&lt;body&gt;</span> 
 <span class="cp">&lt;?=</span><span class="nv">$str</span><span class="cp">?&gt;</span> 
 <span class="nt">&lt;/body&gt;</span> 

@@ -75,7 +75,7 @@
 
 <p>Here is my code for Keras:</p>
 
-<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">keras.models</span> <span class="kn">import</span> <span class="n">Sequential</span>
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">keras.models</span> <span class="kn">import</span> <span class="n">Sequential</span>
 <span class="kn">from</span> <span class="nn">keras.layers</span> <span class="kn">import</span> <span class="n">Dense</span>
 <span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">MinMaxScaler</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
@@ -141,11 +141,9 @@
 </code></pre>
 </div>
 
-<p>During coding, I found preprocessing is very important:</p>
-<ul>
-  <li>By using <a href="http://pandas.pydata.org/pandas-docs/stable/generated/pandas.get_dummies.html">One-Hot Encoding</a>, I even don’t need to treat Wide and Deep model separately. I just one-hot encode the categorical columns, and they can be feed together with continuous columns.</li>
-  <li>By using <a href="http://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.MinMaxScaler.html">MaxMinScaler</a>, I can avoid the result goes to one side at all. For example, if I don’t use scaler, my prediction should be all 0s or 1s, because some columns have very big numbers, the model will ignore other columns’ effect.</li>
-</ul>
+<p>During coding, I found preprocessing is very important:<br />
+* By using <a href="http://pandas.pydata.org/pandas-docs/stable/generated/pandas.get_dummies.html">One-Hot Encoding</a>, I even don’t need to treat Wide and Deep model separately. I just one-hot encode the categorical columns, and they can be feed together with continuous columns.<br />
+* By using <a href="http://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.MinMaxScaler.html">MaxMinScaler</a>, I can avoid the result goes to one side at all. For example, if I don’t use scaler, my prediction should be all 0s or 1s, because some columns have very big numbers, the model will ignore other columns’ effect.</p>
 
 <p>And thanks to sklearn and pandas, Keras don’t need to do those preprocessing at all, which Tensorflow is doing these staff inside the model. I think it’s better to do that before we feed the data, so it will be much clear what we are feeding to the neural network.</p>
 

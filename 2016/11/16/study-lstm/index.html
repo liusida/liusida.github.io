@@ -75,7 +75,7 @@
 
 <h3 id="section-1">1. 引入库文件</h3>
 
-<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="c"># These are all the modules we'll be using later. Make sure you can import them</span>
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="c"># These are all the modules we'll be using later. Make sure you can import them</span>
 <span class="c"># before proceeding further.</span>
 <span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span>
 <span class="kn">import</span> <span class="nn">os</span>
@@ -93,7 +93,7 @@
 
 <p>然后下载数据，如果<a href="https://liusida.github.io/2016/11/04/rnn-implementation/">前面</a>已经下载过，那直接把text8.zip拷过来就可以用。</p>
 
-<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="n">url</span> <span class="o">=</span> <span class="s">'http://mattmahoney.net/dc/'</span>
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="n">url</span> <span class="o">=</span> <span class="s">'http://mattmahoney.net/dc/'</span>
 
 <span class="k">def</span> <span class="nf">maybe_download</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">expected_bytes</span><span class="p">):</span>
   <span class="s">"""Download a file if not present, and make sure it's the right size."""</span>
@@ -116,7 +116,7 @@
 
 <p>读文件稍微有些不一样，不是处理成list，而是直接读成一个字符串，因为后面用到的就是串数据。</p>
 
-<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="k">def</span> <span class="nf">read_data</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">def</span> <span class="nf">read_data</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
   <span class="n">f</span> <span class="o">=</span> <span class="n">zipfile</span><span class="o">.</span><span class="n">ZipFile</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
   <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">f</span><span class="o">.</span><span class="n">namelist</span><span class="p">():</span>
     <span class="k">return</span> <span class="n">tf</span><span class="o">.</span><span class="n">compat</span><span class="o">.</span><span class="n">as_str</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">name</span><span class="p">))</span>
@@ -131,7 +131,7 @@
 
 <p>切割一下，留1000个字符做检验，其他99999000个字符拿来训练。</p>
 
-<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="n">valid_size</span> <span class="o">=</span> <span class="mi">1000</span>
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="n">valid_size</span> <span class="o">=</span> <span class="mi">1000</span>
 <span class="n">valid_text</span> <span class="o">=</span> <span class="n">text</span><span class="p">[:</span><span class="n">valid_size</span><span class="p">]</span>
 <span class="n">train_text</span> <span class="o">=</span> <span class="n">text</span><span class="p">[</span><span class="n">valid_size</span><span class="p">:]</span>
 <span class="n">train_size</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">train_text</span><span class="p">)</span>
@@ -146,7 +146,7 @@
 
 <p>本程序只考虑26个字母外加1个空格字符，其他字符都当做空格来对待。所以可以用两个函数，通过ascii码加减，直接算出对应的数值或字符。</p>
 
-<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="n">vocabulary_size</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">string</span><span class="o">.</span><span class="n">ascii_lowercase</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span> <span class="c"># [a-z] + ' '</span>
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="n">vocabulary_size</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">string</span><span class="o">.</span><span class="n">ascii_lowercase</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span> <span class="c"># [a-z] + ' '</span>
 <span class="n">first_letter</span> <span class="o">=</span> <span class="nb">ord</span><span class="p">(</span><span class="n">string</span><span class="o">.</span><span class="n">ascii_lowercase</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 
 <span class="k">def</span> <span class="nf">char2id</span><span class="p">(</span><span class="n">char</span><span class="p">):</span>
@@ -177,7 +177,7 @@
 
 <p><code class="highlighter-rouge">batch_size</code> 是每批几串字符串，<code class="highlighter-rouge">num_unrollings</code> 是每串子字符串的长度（实际上字符串开头还加了上一次获取的最后一个字符，所以实际上字符串长度要比 <code class="highlighter-rouge">num_unrollings</code> 多一个）。</p>
 
-<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="n">batch_size</span><span class="o">=</span><span class="mi">64</span>
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="n">batch_size</span><span class="o">=</span><span class="mi">64</span>
 <span class="n">num_unrollings</span><span class="o">=</span><span class="mi">10</span>
 
 <span class="k">class</span> <span class="nc">BatchGenerator</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -240,7 +240,7 @@
 
 <p><code class="highlighter-rouge">batches2string</code> 则将训练数据变成可以展现的字符串。高手这么一批一批的处理数据逻辑还这么绕，而不是按凡人逻辑一个一个的处理让我觉得有点窒息的感觉，自感智商捉急了。</p>
 
-<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="k">def</span> <span class="nf">characters</span><span class="p">(</span><span class="n">probabilities</span><span class="p">):</span>
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">def</span> <span class="nf">characters</span><span class="p">(</span><span class="n">probabilities</span><span class="p">):</span>
   <span class="s">"""Turn a 1-hot encoding or a probability distribution over the possible
   characters back into its (most likely) character representation."""</span>
   <span class="k">return</span> <span class="p">[</span><span class="n">id2char</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">probabilities</span><span class="p">,</span> <span class="mi">1</span><span class="p">)]</span>
@@ -267,7 +267,7 @@
 
 <p>四个函数，给训练中输出摘要时使用。</p>
 
-<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="k">def</span> <span class="nf">logprob</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">labels</span><span class="p">):</span>
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">def</span> <span class="nf">logprob</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">labels</span><span class="p">):</span>
   <span class="s">"""Log-probability of the true labels in a predicted batch."""</span>
   <span class="n">predictions</span><span class="p">[</span><span class="n">predictions</span> <span class="o">&lt;</span> <span class="mf">1e-10</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1e-10</span>
   <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="nb">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">predictions</span><span class="p">)))</span> <span class="o">/</span> <span class="n">labels</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
@@ -319,7 +319,7 @@
 
 <p>num_nodes 是代表这个神经网络中LSTM Cell层的Cell个数。</p>
 
-<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="n">num_nodes</span> <span class="o">=</span> <span class="mi">64</span>
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="n">num_nodes</span> <span class="o">=</span> <span class="mi">64</span>
 
 <span class="n">graph</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">Graph</span><span class="p">()</span>
 <span class="k">with</span> <span class="n">graph</span><span class="o">.</span><span class="n">as_default</span><span class="p">():</span>
@@ -328,7 +328,7 @@
 
 <h4 id="section-9">1) 定义变量</h4>
 
-<div class="language-python highlighter-rouge"><pre class="highlight"><code>
+<div class="highlighter-rouge"><pre class="highlight"><code>
   <span class="c"># Parameters:</span>
   <span class="c"># Input gate: input, previous output, and bias.</span>
   <span class="n">ix</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">Variable</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">truncated_normal</span><span class="p">([</span><span class="n">vocabulary_size</span><span class="p">,</span> <span class="n">num_nodes</span><span class="p">],</span> <span class="o">-</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">))</span>
@@ -365,7 +365,7 @@
 
 <h4 id="lstm-cell">2) 定义LSTM Cell</h4>
 
-<div class="language-python highlighter-rouge"><pre class="highlight"><code>  <span class="c"># Definition of the cell computation.</span>
+<div class="highlighter-rouge"><pre class="highlight"><code>  <span class="c"># Definition of the cell computation.</span>
   <span class="k">def</span> <span class="nf">lstm_cell</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">o</span><span class="p">,</span> <span class="n">state</span><span class="p">):</span>
     <span class="s">"""Create a LSTM cell. See e.g.: http://arxiv.org/pdf/1402.1128v1.pdf
     Note that in this formulation, we omit the various connections between the
@@ -421,7 +421,7 @@
 
 <h4 id="section-10">3) 定义输入接口</h4>
 
-<div class="language-python highlighter-rouge"><pre class="highlight"><code>  <span class="c"># Input data.</span>
+<div class="highlighter-rouge"><pre class="highlight"><code>  <span class="c"># Input data.</span>
   <span class="n">train_data</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
   <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_unrollings</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
     <span class="n">train_data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
@@ -437,7 +437,7 @@
 
 <h4 id="lstm-cell-1">4) 循环执行LSTM Cell</h4>
 
-<div class="language-python highlighter-rouge"><pre class="highlight"><code>  <span class="c"># Unrolled LSTM loop.</span>
+<div class="highlighter-rouge"><pre class="highlight"><code>  <span class="c"># Unrolled LSTM loop.</span>
   <span class="n">outputs</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
   <span class="n">output</span> <span class="o">=</span> <span class="n">saved_output</span>
   <span class="n">state</span> <span class="o">=</span> <span class="n">saved_state</span>
@@ -453,7 +453,7 @@
 
 <h4 id="loss">5) 定义loss</h4>
 
-<div class="language-python highlighter-rouge"><pre class="highlight"><code>  <span class="c"># State saving across unrollings.</span>
+<div class="highlighter-rouge"><pre class="highlight"><code>  <span class="c"># State saving across unrollings.</span>
   <span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">control_dependencies</span><span class="p">([</span><span class="n">saved_output</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="n">output</span><span class="p">),</span>
                                 <span class="n">saved_state</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="n">state</span><span class="p">)]):</span>
     <span class="c"># Classifier.</span>
@@ -476,7 +476,7 @@
 
 <h4 id="section-11">6) 定义优化</h4>
 
-<div class="language-python highlighter-rouge"><pre class="highlight"><code>  <span class="c"># Optimizer.</span>
+<div class="highlighter-rouge"><pre class="highlight"><code>  <span class="c"># Optimizer.</span>
   <span class="n">global_step</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">Variable</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
   <span class="n">learning_rate</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">train</span><span class="o">.</span><span class="n">exponential_decay</span><span class="p">(</span>
     <span class="mf">10.0</span><span class="p">,</span> <span class="n">global_step</span><span class="p">,</span> <span class="mi">5000</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="n">staircase</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
@@ -504,7 +504,7 @@
 
 <h4 id="section-12">7) 定义预测</h4>
 
-<div class="language-python highlighter-rouge"><pre class="highlight"><code>  <span class="c"># Predictions.</span>
+<div class="highlighter-rouge"><pre class="highlight"><code>  <span class="c"># Predictions.</span>
   <span class="n">train_prediction</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">softmax</span><span class="p">(</span><span class="n">logits</span><span class="p">)</span>
 
   <span class="c"># Sampling and validation eval: batch 1, no unrolling.</span>
@@ -534,7 +534,7 @@
 
 <p><code class="highlighter-rouge">mean_loss</code> 用来加总各步的 <code class="highlighter-rouge">loss</code> 值，用来后面输出。（还是建议叫 <code class="highlighter-rouge">subtotal_loss</code>）</p>
 
-<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="n">num_steps</span> <span class="o">=</span> <span class="mi">7001</span>
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="n">num_steps</span> <span class="o">=</span> <span class="mi">7001</span>
 <span class="n">summary_frequency</span> <span class="o">=</span> <span class="mi">100</span>
 
 <span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">Session</span><span class="p">(</span><span class="n">graph</span><span class="o">=</span><span class="n">graph</span><span class="p">)</span> <span class="k">as</span> <span class="n">session</span><span class="p">:</span>
@@ -556,7 +556,7 @@
 
 <p>他怎么不用 tensorflow 来计算呀，反而用 numpy 来计算，很奇怪。来仔细看看。</p>
 
-<div class="language-python highlighter-rouge"><pre class="highlight"><code>    <span class="k">if</span> <span class="n">step</span> <span class="o">%</span> <span class="n">summary_frequency</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+<div class="highlighter-rouge"><pre class="highlight"><code>    <span class="k">if</span> <span class="n">step</span> <span class="o">%</span> <span class="n">summary_frequency</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
       <span class="k">if</span> <span class="n">step</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
         <span class="n">mean_loss</span> <span class="o">=</span> <span class="n">mean_loss</span> <span class="o">/</span> <span class="n">summary_frequency</span>
       <span class="c"># The mean loss is an estimate of the loss over the last few batches.</span>

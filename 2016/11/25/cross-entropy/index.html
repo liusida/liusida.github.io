@@ -77,7 +77,7 @@
 
 <p>其中对于 logits 这个称呼，我仍然没有明白是为什么。</p>
 
-<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">tensorflow</span> <span class="kn">as</span> <span class="nn">tf</span>
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">tensorflow</span> <span class="kn">as</span> <span class="nn">tf</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
 
 
@@ -127,14 +127,14 @@
 </div>
 
 <h2 id="section">附各公式</h2>
-<h3 id="softmax">1. Softmax</h3>
-<p><script type="math/tex">S_i = { e^{X_i} \over \sum_j( e^{X_j})}</script>
-这里的 X 就是 logits，S 表示一次判断，Si 表示一次判断中的第i个选项。</p>
-<h3 id="cross-entropy">2. Cross Entropy</h3>
-<p><script type="math/tex">D = - \sum_i( L_i \cdot \log( S_i ) )</script>
-这里 D 表示一次判断，Li 是一次判断中一个 label 的第 i 个选项。log 是以 e 为底。</p>
-<h3 id="loss">3. loss</h3>
-<p><script type="math/tex">loss = {1\over N} \sum_k(Dk)</script>
+<p>### 1. Softmax<br />
+<script type="math/tex">S_i = { e^{X_i} \over \sum_j( e^{X_j})}</script><br />
+这里的 X 就是 logits，S 表示一次判断，Si 表示一次判断中的第i个选项。<br />
+### 2. Cross Entropy<br />
+<script type="math/tex">D = - \sum_i( L_i \cdot \log( S_i ) )</script><br />
+这里 D 表示一次判断，Li 是一次判断中一个 label 的第 i 个选项。log 是以 e 为底。<br />
+### 3. loss<br />
+<script type="math/tex">loss = {1\over N} \sum_k(Dk)</script><br />
 这里的 Dk 表示第 k 次判断，N 表示总次数，也就是取平均值。</p>
 
 </div>

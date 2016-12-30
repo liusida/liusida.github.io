@@ -74,7 +74,7 @@
 <h2 id="section">理解课程：</h2>
 
 <ul>
-  <li>课程使用的实现无监督文本学习的根据：<strong>相似的词，会伴随相似的上下文</strong>。
+  <li>课程使用的实现无监督文本学习的根据：<strong>相似的词，会伴随相似的上下文</strong>。<br />
 （我记得有人说过，看一个人的朋友，就知道这个人大致是怎样，看来词也一样。）如下图：</li>
 </ul>
 
@@ -114,10 +114,10 @@
 
 <p><code class="highlighter-rouge">__future__</code> 和 <code class="highlighter-rouge">six</code> 都是保证python2 3兼容的做法。</p>
 
-<p>我们可以看到，<code class="highlighter-rouge">TSNE</code>库，tensorflow并没有，所以使用的是<code class="highlighter-rouge">sklearn</code>的实现。
+<p>我们可以看到，<code class="highlighter-rouge">TSNE</code>库，tensorflow并没有，所以使用的是<code class="highlighter-rouge">sklearn</code>的实现。<br />
 <code class="highlighter-rouge">collections</code>是python自带的一个工具库，据说很好，新手可以看这篇<a href="http://www.zlovezl.cn/articles/collections-in-python/">中文介绍博文</a>。</p>
 
-<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="c"># These are all the modules we'll be using later. Make sure you can import them</span>
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="c"># These are all the modules we'll be using later. Make sure you can import them</span>
 <span class="c"># before proceeding further.</span>
 <span class="o">%</span><span class="n">matplotlib</span> <span class="n">inline</span>
 <span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span>
@@ -147,7 +147,7 @@
 
 <p>英语不太好，去了标题之后，我都看不太懂是啥意思。想起了我们的没有标点古文。</p>
 
-<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="n">url</span> <span class="o">=</span> <span class="s">'http://mattmahoney.net/dc/'</span>
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="n">url</span> <span class="o">=</span> <span class="s">'http://mattmahoney.net/dc/'</span>
 
 <span class="k">def</span> <span class="nf">maybe_download</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">expected_bytes</span><span class="p">):</span>
   <span class="s">"""Download a file if not present, and make sure it's the right size."""</span>
@@ -174,7 +174,7 @@
 
 <p>tf.compat包里面都是一些关于兼容性（compatibility)的小工具。</p>
 
-<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="k">def</span> <span class="nf">read_data</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">def</span> <span class="nf">read_data</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
   <span class="s">"""Extract the first file enclosed in a zip file as a list of words"""</span>
   <span class="k">with</span> <span class="n">zipfile</span><span class="o">.</span><span class="n">ZipFile</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
     <span class="n">data</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">compat</span><span class="o">.</span><span class="n">as_str</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">namelist</span><span class="p">()[</span><span class="mi">0</span><span class="p">]))</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
@@ -203,7 +203,7 @@
 
 <p>保存<code class="highlighter-rouge">dictionary</code>和<code class="highlighter-rouge">reverse_dictionary</code>这一点十分值的学习，对于频繁的查询，这样的缓存能大大增加速度。如果用函数的方式，每次查都要轮询，就土了。</p>
 
-<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="n">vocabulary_size</span> <span class="o">=</span> <span class="mi">50000</span>
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="n">vocabulary_size</span> <span class="o">=</span> <span class="mi">50000</span>
 
 <span class="k">def</span> <span class="nf">build_dataset</span><span class="p">(</span><span class="n">words</span><span class="p">):</span>
   <span class="n">count</span> <span class="o">=</span> <span class="p">[[</span><span class="s">'UNK'</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]]</span>
@@ -249,7 +249,7 @@
 
 <p>这一段代码感觉写的怪怪的，疑点比较多，如果有能知道其中淫巧的同学，可以留言指点一下。</p>
 
-<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="n">data_index</span> <span class="o">=</span> <span class="mi">0</span>
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="n">data_index</span> <span class="o">=</span> <span class="mi">0</span>
 
 <span class="k">def</span> <span class="nf">generate_batch</span><span class="p">(</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">num_skips</span><span class="p">,</span> <span class="n">skip_window</span><span class="p">):</span>
   <span class="k">global</span> <span class="n">data_index</span>
@@ -279,7 +279,7 @@
 
 <p>这里是测试一下<code class="highlighter-rouge">generate_batch</code>函数，并无实际用途。</p>
 
-<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="k">print</span><span class="p">(</span><span class="s">'data:'</span><span class="p">,</span> <span class="p">[</span><span class="n">reverse_dictionary</span><span class="p">[</span><span class="n">di</span><span class="p">]</span> <span class="k">for</span> <span class="n">di</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[:</span><span class="mi">8</span><span class="p">]])</span>
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="k">print</span><span class="p">(</span><span class="s">'data:'</span><span class="p">,</span> <span class="p">[</span><span class="n">reverse_dictionary</span><span class="p">[</span><span class="n">di</span><span class="p">]</span> <span class="k">for</span> <span class="n">di</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[:</span><span class="mi">8</span><span class="p">]])</span>
 
 <span class="k">for</span> <span class="n">num_skips</span><span class="p">,</span> <span class="n">skip_window</span> <span class="ow">in</span> <span class="p">[(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">)]:</span>
   <span class="n">data_index</span> <span class="o">=</span> <span class="mi">0</span>
@@ -302,7 +302,7 @@
 
 <p><code class="highlighter-rouge">num_sampled</code>则是Sample Softmax时候用到的一个超参数，确定选几个词来对比优化。</p>
 
-<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="n">batch_size</span> <span class="o">=</span> <span class="mi">128</span>
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="n">batch_size</span> <span class="o">=</span> <span class="mi">128</span>
 <span class="n">embedding_size</span> <span class="o">=</span> <span class="mi">128</span> <span class="c"># Dimension of the embedding vector.</span>
 <span class="n">skip_window</span> <span class="o">=</span> <span class="mi">1</span> <span class="c"># How many words to consider left and right.</span>
 <span class="n">num_skips</span> <span class="o">=</span> <span class="mi">2</span> <span class="c"># How many times to reuse an input to generate a label.</span>
@@ -330,7 +330,7 @@
 
 <p><code class="highlighter-rouge">softmax_weights</code> 和 <code class="highlighter-rouge">softmax_biases</code> 是用来做线性逻辑分类的参数。</p>
 
-<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="n">graph</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">Graph</span><span class="p">()</span>
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="n">graph</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">Graph</span><span class="p">()</span>
 
 <span class="k">with</span> <span class="n">graph</span><span class="o">.</span><span class="n">as_default</span><span class="p">():</span>
 
@@ -361,7 +361,7 @@
 
 <p>这里注释提到，因为<code class="highlighter-rouge">embeddings</code>是定义成<code class="highlighter-rouge">tf.Variable</code>的，所以在优化的时候同时也会调整<code class="highlighter-rouge">embeddings</code>里的参数。这是因为<code class="highlighter-rouge">minimize</code>函数会将与传入的<code class="highlighter-rouge">loss</code>连接的所有源头变量进行调整优化。</p>
 
-<div class="language-python highlighter-rouge"><pre class="highlight"><code>  <span class="c"># Model.</span>
+<div class="highlighter-rouge"><pre class="highlight"><code>  <span class="c"># Model.</span>
   <span class="c"># Look up embeddings for inputs.</span>
   <span class="n">embed</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">embedding_lookup</span><span class="p">(</span><span class="n">embeddings</span><span class="p">,</span> <span class="n">train_dataset</span><span class="p">)</span>
   <span class="c"># Compute the softmax loss, using a sample of the negative labels each time.</span>
@@ -406,7 +406,7 @@
 
 <p>造一些简单的数据，用<code class="highlighter-rouge">numpy</code>模拟一下这一段代码，确认一下这段代码的意义：</p>
 
-<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="o">&gt;&gt;</span> <span class="n">embeddings</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">],[</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">8</span><span class="p">],[</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">],[</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">]])</span>
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="o">&gt;&gt;</span> <span class="n">embeddings</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">],[</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">8</span><span class="p">],[</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">],[</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">]])</span>
 <span class="p">[[</span><span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span> <span class="mi">4</span><span class="p">]</span>
  <span class="p">[</span><span class="mi">2</span> <span class="mi">4</span> <span class="mi">6</span> <span class="mi">8</span><span class="p">]</span>
  <span class="p">[</span><span class="mi">2</span> <span class="mi">2</span> <span class="mi">2</span> <span class="mi">2</span><span class="p">]</span>
@@ -455,7 +455,7 @@
 
 <p>用检索出来的结果矩阵（前面模拟里我用了全部矩阵） 乘以 <code class="highlighter-rouge">normalized_embeddings</code>的转置，得到的结果最大值是1也就是相同，值越大代表越相似。</p>
 
-<div class="language-python highlighter-rouge"><pre class="highlight"><code>  <span class="c"># Compute the similarity between minibatch examples and all embeddings.</span>
+<div class="highlighter-rouge"><pre class="highlight"><code>  <span class="c"># Compute the similarity between minibatch examples and all embeddings.</span>
   <span class="c"># We use the cosine distance:</span>
   <span class="n">norm</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">reduce_sum</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">square</span><span class="p">(</span><span class="n">embeddings</span><span class="p">),</span> <span class="mi">1</span><span class="p">,</span> <span class="n">keep_dims</span><span class="o">=</span><span class="bp">True</span><span class="p">))</span>
   <span class="n">normalized_embeddings</span> <span class="o">=</span> <span class="n">embeddings</span> <span class="o">/</span> <span class="n">norm</span>
@@ -477,7 +477,7 @@
 
 <p>等到每10000次，获取一下<code class="highlighter-rouge">similarity</code>对应的值，然后把最相似的几个词输出到屏幕，用于人工检验。<code class="highlighter-rouge">argsort</code>是获取排序后的indices。然后通过<code class="highlighter-rouge">reverse_dictionary</code>快速定位到词是什么。</p>
 
-<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="n">num_steps</span> <span class="o">=</span> <span class="mi">100001</span>
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="n">num_steps</span> <span class="o">=</span> <span class="mi">100001</span>
 
 <span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">Session</span><span class="p">(</span><span class="n">graph</span><span class="o">=</span><span class="n">graph</span><span class="p">)</span> <span class="k">as</span> <span class="n">session</span><span class="p">:</span>
   <span class="n">tf</span><span class="o">.</span><span class="n">global_variables_initializer</span><span class="p">()</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
@@ -512,7 +512,7 @@
 
 <p>训练完成，获取最后得到的<code class="highlighter-rouge">embeddings</code>向量空间！</p>
 
-<div class="language-python highlighter-rouge"><pre class="highlight"><code>  <span class="n">final_embeddings</span> <span class="o">=</span> <span class="n">normalized_embeddings</span><span class="o">.</span><span class="nb">eval</span><span class="p">()</span>
+<div class="highlighter-rouge"><pre class="highlight"><code>  <span class="n">final_embeddings</span> <span class="o">=</span> <span class="n">normalized_embeddings</span><span class="o">.</span><span class="nb">eval</span><span class="p">()</span>
 </code></pre>
 </div>
 
@@ -524,7 +524,7 @@
 
 <p>画图部分这里用<code class="highlighter-rouge">pylab</code>，就不再赘述，如果喜欢用<code class="highlighter-rouge">matplotlib</code>，也是类似的。（pylab是对标matlab的库，matplotlib也包含在pylab里。）</p>
 
-<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="n">num_points</span> <span class="o">=</span> <span class="mi">400</span>
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="n">num_points</span> <span class="o">=</span> <span class="mi">400</span>
 
 <span class="n">tsne</span> <span class="o">=</span> <span class="n">TSNE</span><span class="p">(</span><span class="n">perplexity</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">n_components</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">init</span><span class="o">=</span><span class="s">'pca'</span><span class="p">,</span> <span class="n">n_iter</span><span class="o">=</span><span class="mi">5000</span><span class="p">)</span>
 <span class="n">two_d_embeddings</span> <span class="o">=</span> <span class="n">tsne</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">final_embeddings</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="n">num_points</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="p">:])</span>
@@ -550,16 +550,16 @@
 
 <h2 id="debug">一个小debug处理</h2>
 
-<p>这个例子里用到了sklearn的tSNE来降维作显示，但每次运行到这里Jupyter都提醒Kernel死掉了，Kernel重启。于是把源码复制到单独python文件里执行，看到如下错误：</p>
-<div class="highlighter-rouge"><pre class="highlight"><code>Intel MKL FATAL ERROR: Cannot load libmkl_avx2.so or libmkl_def.so.
-</code></pre>
-</div>
-<p>这个问题似乎是Intel的MKL有问题，网上查到这篇<a href="https://www.continuum.io/blog/developer-blog/anaconda-25-release-now-mkl-optimizations">为Anaconda2.5提供MKL优化</a>，里面也提供了去掉MKL优化的方法：</p>
-<div class="highlighter-rouge"><pre class="highlight"><code>conda install nomkl numpy scipy scikit-learn numexpr
+<p>这个例子里用到了sklearn的tSNE来降维作显示，但每次运行到这里Jupyter都提醒Kernel死掉了，Kernel重启。于是把源码复制到单独python文件里执行，看到如下错误：<br />
+<code class="highlighter-rouge">
+Intel MKL FATAL ERROR: Cannot load libmkl_avx2.so or libmkl_def.so.
+</code><br />
+这个问题似乎是Intel的MKL有问题，网上查到这篇<a href="https://www.continuum.io/blog/developer-blog/anaconda-25-release-now-mkl-optimizations">为Anaconda2.5提供MKL优化</a>，里面也提供了去掉MKL优化的方法：<br />
+<code class="highlighter-rouge">
+conda install nomkl numpy scipy scikit-learn numexpr
 conda remove mkl mkl-service
-</code></pre>
-</div>
-<p>执行过之后，就去除了mkl库，import mkl就找不到了，同时例子程序里的问题也没有再出现。
+</code><br />
+执行过之后，就去除了mkl库，import mkl就找不到了，同时例子程序里的问题也没有再出现。<br />
 如果还是想使用Intel MKL优化的话，或许可以参考Anaconda官方文档<a href="https://docs.continuum.io/mkl-optimizations/">MKL OPTIMIZATIONS</a>来重新安装过。不过，我先不装了。</p>
 
 <h2 id="tensor---rank--vector-space---vector---dimension">张量 Tensor 的 阶数 Rank ，向量空间 Vector Space 和 向量 Vector 的 维数 Dimension</h2>
