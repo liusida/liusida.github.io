@@ -12,11 +12,11 @@ cd ~/homepage/
 jekyll build
 git add -A
 git commit -m "$COMMENT"
-proxychains git push origin sources
+p git push origin sources
 
 cd _site/
 git add -A
 git commit -m "$COMMENT"
-proxychains git push origin master
+p git push origin master
 
 echo "Done."
