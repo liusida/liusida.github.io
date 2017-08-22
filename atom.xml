@@ -4,7 +4,7 @@
  <title>Liu Sida's Homepage</title>
  <link href="http://liusida.github.io//atom.xml" rel="self"/>
  <link href="http://liusida.github.io//"/>
- <updated>2016-12-30T16:23:33+08:00</updated>
+ <updated>2017-08-22T09:29:40-07:00</updated>
  <id>http://liusida.github.io/</id>
  <author>
    <name>liusida</name>
@@ -13,9 +13,22 @@
 
  
  <entry>
+   <title>About sparse_column_with_hash_bucket</title>
+   <link href="http://liusida.github.io//2017/08/22/im-back/"/>
+   <updated>2017-08-22T00:00:00-07:00</updated>
+   <id>http://liusida.github.io//2017/08/22/im-back</id>
+   <content type="html">&lt;p&gt;I am back. ^_^&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&#39;Hello, world!&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+</content>
+ </entry>
+ 
+ <entry>
    <title>Cross Entropy 的通俗意义</title>
    <link href="http://liusida.github.io//2016/11/25/cross-entropy/"/>
-   <updated>2016-11-25T00:00:00+08:00</updated>
+   <updated>2016-11-25T00:00:00-08:00</updated>
    <id>http://liusida.github.io//2016/11/25/cross-entropy</id>
    <content type="html">&lt;p&gt;cross_entropy 公式如下：&lt;/p&gt;
 
@@ -96,7 +109,7 @@
  <entry>
    <title>推荐《写下记忆：理解、推导、扩展LSTM》</title>
    <link href="http://liusida.github.io//2016/11/24/deriving-lstm/"/>
-   <updated>2016-11-24T00:00:00+08:00</updated>
+   <updated>2016-11-24T00:00:00-08:00</updated>
    <id>http://liusida.github.io//2016/11/24/deriving-lstm</id>
    <content type="html">&lt;p&gt;今天学习一篇挺有意思的文章《&lt;a href=&quot;http://r2rt.com/written-memories-understanding-deriving-and-extending-the-lstm.html&quot;&gt;写下记忆：理解、推导、扩展LSTM&lt;/a&gt;》（英文），从 RNN 的原理开始讲起，并讲述 RNN 为什么理论上很美好，实践起来要出问题，以及各种问题是怎么被解决的，从而诞生了 LSTM 。&lt;/p&gt;
 
@@ -110,7 +123,7 @@
  <entry>
    <title>学习Tensorflow的LSTM的RNN例子</title>
    <link href="http://liusida.github.io//2016/11/16/study-lstm/"/>
-   <updated>2016-11-16T00:00:00+08:00</updated>
+   <updated>2016-11-16T00:00:00-08:00</updated>
    <id>http://liusida.github.io//2016/11/16/study-lstm</id>
    <content type="html">&lt;p&gt;前几天写了&lt;a href=&quot;https://liusida.github.io/2016/11/14/study-embeddings/&quot;&gt;学习Embeddings的例子&lt;/a&gt;，因为琢磨了各个细节，自己也觉得受益匪浅。于是，开始写下一个LSTM的教程吧。&lt;/p&gt;
 
@@ -670,7 +683,7 @@
  <entry>
    <title>学习Tensorflow的Embeddings例子</title>
    <link href="http://liusida.github.io//2016/11/14/study-embeddings/"/>
-   <updated>2016-11-14T00:00:00+08:00</updated>
+   <updated>2016-11-14T00:00:00-08:00</updated>
    <id>http://liusida.github.io//2016/11/14/study-embeddings</id>
    <content type="html">&lt;p&gt;Udacity 上有一个 Google 技术人员提供的基于 Tensorflow 的深度学习课程，今天学到 Embeddings ，有点难理解，所以写个笔记记录下，以备日后回忆。&lt;/p&gt;
 
@@ -1191,7 +1204,7 @@ conda remove mkl mkl-service
  <entry>
    <title>如何问一个好问题？</title>
    <link href="http://liusida.github.io//2016/11/12/how-to-ask-a-good-question/"/>
-   <updated>2016-11-12T00:00:00+08:00</updated>
+   <updated>2016-11-12T00:00:00-08:00</updated>
    <id>http://liusida.github.io//2016/11/12/how-to-ask-a-good-question</id>
    <content type="html">&lt;p&gt;&lt;a href=&quot;http://stackoverflow.com/help/how-to-ask&quot;&gt;本文翻译自StackOverflow.com，原文链接（英文）&lt;/a&gt;&lt;/p&gt;
 
@@ -1262,7 +1275,7 @@ conda remove mkl mkl-service
  <entry>
    <title>Recurrent Neural Network(RNN) Implementation</title>
    <link href="http://liusida.github.io//2016/11/04/rnn-implementation/"/>
-   <updated>2016-11-04T00:00:00+08:00</updated>
+   <updated>2016-11-04T00:00:00-07:00</updated>
    <id>http://liusida.github.io//2016/11/04/rnn-implementation</id>
    <content type="html">&lt;p&gt;I heard about RNN for a long time, and have learned the concept several times, but until yesterday, I can’t implement any useful code to solve my own problem.&lt;/p&gt;
 
@@ -1444,7 +1457,7 @@ output = tf.matmul(outputs[-1],layer[&#39;weights&#39;]) + layer[&#39;biases&#39
  <entry>
    <title>from Tensorflow to Keras</title>
    <link href="http://liusida.github.io//2016/10/31/translate-from-tf-2-keras/"/>
-   <updated>2016-10-31T00:00:00+08:00</updated>
+   <updated>2016-10-31T00:00:00-07:00</updated>
    <id>http://liusida.github.io//2016/10/31/translate-from-tf-2-keras</id>
    <content type="html">&lt;p&gt;I know 3 high level api for deep learning. They are Tensorflow.contrib.learn(SKFlow), TFLearn and Keras. All of them are great tools, but maybe I like Keras because of the easy style of code.&lt;/p&gt;
 
@@ -1536,7 +1549,7 @@ output = tf.matmul(outputs[-1],layer[&#39;weights&#39;]) + layer[&#39;biases&#39
  <entry>
    <title>About sparse_column_with_hash_bucket</title>
    <link href="http://liusida.github.io//2016/10/30/hash-bucket/"/>
-   <updated>2016-10-30T00:00:00+08:00</updated>
+   <updated>2016-10-30T00:00:00-07:00</updated>
    <id>http://liusida.github.io//2016/10/30/hash-bucket</id>
    <content type="html">&lt;p&gt;Yesterday, I saw tf.contrib.layers.sparse_column_with_hash_bucket in a &lt;a href=&quot;https://www.tensorflow.org/versions/r0.11/tutorials/wide/index.html&quot;&gt;tutorial&lt;/a&gt;. That’s a very useful function! I thought. I never met such a function in Keras or TFLearn.&lt;/p&gt;
 
@@ -1636,7 +1649,7 @@ output = tf.matmul(outputs[-1],layer[&#39;weights&#39;]) + layer[&#39;biases&#39
  <entry>
    <title>Thank you, GitHub and Jekyll</title>
    <link href="http://liusida.github.io//2016/10/29/thank-you-github-n-jekyll/"/>
-   <updated>2016-10-29T00:00:00+08:00</updated>
+   <updated>2016-10-29T00:00:00-07:00</updated>
    <id>http://liusida.github.io//2016/10/29/thank-you-github-n-jekyll</id>
    <content type="html">&lt;p&gt;Thank you, GitHub and Jekyll.&lt;/p&gt;
 
