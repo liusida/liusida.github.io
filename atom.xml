@@ -4,7 +4,7 @@
  <title>Liu Sida's Homepage</title>
  <link href="http://liusida.github.io//atom.xml" rel="self"/>
  <link href="http://liusida.github.io//"/>
- <updated>2017-08-25T02:20:10-07:00</updated>
+ <updated>2017-08-25T02:32:56-07:00</updated>
  <id>http://liusida.github.io/</id>
  <author>
    <name>liusida</name>
@@ -61,7 +61,7 @@
 
 &lt;p&gt;After maybe 10 hours of debug, I even implement a bunch of tensorflow alternative functions, finally, the model work out!&lt;/p&gt;
 
-&lt;p&gt;&lt;a href=&quot;https://github.com/liusida/DeepScratch/blob/master/main.ipynb&quot;&gt;main.ipynb&lt;/a&gt; &amp;lt;- Here is the code and formula.&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://github.com/liusida/DeepScratch/blob/master/main.ipynb&quot;&gt;main.ipynb&lt;/a&gt; &amp;lt;- Here is the code and formula. (I found that Jupyter Notebook is great to comment codes!)&lt;/p&gt;
 
 </content>
  </entry>
