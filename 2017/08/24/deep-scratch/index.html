@@ -79,7 +79,33 @@
 
 <h2 id="day-2">Day 2</h2>
 
-<p>to be continue…</p>
+<p>I implemented a basic model, including those functions:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="n">ReLU</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<span class="n">softmax</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<span class="n">forward_propagation_each_layer</span><span class="p">(</span><span class="n">W</span><span class="p">,</span> <span class="n">A_prev</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">activation_function</span><span class="o">=</span><span class="n">ReLU</span><span class="p">)</span>
+<span class="n">loss</span><span class="p">(</span><span class="n">Y_hat</span><span class="p">,</span> <span class="n">Y</span><span class="p">)</span>
+<span class="n">cost</span><span class="p">(</span><span class="n">loss</span><span class="p">)</span>
+<span class="n">predict</span><span class="p">(</span><span class="n">Y_hat</span><span class="p">)</span>
+<span class="n">accuracy</span><span class="p">(</span><span class="n">Y_predict</span><span class="p">,</span> <span class="n">Y</span><span class="p">)</span>
+<span class="n">backpropagate_cost</span><span class="p">(</span><span class="n">Y</span><span class="p">,</span> <span class="n">AL</span><span class="p">)</span>
+<span class="n">backpropagate_softmax</span><span class="p">(</span><span class="n">AL</span><span class="p">,</span> <span class="n">dAL</span><span class="p">,</span> <span class="n">Y</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">ZL</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
+<span class="n">backpropagate_linear</span><span class="p">(</span><span class="n">dZ</span><span class="p">,</span> <span class="n">W</span><span class="p">,</span> <span class="n">A_prev</span><span class="p">)</span>
+<span class="n">backpropagate_ReLU</span><span class="p">(</span><span class="n">dA</span><span class="p">,</span> <span class="n">Z</span><span class="p">)</span>
+
+<span class="n">forwardpropagation_all</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<span class="n">backpropagate_all</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">)</span>
+<span class="n">update_parameters</span><span class="p">()</span>
+
+<span class="n">model</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">learning_rate</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">print_every</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">iteration</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">hidden_layers</span><span class="o">=</span><span class="p">[</span><span class="mi">100</span><span class="p">],</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">128</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<p>I had to say, the math is complex for me. When I implemented first time, I almost have 10 bugs in calculation!</p>
+
+<p>There are a few unconcrete concepts, such as what loss function should I use for multi-class classification? What is the derivative of softmax? When should I divide the result by m (the number of examples)?</p>
+
+<p>After maybe 10 hours of debug, I even implement a bunch of tensorflow alternative functions, finally, the model work out!</p>
 
 
 </div>
