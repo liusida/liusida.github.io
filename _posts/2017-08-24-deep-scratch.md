@@ -19,7 +19,33 @@ After these, I can now start this project.
 
 ## Day 2
 
-to be continue...
+I implemented a basic model, including those functions:
+
+```python
+ReLU(X)
+softmax(X)
+forward_propagation_each_layer(W, A_prev, b, activation_function=ReLU)
+loss(Y_hat, Y)
+cost(loss)
+predict(Y_hat)
+accuracy(Y_predict, Y)
+backpropagate_cost(Y, AL)
+backpropagate_softmax(AL, dAL, Y=None, ZL=None)
+backpropagate_linear(dZ, W, A_prev)
+backpropagate_ReLU(dA, Z)
+
+forwardpropagation_all(X)
+backpropagate_all(X, Y)
+update_parameters()
+
+model(X, Y, learning_rate=0.01, print_every=100, iteration=500, hidden_layers=[100], batch_size=128)
+```
+
+I had to say, the math is complex for me. When I implemented first time, I almost have 10 bugs in calculation!
+
+There are a few unconcrete concepts, such as what loss function should I use for multi-class classification? What is the derivative of softmax? When should I divide the result by m (the number of examples)?
+
+After maybe 10 hours of debug, I even implement a bunch of tensorflow alternative functions, finally, the model work out!
 
 
 
