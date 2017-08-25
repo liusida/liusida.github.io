@@ -47,6 +47,7 @@ There are a few unconcrete concepts, such as what loss function should I use for
 
 After maybe 10 hours of debug, I even implement a bunch of tensorflow alternative functions, finally, the model work out!
 
+[main.ipynb][5] <- Here is the code and formula.
 
 
 [1]:https://www.coursera.org/specializations/deep-learning
