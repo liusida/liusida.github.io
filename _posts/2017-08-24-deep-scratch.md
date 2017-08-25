@@ -47,7 +47,23 @@ There are a few unconcrete concepts, such as what loss function should I use for
 
 After maybe 10 hours of debug, I even implement a bunch of tensorflow alternative functions, finally, the model work out!
 
-[main.ipynb][5] <- Here is the code and formula. (I found that Jupyter Notebook is great to comment codes!)
+[Day 2's notebook][day2] <- Here is the code and formula. (I found that Jupyter Notebook is great to comment codes!)
+
+## Day 3
+
+The training set accuracy was already 1.0, so I looked at the dev set accuracy: 0.6? Oh, that's bad. So I had a variance problem.
+
+I tried to implement regularization, but seems had little help to this variance problem.
+
+Then suddenly I figured out why: because I use random batch to train, the distribution of random batch can not cover all training examples, so I wasted a lot of training examples.
+
+So I changed to mini-batch, which define a mini-batch size, every time use a segment of training data, so it can sure every single example was used for training.
+
+And I also realize a very interesting aspect of mini-batch, it has a very good effect to variance problem, especially when the network is relatively shallow. I think it acts just like dropout! The network can not depend on any single data!
+
+Thanks to mini-batch, my dev accuracy jumped to 0.98, and test set accuracy was also 0.98. Not bad for today's work!
+
+[Day 3's notebook][day3] <- Here is mini-batch, regularization, train/dev/test accuracy.
 
 
 [1]:https://www.coursera.org/specializations/deep-learning
@@ -55,3 +71,5 @@ After maybe 10 hours of debug, I even implement a bunch of tensorflow alternativ
 [3]:https://youtu.be/-eyhCTvrEtE?list=PLfsVAYSMwsksjfpy8P2t_I52mugGeA5gR
 [4]:https://github.com/liusida/DeepScratch
 [5]:https://github.com/liusida/DeepScratch/blob/master/main.ipynb
+[day2]:https://github.com/liusida/DeepScratch/blob/day2/main.ipynb
+[day3]:https://github.com/liusida/DeepScratch/blob/day3/main.ipynb
