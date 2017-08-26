@@ -4,7 +4,7 @@
  <title>Liu Sida's Homepage</title>
  <link href="http://liusida.github.io//atom.xml" rel="self"/>
  <link href="http://liusida.github.io//"/>
- <updated>2017-08-25T09:46:55-07:00</updated>
+ <updated>2017-08-26T08:57:23-07:00</updated>
  <id>http://liusida.github.io/</id>
  <author>
    <name>liusida</name>
@@ -78,6 +78,12 @@
 &lt;p&gt;Thanks to mini-batch, my dev accuracy jumped to 0.98, and test set accuracy was also 0.98. Not bad for today’s work!&lt;/p&gt;
 
 &lt;p&gt;&lt;a href=&quot;https://github.com/liusida/DeepScratch/blob/day3/main.ipynb&quot;&gt;Day 3’s notebook&lt;/a&gt; &amp;lt;- Here is mini-batch, regularization, train/dev/test accuracy.&lt;/p&gt;
+
+&lt;h2 id=&quot;day-4&quot;&gt;Day 4&lt;/h2&gt;
+
+&lt;p&gt;Since the code was work and was ugly… I decided to refactory the code.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://github.com/liusida/DeepScratch/blob/day4/main.ipynb&quot;&gt;Day 4’s notebook&lt;/a&gt; &amp;lt;- I have refactoried half of the code.&lt;/p&gt;
 
 </content>
  </entry>
