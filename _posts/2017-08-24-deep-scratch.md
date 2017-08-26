@@ -65,6 +65,13 @@ Thanks to mini-batch, my dev accuracy jumped to 0.98, and test set accuracy was 
 
 [Day 3's notebook][day3] <- Here is mini-batch, regularization, train/dev/test accuracy.
 
+## Day 4
+
+Since the code was work and was ugly... I decided to refactory the code.
+
+[Day 4's notebook][day4] <- I have refactoried half of the code.
+
+  
 
 [1]:https://www.coursera.org/specializations/deep-learning
 [2]:https://www.deeplearning.ai/
@@ -73,3 +80,4 @@ Thanks to mini-batch, my dev accuracy jumped to 0.98, and test set accuracy was 
 [5]:https://github.com/liusida/DeepScratch/blob/master/main.ipynb
 [day2]:https://github.com/liusida/DeepScratch/blob/day2/main.ipynb
 [day3]:https://github.com/liusida/DeepScratch/blob/day3/main.ipynb
+[day4]:https://github.com/liusida/DeepScratch/blob/day4/main.ipynb
