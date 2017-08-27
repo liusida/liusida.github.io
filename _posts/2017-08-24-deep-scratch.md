@@ -71,6 +71,17 @@ Since the code was work and was ugly... I decided to refactory the code.
 
 [Day 4's notebook][day4] <- I have refactoried half of the code.
 
+## Day 5
+
+Refactory done. I was happy that the code looks clean now.
+
+During refactory, I attended to calculate the derivative of $Z=WA+b, \frac{\partial Z}{\partial A}$, but since $Z,W,A$ are all matrices, I failed to understand the derivative of Matrix-by-Matrix. According the Wikipedia, it seems results a four-rank tensor. So, it was lucky that in neural network, the final $L$ is a scalar, so derivative of Scalar-by-Martix is much easy to understand.
+
+I also noticed that in Tensorflow, the final loss function is a Vector! So, they must understand what is the derivative of Matrix-by-Matrix!
+
+[Day 5's notebook][day5] <- Now the code is runable and clean.
+
+
   
 
 [1]:https://www.coursera.org/specializations/deep-learning
@@ -81,3 +92,4 @@ Since the code was work and was ugly... I decided to refactory the code.
 [day2]:https://github.com/liusida/DeepScratch/blob/day2/main.ipynb
 [day3]:https://github.com/liusida/DeepScratch/blob/day3/main.ipynb
 [day4]:https://github.com/liusida/DeepScratch/blob/day4/main.ipynb
+[day5]:https://github.com/liusida/DeepScratch/blob/day5/main.ipynb
