@@ -4,7 +4,7 @@
  <title>Liu Sida's Homepage</title>
  <link href="http://liusida.github.io//atom.xml" rel="self"/>
  <link href="http://liusida.github.io//"/>
- <updated>2017-08-26T08:57:23-07:00</updated>
+ <updated>2017-08-27T07:01:15-07:00</updated>
  <id>http://liusida.github.io/</id>
  <author>
    <name>liusida</name>
@@ -84,6 +84,16 @@
 &lt;p&gt;Since the code was work and was ugly… I decided to refactory the code.&lt;/p&gt;
 
 &lt;p&gt;&lt;a href=&quot;https://github.com/liusida/DeepScratch/blob/day4/main.ipynb&quot;&gt;Day 4’s notebook&lt;/a&gt; &amp;lt;- I have refactoried half of the code.&lt;/p&gt;
+
+&lt;h2 id=&quot;day-5&quot;&gt;Day 5&lt;/h2&gt;
+
+&lt;p&gt;Refactory done. I was happy that the code looks clean now.&lt;/p&gt;
+
+&lt;p&gt;During refactory, I attended to calculate the derivative of $Z=WA+b, \frac{\partial Z}{\partial A}$, but since $Z,W,A$ are all matrices, I failed to understand the derivative of Matrix-by-Matrix. According the Wikipedia, it seems results a four-rank tensor. So, it was lucky that in neural network, the final $L$ is a scalar, so derivative of Scalar-by-Martix is much easy to understand.&lt;/p&gt;
+
+&lt;p&gt;I also noticed that in Tensorflow, the final loss function is a Vector! So, they must understand what is the derivative of Matrix-by-Matrix!&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://github.com/liusida/DeepScratch/blob/day5/main.ipynb&quot;&gt;Day 5’s notebook&lt;/a&gt; &amp;lt;- Now the code is runable and clean.&lt;/p&gt;
 
 </content>
  </entry>
