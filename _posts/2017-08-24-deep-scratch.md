@@ -9,11 +9,11 @@ In those courses, there is a series of interview of [Heroes of Deep Learning][3]
 
 ## Day 1
 
-I create a new repository named [Deep Scratch][4] in github, and a [main.ipynb][5] file, to do this job.
+I created a new repository named [Deep Scratch][4] in github, and a [main.ipynb][5] file, to do this job.
 
-First of all, I made a todo list, those are functions or algorithms metioned in the courses. I planed to implement most of them.
+First of all, I made a todo list, those are functions or algorithms mentioned in the courses. I planed to implement most of them.
 
-Second, I decided to begin with MNIST dataset. It is the Hello, World dataset. But I will switch to other dataset to test my model. In my mind, maybe too ambitious, I want to build a transferable model, I think that's the correct direction to general thinking.
+Second, I decided to begin with MNIST dataset. It is the Hello, World dataset. But I will switch to other datasets to test my model. In my mind, maybe too ambitious, I want to build a transferable model, I think that's the correct direction to general thinking.
 
 After these, I can now start this project.
 
@@ -41,13 +41,13 @@ update_parameters()
 model(X, Y, learning_rate=0.01, print_every=100, iteration=500, hidden_layers=[100], batch_size=128)
 ```
 
-I had to say, the math is complex for me. When I implemented first time, I almost have 10 bugs in calculation!
+I had to say, the math is complex for me. When I implemented the first time, I almost have 10 bugs in the calculation!
 
-There are a few unconcrete concepts, such as what loss function should I use for multi-class classification? What is the derivative of softmax? When should I divide the result by m (the number of examples)?
+There were a few un-concrete concepts, such as what loss function should I use for multi-class classification? What is the derivative of softmax? When should I divide the result by m (the number of examples)?
 
-After maybe 10 hours of debug, I even implement a bunch of tensorflow alternative functions, finally, the model work out!
+After maybe 10 hours of debugging, I even implemented a bunch of tensorflow alternative functions, finally, the model worked out!
 
-[Day 2's notebook][day2] <- Here is the code and formula. (I found that Jupyter Notebook is great to comment codes!)
+[Day 2's notebook][day2] <- Here were the code and formula. (I found that Jupyter Notebook is great to comment codes!)
 
 ## Day 3
 
@@ -67,15 +67,15 @@ Thanks to mini-batch, my dev accuracy jumped to 0.98, and test set accuracy was 
 
 ## Day 4
 
-Since the code was work and was ugly... I decided to refactory the code.
+Since the code was work and was ugly... I decided to refactor the code.
 
-[Day 4's notebook][day4] <- I have refactoried half of the code.
+[Day 4's notebook][day4] <- I had refactored half of the code.
 
 ## Day 5
 
-Refactory done. I was happy that the code looks clean now.
+Refactor done. I was happy that the code looks clean now.
 
-During refactory, I attended to calculate the derivative of $Z=WA+b, \frac{\partial Z}{\partial A}$, but since $Z,W,A$ are all matrices, I failed to understand the derivative of Matrix-by-Matrix. According the Wikipedia, it seems results a four-rank tensor. So, it was lucky that in neural network, the final $L$ is a scalar, so derivative of Scalar-by-Martix is much easy to understand.
+During refactoring, I attended to calculate the derivative of **Z=WA+b**, the **dL/dA**, but since **Z,W,A** are all matrices, I failed to understand the derivative of Matrix-by-Matrix. According to the Wikipedia, it seems results a four-rank tensor. So, it was lucky that in the neural network, the final $L$ is a scalar, so derivative of Scalar-by-Martix is much easy to understand.
 
 I also noticed that in Tensorflow, the final loss function is a Vector! So, they must understand what is the derivative of Matrix-by-Matrix!
 
@@ -86,15 +86,15 @@ I also noticed that in Tensorflow, the final loss function is a Vector! So, they
 
 As there was still a variance problem, and L2 regularization seems not help much, I decided to implement Dropout.
 
-I choosed the "inverted dropout", which introduced by Andrew Ng in the course.
+I chose the "inverted dropout", which introduced by Andrew Ng in the course.
 
-I just watched a video comparing algebra and geometrics, it says that calculas and algebra can give you great power of solving problem by just compute, but geometrics sometimes has its own beauty--it sometimes can solve a problem in a very simple way. Today, I felt like that the dropout technic is an anology to geometrics, simple, effective, and beatuful.
+I just watched a video comparing algebra and geometrics, it says that calculus and algebra can give you great power of solving a problem by just computing, but geometrics sometimes has its own beauty--it sometimes can solve a problem in a very simple way. Today, I felt like that the dropout technic is an analogy to geometrics, simple, effective, and beautiful.
 
 Now after 100 iterations learning from training set, the dev accuracy raised to 98.34%.
 
 There's another lovely feature I added into the code: during training, I can just press the stop button of notebook, and change some of the hyperparameters (only except the arcitecture--the hidden layers), and Ctrl+Enter run the cell, the parameters W and b are kept, not re-initialized, so the training can go on without restart from beginning.
 
-But till now, I spent more and more time running the program by CPU--actually I am lucky that I have MKL for numpy, so I can use all of my CPU--I felt a little wasting of time. Maybe I will implement those in Tensorflow, and use my GPU to save time. And Tensorflow has auto-gradiant computation ...
+But till now, I spent more and more time running the program by CPU--actually I am lucky that I have MKL for numpy, so I can use all of my CPU--I felt a little wasting of time. Maybe I will implement those in Tensorflow, and use my GPU to save time. And Tensorflow has auto-gradient computation ...
 
 [Day 6's notebook][day6] <- Dropout version
   
@@ -108,3 +108,4 @@ But till now, I spent more and more time running the program by CPU--actually I 
 [day3]:https://github.com/liusida/DeepScratch/blob/day3/main.ipynb
 [day4]:https://github.com/liusida/DeepScratch/blob/day4/main.ipynb
 [day5]:https://github.com/liusida/DeepScratch/blob/day5/main.ipynb
+[day6]:https://github.com/liusida/DeepScratch/blob/day6/main.ipynb
