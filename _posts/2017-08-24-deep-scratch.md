@@ -82,6 +82,21 @@ I also noticed that in Tensorflow, the final loss function is a Vector! So, they
 [Day 5's notebook][day5] <- Now the code is runable and clean.
 
 
+## Day 6
+
+As there was still a variance problem, and L2 regularization seems not help much, I decided to implement Dropout.
+
+I choosed the "inverted dropout", which introduced by Andrew Ng in the course.
+
+I just watched a video comparing algebra and geometrics, it says that calculas and algebra can give you great power of solving problem by just compute, but geometrics sometimes has its own beauty--it sometimes can solve a problem in a very simple way. Today, I felt like that the dropout technic is an anology to geometrics, simple, effective, and beatuful.
+
+Now after 100 iterations learning from training set, the dev accuracy raised to 98.34%.
+
+There's another lovely feature I added into the code: during training, I can just press the stop button of notebook, and change some of the hyperparameters (only except the arcitecture--the hidden layers), and Ctrl+Enter run the cell, the parameters W and b are kept, not re-initialized, so the training can go on without restart from beginning.
+
+But till now, I spent more and more time running the program by CPU--actually I am lucky that I have MKL for numpy, so I can use all of my CPU--I felt a little wasting of time. Maybe I will implement those in Tensorflow, and use my GPU to save time. And Tensorflow has auto-gradiant computation ...
+
+[Day 6's notebook][day6] <- Dropout version
   
 
 [1]:https://www.coursera.org/specializations/deep-learning
