@@ -4,7 +4,7 @@
  <title>Liu Sida's Homepage</title>
  <link href="http://liusida.github.io//atom.xml" rel="self"/>
  <link href="http://liusida.github.io//"/>
- <updated>2017-08-27T07:01:15-07:00</updated>
+ <updated>2017-08-28T05:15:54-07:00</updated>
  <id>http://liusida.github.io/</id>
  <author>
    <name>liusida</name>
@@ -94,6 +94,22 @@
 &lt;p&gt;I also noticed that in Tensorflow, the final loss function is a Vector! So, they must understand what is the derivative of Matrix-by-Matrix!&lt;/p&gt;
 
 &lt;p&gt;&lt;a href=&quot;https://github.com/liusida/DeepScratch/blob/day5/main.ipynb&quot;&gt;Day 5’s notebook&lt;/a&gt; &amp;lt;- Now the code is runable and clean.&lt;/p&gt;
+
+&lt;h2 id=&quot;day-6&quot;&gt;Day 6&lt;/h2&gt;
+
+&lt;p&gt;As there was still a variance problem, and L2 regularization seems not help much, I decided to implement Dropout.&lt;/p&gt;
+
+&lt;p&gt;I choosed the “inverted dropout”, which introduced by Andrew Ng in the course.&lt;/p&gt;
+
+&lt;p&gt;I just watched a video comparing algebra and geometrics, it says that calculas and algebra can give you great power of solving problem by just compute, but geometrics sometimes has its own beauty–it sometimes can solve a problem in a very simple way. Today, I felt like that the dropout technic is an anology to geometrics, simple, effective, and beatuful.&lt;/p&gt;
+
+&lt;p&gt;Now after 100 iterations learning from training set, the dev accuracy raised to 98.34%.&lt;/p&gt;
+
+&lt;p&gt;There’s another lovely feature I added into the code: during training, I can just press the stop button of notebook, and change some of the hyperparameters (only except the arcitecture–the hidden layers), and Ctrl+Enter run the cell, the parameters W and b are kept, not re-initialized, so the training can go on without restart from beginning.&lt;/p&gt;
+
+&lt;p&gt;But till now, I spent more and more time running the program by CPU–actually I am lucky that I have MKL for numpy, so I can use all of my CPU–I felt a little wasting of time. Maybe I will implement those in Tensorflow, and use my GPU to save time. And Tensorflow has auto-gradiant computation …&lt;/p&gt;
+
+&lt;p&gt;[Day 6’s notebook][day6] &amp;lt;- Dropout version&lt;/p&gt;
 
 </content>
  </entry>
