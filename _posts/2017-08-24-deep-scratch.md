@@ -97,7 +97,21 @@ There's another lovely feature I added into the code: during training, I can jus
 But till now, I spent more and more time running the program by CPU--actually I am lucky that I have MKL for numpy, so I can use all of my CPU--I felt a little wasting of time. Maybe I will implement those in Tensorflow, and use my GPU to save time. And Tensorflow has auto-gradient computation ...
 
 [Day 6's notebook][day6] <- Dropout version
-  
+
+## Day 7
+
+This was the last day. I implemented some gradient checking functions to double-check my understanding and code.
+
+It was quite strange to me that I have misunderstood the backpropagation for Softmax. When I tested it, I have a relatively large difference between the Calculated result and Approximate result. So I looked for more information online, but I only found [an explanation about Softmax function with a vector(one sample)][softmax-vector] which I could understand.
+
+Finally, I used the way Tensorflow does--calculate softmax and loss function at the same time. That formula is really simple. But I still felt not fully understand the principles.
+
+[Day 7's notebook][day7] <- After correct some functions, now the result ... had no improvement ... WHY...
+
+I thought I was kind of stuck here, so I decided to move on and try some new ideas. Maybe I would come back and refine all those codes later when I engaged more knowledge.
+
+Thank you for reading, and welcome to leave a message below.
+
 
 [1]:https://www.coursera.org/specializations/deep-learning
 [2]:https://www.deeplearning.ai/
@@ -109,3 +123,5 @@ But till now, I spent more and more time running the program by CPU--actually I 
 [day4]:https://github.com/liusida/DeepScratch/blob/day4/main.ipynb
 [day5]:https://github.com/liusida/DeepScratch/blob/day5/main.ipynb
 [day6]:https://github.com/liusida/DeepScratch/blob/day6/main.ipynb
+[day7]:https://github.com/liusida/DeepScratch/blob/day7/main.ipynb
+[softmax-vector]:http://eli.thegreenplace.net/2016/the-softmax-function-and-its-derivative/
