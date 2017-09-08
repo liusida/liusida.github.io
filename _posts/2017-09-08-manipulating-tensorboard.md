@@ -35,6 +35,42 @@ I added all values of those points, and I'd got 7. There is an interesting pheno
 
 Suppose we wrote some log files in Notebook. Because the program was not ended, the files might have not been writen. I have found only part of information when I run some program in Notebook because of this. So every time, please call tf.summary.FileWriter.flush or close to make sure the information is fully outputed.
 
+### 4 In histogram, z-axis denotes iterations
+
+Through z-axis, we can observe the change over time. I wrote a small piece of code:
+
+```python
+import tensorflow as tf # version: r1.3
+
+W1 = tf.Variable(tf.random_uniform([10000]))
+W2 = tf.Variable(tf.random_normal([10000], stddev=0.13))
+
+w1_hist = tf.summary.histogram("from_uniform_distribution", W1)
+w2_hist = tf.summary.histogram("from_normal_distribution", W2)
+
+loss = tf.norm(W1-W2)
+
+train_op = tf.train.AdamOptimizer(learning_rate=0.01).minimize(loss)
+
+summary_op = tf.summary.merge_all()
+
+with tf.Session() as sess:
+    writer = tf.summary.FileWriter('/tmp/tensorboard/', sess.graph)
+    tf.global_variables_initializer().run()
+    for i in range(100):
+        m,_ = sess.run([summary_op, train_op])
+        if i%10==0:
+            writer.add_summary(m, i)
+    v1, v2 = sess.run([W1, W2])
+writer.close()
+
+```
+
+We can see those two distributions merged together during training:
+
+![Merged Distributions](/images/2017-09-08-tensorboard/merged_distributions.png)
+
+In fact, after the last iteration, the data W1 and W2 are almost same, but why in histogram, those two seems different? Because the scale of y-axis is different. We can see from_normal_distribution, the initial max value is higher than the from_uniform_distribution graphic.
 
 
 [1]:https://github.com/tensorflow/tensorboard
