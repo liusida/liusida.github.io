@@ -7,7 +7,7 @@
   <link href="http://gmpg.org/xfn/11" rel="profile">
 
   <title>
-    Scree of PCA(Principal Component Analysis) &middot; 
+    Use Tensorflow to Compute Gradient &middot; 
     Liu Sida’s Homepage
   </title>
 
@@ -62,20 +62,60 @@
 
     <div class="content container">
       <div class="post">
-  <h1>Scree of PCA(Principal Component Analysis)</h1>
-  <span class="post-date">23 Sep 2017</span>
-  <p>I learned the concept of PCA today, and found out this method of reducing dimension is quite terse.</p>
+  <h1>Use Tensorflow to Compute Gradient</h1>
+  <span class="post-date">24 Sep 2017</span>
+  <p>In most of Tensorflow tutorials, we use minimize(loss) to automaticly update parameters of the model.</p>
 
-<p>If we do PCA to a 40-d dataset, reduce it into a 2-d dataset, it simply choose the 2 most “Principal Components”, i.e. the 2 most “important” dimensions, and drop others.</p>
+<p>In fact, minimize() is an intergration of two steps: computing gradient, and applying gradient to update parameters.</p>
 
-<p>So, before we do PCA, we’d better do a scree of PCA, to plot the proportion of variance of each dimension.</p>
+<p>Let’s take a look at an example:</p>
 
-<p>take a look at <a href="https://www.analyticsvidhya.com/blog/2016/03/practical-guide-principal-component-analysis-python/">this implementation</a>.</p>
+<script type="math/tex; mode=display">Y = (100 - 3W - B)^2</script>
 
-<p><img src="/images/2017-09-23-scree-of-pca/proportion-of-variance.png" alt="img" /></p>
+<p>What is the gradient of W and B when W=1.0,B=1.0?</p>
 
-<p>In this example, I think we are quite safe to simply drop dimensions after PC30, i.e. we can use PCA to reduce the dataset to 30-d quite safely. (and then we may use t-sne, a more time-consuming method.)</p>
+<p>We can calculate them by hand:</p>
 
+<p>let <script type="math/tex">N = 100 - 3W - B</script>, so that <script type="math/tex">Y = N^2</script></p>
+
+<script type="math/tex; mode=display">\frac{\partial{Y}}{\partial{W}} = 
+\frac{\partial{Y}}{\partial{N}} * \frac{\partial{N}}{\partial{W}} = 
+2N * 3 = 600 - 18W - 6B = 576</script>
+
+<script type="math/tex; mode=display">\frac{\partial{Y}}{\partial{B}} = 
+\frac{\partial{Y}}{\partial{N}} * \frac{\partial{N}}{\partial{B}} = 
+2N * 1 = 200 - 3W - B = 196</script>
+
+<p>ok, now let use tensorflow to compute that:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">tensorflow</span> <span class="kn">as</span> <span class="nn">tf</span>
+
+<span class="c"># make an example:</span>
+<span class="c"># Y = (100 - W X - B)^2</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">constant</span><span class="p">(</span><span class="mf">3.</span><span class="p">)</span>
+<span class="n">W</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">Variable</span><span class="p">(</span><span class="mf">1.</span><span class="p">)</span>
+<span class="n">B</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">Variable</span><span class="p">(</span><span class="mf">1.</span><span class="p">)</span>
+<span class="n">Y</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">square</span><span class="p">(</span><span class="mi">100</span> <span class="o">-</span> <span class="n">W</span><span class="o">*</span><span class="n">X</span> <span class="o">-</span> <span class="n">B</span><span class="p">)</span>
+
+<span class="c">#the lr here is not about gradient computing. it only effect when appling</span>
+<span class="n">Ops</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">train</span><span class="o">.</span><span class="n">GradientDescentOptimizer</span><span class="p">(</span><span class="n">learning_rate</span><span class="o">=</span><span class="mf">0.001</span><span class="p">)</span>
+<span class="n">grads_and_vars</span> <span class="o">=</span> <span class="n">Ops</span><span class="o">.</span><span class="n">compute_gradients</span><span class="p">(</span><span class="n">Y</span><span class="p">)</span>
+<span class="c"># we can modify the gradient here and then:</span>
+<span class="c"># Op_update = Ops.apply_gradients(grads_and_vars)</span>
+
+<span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">Session</span><span class="p">()</span> <span class="k">as</span> <span class="n">sess</span><span class="p">:</span>
+
+    <span class="n">sess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">global_variables_initializer</span><span class="p">())</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">sess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">grads_and_vars</span><span class="p">))</span>
+</code></pre>
+</div>
+
+<p>run it, and we get:<br />
+<code class="highlighter-rouge">
+[(-576.0, 1.0), (-192.0, 1.0)]
+</code></p>
+
+<p>Hooray!</p>
 
 </div>
 
@@ -106,9 +146,9 @@ s.setAttribute('data-timestamp', +new Date());
     
       <li>
         <h3>
-          <a href="/2017/09/24/use-tensorflow-to-compute-gradient/">
-            Use Tensorflow to Compute Gradient
-            <small>24 Sep 2017</small>
+          <a href="/2017/09/23/scree-of-pca/">
+            Scree of PCA(Principal Component Analysis)
+            <small>23 Sep 2017</small>
           </a>
         </h3>
       </li>
