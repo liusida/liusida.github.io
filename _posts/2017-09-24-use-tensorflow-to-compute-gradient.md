@@ -12,7 +12,7 @@ $$
 Y = (100 - 3W - B)^2
 $$
 
-What is the gradient of W and B when W=1.0,B=1.0?
+What is the gradient of W and B **when W=1.0, B=1.0**?
 
 We can calculate them by hand:
 
