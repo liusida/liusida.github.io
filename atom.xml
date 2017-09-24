@@ -4,7 +4,7 @@
  <title>Liu Sida's Homepage</title>
  <link href="http://liusida.github.io//atom.xml" rel="self"/>
  <link href="http://liusida.github.io//"/>
- <updated>2017-09-24T05:38:46-07:00</updated>
+ <updated>2017-09-24T05:39:19-07:00</updated>
  <id>http://liusida.github.io/</id>
  <author>
    <name>liusida</name>
@@ -25,7 +25,7 @@
 
 &lt;script type=&quot;math/tex; mode=display&quot;&gt;Y = (100 - 3W - B)^2&lt;/script&gt;
 
-&lt;p&gt;What is the gradient of W and B when W=1.0,B=1.0?&lt;/p&gt;
+&lt;p&gt;What is the gradient of W and B &lt;strong&gt;when W=1.0, B=1.0&lt;/strong&gt;?&lt;/p&gt;
 
 &lt;p&gt;We can calculate them by hand:&lt;/p&gt;
 
