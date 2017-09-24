@@ -2,9 +2,9 @@
 layout: post
 title: Use Tensorflow to Compute Gradient
 ---
-In most of Tensorflow tutorials, we use minimize(loss) to automaticly update parameters of the model.
+In most of Tensorflow tutorials, we use minimize(loss) to automatically update parameters of the model.
 
-In fact, minimize() is an intergration of two steps: computing gradient, and applying gradient to update parameters.
+In fact, minimize() is an integration of two steps: computing gradients, and applying the gradients to update parameters.
 
 Let's take a look at an example:
 
