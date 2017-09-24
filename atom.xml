@@ -4,7 +4,7 @@
  <title>Liu Sida's Homepage</title>
  <link href="http://liusida.github.io//atom.xml" rel="self"/>
  <link href="http://liusida.github.io//"/>
- <updated>2017-09-24T05:36:22-07:00</updated>
+ <updated>2017-09-24T05:38:46-07:00</updated>
  <id>http://liusida.github.io/</id>
  <author>
    <name>liusida</name>
@@ -17,9 +17,9 @@
    <link href="http://liusida.github.io//2017/09/24/use-tensorflow-to-compute-gradient/"/>
    <updated>2017-09-24T00:00:00-07:00</updated>
    <id>http://liusida.github.io//2017/09/24/use-tensorflow-to-compute-gradient</id>
-   <content type="html">&lt;p&gt;In most of Tensorflow tutorials, we use minimize(loss) to automaticly update parameters of the model.&lt;/p&gt;
+   <content type="html">&lt;p&gt;In most of Tensorflow tutorials, we use minimize(loss) to automatically update parameters of the model.&lt;/p&gt;
 
-&lt;p&gt;In fact, minimize() is an intergration of two steps: computing gradient, and applying gradient to update parameters.&lt;/p&gt;
+&lt;p&gt;In fact, minimize() is an integration of two steps: computing gradients, and applying the gradients to update parameters.&lt;/p&gt;
 
 &lt;p&gt;Let’s take a look at an example:&lt;/p&gt;
 
