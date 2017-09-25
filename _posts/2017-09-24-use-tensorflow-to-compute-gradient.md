@@ -61,4 +61,4 @@ run it, and we get:
 [(-576.0, 1.0), (-192.0, 1.0)]
 ```
 
-Hooray!
+So next time Professor ask you to implement a back-propagation for some complex networks by your self, maybe this trick can help you double-check your implementation. Hooray!
