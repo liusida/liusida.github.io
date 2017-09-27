@@ -7,7 +7,7 @@
   <link href="http://gmpg.org/xfn/11" rel="profile">
 
   <title>
-    推荐《写下记忆：理解、推导、扩展LSTM》 &middot; 
+    Why does the person with highest IQ not become the most successful one? &middot; 
     Liu Sida’s Homepage
   </title>
 
@@ -62,13 +62,26 @@
 
     <div class="content container">
       <div class="post">
-  <h1>推荐《写下记忆：理解、推导、扩展LSTM》</h1>
-  <span class="post-date">24 Nov 2016</span>
-  <p>今天学习一篇挺有意思的文章《<a href="http://r2rt.com/written-memories-understanding-deriving-and-extending-the-lstm.html">写下记忆：理解、推导、扩展LSTM</a>》（英文），从 RNN 的原理开始讲起，并讲述 RNN 为什么理论上很美好，实践起来要出问题，以及各种问题是怎么被解决的，从而诞生了 LSTM 。</p>
+  <h1>Why does the person with highest IQ not become the most successful one?</h1>
+  <span class="post-date">27 Sep 2017</span>
+  <p>I heard about the “<a href="https://euler.epfl.ch/files/content/sites/euler/files/users/144617/public/LubinskiPersson.pdf">Study of Mathematically Precocious Youth After 35 Years</a>” years ago, but after studying machine learning, especially the generalization problem, I guess I have glanced some possible reasons.</p>
 
-<p>不过似乎作者隐藏了他的私人信息，不知道是谁，本来还想看看是哪国人，因为感觉不是英语母语。:P</p>
+<p>While a human is learning, the process is more or less like the machine learning. The talent, the IQ testing result, can somehow prove the human has a more complex brain, just like the neural networks have more complex architectures. Unfortunately, overfitting often occurs when a model with more complex architecture learning. When a model stuck at overfitting, the training error will go down steadily while the validation error will become larger. This problem is called generalization problem. In the context of machine learning, we have several tricks to partially solve it. Here is a list of methods and their analogies of human learning.</p>
 
-<p>这回应该不会忘记为什么 Basic LSTM 的模型是那样的了，因为都是有原因的，虽然并不能全懂。</p>
+<ul>
+  <li>
+    <p>More data. This is the best method both for machine learning and human learning. If we are smart youths, just keep learning new stuff, and we can avoid overfitting to the knowledge we learn, and generalize better.</p>
+  </li>
+  <li>
+    <p>Dropout. This is my favorite method. Don’t study all the time. Do something else, or just do nothing, maybe sleep. And then we will find our ability of generalization improved. Sounds nice!</p>
+  </li>
+  <li>
+    <p>Adding noise to input. This is also a practical method. If we need study something several times to master a perticular idea, maybe after we feel confident enough, we can add some noise, e.g. maybe use an alternative material, or maybe focusing on different details.</p>
+  </li>
+  <li>
+    <p>L2 regularization. This is pushing all the unrelated weights to be near zero. When we study, maybe after several rounds of learning, we ask ourselves to not doubt what we learned. If we are not 100% sure, then don’t trust it.</p>
+  </li>
+</ul>
 
 
 </div>
@@ -100,15 +113,6 @@ s.setAttribute('data-timestamp', +new Date());
     
       <li>
         <h3>
-          <a href="/2017/09/27/highest-IQ/">
-            Why does the person with highest IQ not become the most successful one?
-            <small>27 Sep 2017</small>
-          </a>
-        </h3>
-      </li>
-    
-      <li>
-        <h3>
           <a href="/2017/09/24/use-tensorflow-to-compute-gradient/">
             Use Tensorflow to Compute Gradient
             <small>24 Sep 2017</small>
@@ -121,6 +125,15 @@ s.setAttribute('data-timestamp', +new Date());
           <a href="/2017/09/23/scree-of-pca/">
             Scree of PCA(Principal Component Analysis)
             <small>23 Sep 2017</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/2017/09/09/learning-rate-too-large/">
+            Learning Rate is Too Large
+            <small>09 Sep 2017</small>
           </a>
         </h3>
       </li>
