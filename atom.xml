@@ -4,7 +4,7 @@
  <title>Liu Sida's Homepage</title>
  <link href="http://liusida.github.io//atom.xml" rel="self"/>
  <link href="http://liusida.github.io//"/>
- <updated>2017-09-27T06:47:41-07:00</updated>
+ <updated>2018-05-29T14:58:40+08:00</updated>
  <id>http://liusida.github.io/</id>
  <author>
    <name>liusida</name>
@@ -13,9 +13,27 @@
 
  
  <entry>
+   <title>Dynamic NN Allowing Additional Evidence?</title>
+   <link href="http://liusida.github.io//2018/05/29/dynamic-nn/"/>
+   <updated>2018-05-29T00:00:00+08:00</updated>
+   <id>http://liusida.github.io//2018/05/29/dynamic-nn</id>
+   <content type="html">&lt;p&gt;We have traditional Neural Network (NN), with static structure like this:&lt;/p&gt;
+
+&lt;p&gt;signal -&amp;gt; input -&amp;gt; hidden layer -&amp;gt; prediction =?= truth&lt;/p&gt;
+
+&lt;p&gt;-&amp;gt;  means to propagate forward&lt;br /&gt;
+=?= means to minimize difference&lt;/p&gt;
+
+&lt;p&gt;What if we already trained one model like that and there is another evidence (signal) coming in front of us? Can we add the signal into the model dynamically without abandon what has been trained already?&lt;/p&gt;
+
+&lt;p&gt;I think we should use Bayesian Theory, but I havn’t figure out how yet.&lt;/p&gt;
+</content>
+ </entry>
+ 
+ <entry>
    <title>Why does the person with highest IQ not become the most successful one?</title>
    <link href="http://liusida.github.io//2017/09/27/highest-IQ/"/>
-   <updated>2017-09-27T00:00:00-07:00</updated>
+   <updated>2017-09-27T00:00:00+08:00</updated>
    <id>http://liusida.github.io//2017/09/27/highest-IQ</id>
    <content type="html">&lt;p&gt;I heard about the “&lt;a href=&quot;https://euler.epfl.ch/files/content/sites/euler/files/users/144617/public/LubinskiPersson.pdf&quot;&gt;Study of Mathematically Precocious Youth After 35 Years&lt;/a&gt;” years ago, but after studying machine learning, especially the generalization problem, I guess I have glanced some possible reasons.&lt;/p&gt;
 
@@ -42,7 +60,7 @@
  <entry>
    <title>Use Tensorflow to Compute Gradient</title>
    <link href="http://liusida.github.io//2017/09/24/use-tensorflow-to-compute-gradient/"/>
-   <updated>2017-09-24T00:00:00-07:00</updated>
+   <updated>2017-09-24T00:00:00+08:00</updated>
    <id>http://liusida.github.io//2017/09/24/use-tensorflow-to-compute-gradient</id>
    <content type="html">&lt;p&gt;In most of Tensorflow tutorials, we use minimize(loss) to automatically update parameters of the model.&lt;/p&gt;
 
@@ -102,7 +120,7 @@
  <entry>
    <title>Scree of PCA(Principal Component Analysis)</title>
    <link href="http://liusida.github.io//2017/09/23/scree-of-pca/"/>
-   <updated>2017-09-23T00:00:00-07:00</updated>
+   <updated>2017-09-23T00:00:00+08:00</updated>
    <id>http://liusida.github.io//2017/09/23/scree-of-pca</id>
    <content type="html">&lt;p&gt;I learned the concept of PCA today, and found out this method of reducing dimension is quite terse.&lt;/p&gt;
 
@@ -122,7 +140,7 @@
  <entry>
    <title>Learning Rate is Too Large</title>
    <link href="http://liusida.github.io//2017/09/09/learning-rate-too-large/"/>
-   <updated>2017-09-09T00:00:00-07:00</updated>
+   <updated>2017-09-09T00:00:00+08:00</updated>
    <id>http://liusida.github.io//2017/09/09/learning-rate-too-large</id>
    <content type="html">&lt;p&gt;What if I see a training accuracy scalar graphic like this:&lt;/p&gt;
 
@@ -137,7 +155,7 @@
  <entry>
    <title>Manipulating Tensorboard</title>
    <link href="http://liusida.github.io//2017/09/08/manipulating-tensorboard/"/>
-   <updated>2017-09-08T00:00:00-07:00</updated>
+   <updated>2017-09-08T00:00:00+08:00</updated>
    <id>http://liusida.github.io//2017/09/08/manipulating-tensorboard</id>
    <content type="html">&lt;p&gt;Tensorboard is a very useful tool for visualizing the logs of Tensorflow. It is now an independent project on GitHub, here’s the &lt;a href=&quot;https://github.com/tensorflow/tensorboard&quot;&gt;link&lt;/a&gt;.&lt;/p&gt;
 
@@ -214,7 +232,7 @@
  <entry>
    <title>Implement a Deep Neural Network using Python and Numpy</title>
    <link href="http://liusida.github.io//2017/08/24/deep-scratch/"/>
-   <updated>2017-08-24T00:00:00-07:00</updated>
+   <updated>2017-08-24T00:00:00+08:00</updated>
    <id>http://liusida.github.io//2017/08/24/deep-scratch</id>
    <content type="html">&lt;p&gt;I have just finished &lt;a href=&quot;https://www.coursera.org/specializations/deep-learning&quot;&gt;Andrew Ng’s new Coursera courses of Deep Learning (1-3)&lt;/a&gt;. They are one part of his new project &lt;a href=&quot;https://www.deeplearning.ai/&quot;&gt;DeepLearning.ai&lt;/a&gt;.&lt;/p&gt;
 
@@ -330,7 +348,7 @@
  <entry>
    <title>Cross Entropy 的通俗意义</title>
    <link href="http://liusida.github.io//2016/11/25/cross-entropy/"/>
-   <updated>2016-11-25T00:00:00-08:00</updated>
+   <updated>2016-11-25T00:00:00+08:00</updated>
    <id>http://liusida.github.io//2016/11/25/cross-entropy</id>
    <content type="html">&lt;p&gt;cross_entropy 公式如下：&lt;/p&gt;
 
@@ -411,7 +429,7 @@
  <entry>
    <title>推荐《写下记忆：理解、推导、扩展LSTM》</title>
    <link href="http://liusida.github.io//2016/11/24/deriving-lstm/"/>
-   <updated>2016-11-24T00:00:00-08:00</updated>
+   <updated>2016-11-24T00:00:00+08:00</updated>
    <id>http://liusida.github.io//2016/11/24/deriving-lstm</id>
    <content type="html">&lt;p&gt;今天学习一篇挺有意思的文章《&lt;a href=&quot;http://r2rt.com/written-memories-understanding-deriving-and-extending-the-lstm.html&quot;&gt;写下记忆：理解、推导、扩展LSTM&lt;/a&gt;》（英文），从 RNN 的原理开始讲起，并讲述 RNN 为什么理论上很美好，实践起来要出问题，以及各种问题是怎么被解决的，从而诞生了 LSTM 。&lt;/p&gt;
 
@@ -425,7 +443,7 @@
  <entry>
    <title>学习Tensorflow的LSTM的RNN例子</title>
    <link href="http://liusida.github.io//2016/11/16/study-lstm/"/>
-   <updated>2016-11-16T00:00:00-08:00</updated>
+   <updated>2016-11-16T00:00:00+08:00</updated>
    <id>http://liusida.github.io//2016/11/16/study-lstm</id>
    <content type="html">&lt;p&gt;前几天写了&lt;a href=&quot;https://liusida.github.io/2016/11/14/study-embeddings/&quot;&gt;学习Embeddings的例子&lt;/a&gt;，因为琢磨了各个细节，自己也觉得受益匪浅。于是，开始写下一个LSTM的教程吧。&lt;/p&gt;
 
@@ -985,7 +1003,7 @@
  <entry>
    <title>学习Tensorflow的Embeddings例子</title>
    <link href="http://liusida.github.io//2016/11/14/study-embeddings/"/>
-   <updated>2016-11-14T00:00:00-08:00</updated>
+   <updated>2016-11-14T00:00:00+08:00</updated>
    <id>http://liusida.github.io//2016/11/14/study-embeddings</id>
    <content type="html">&lt;p&gt;Udacity 上有一个 Google 技术人员提供的基于 Tensorflow 的深度学习课程，今天学到 Embeddings ，有点难理解，所以写个笔记记录下，以备日后回忆。&lt;/p&gt;
 
@@ -1506,7 +1524,7 @@ conda remove mkl mkl-service
  <entry>
    <title>如何问一个好问题？</title>
    <link href="http://liusida.github.io//2016/11/12/how-to-ask-a-good-question/"/>
-   <updated>2016-11-12T00:00:00-08:00</updated>
+   <updated>2016-11-12T00:00:00+08:00</updated>
    <id>http://liusida.github.io//2016/11/12/how-to-ask-a-good-question</id>
    <content type="html">&lt;p&gt;&lt;a href=&quot;http://stackoverflow.com/help/how-to-ask&quot;&gt;本文翻译自StackOverflow.com，原文链接（英文）&lt;/a&gt;&lt;/p&gt;
 
@@ -1577,7 +1595,7 @@ conda remove mkl mkl-service
  <entry>
    <title>Recurrent Neural Network(RNN) Implementation</title>
    <link href="http://liusida.github.io//2016/11/04/rnn-implementation/"/>
-   <updated>2016-11-04T00:00:00-07:00</updated>
+   <updated>2016-11-04T00:00:00+08:00</updated>
    <id>http://liusida.github.io//2016/11/04/rnn-implementation</id>
    <content type="html">&lt;p&gt;I heard about RNN for a long time, and have learned the concept several times, but until yesterday, I can’t implement any useful code to solve my own problem.&lt;/p&gt;
 
@@ -1759,7 +1777,7 @@ output = tf.matmul(outputs[-1],layer[&#39;weights&#39;]) + layer[&#39;biases&#39
  <entry>
    <title>from Tensorflow to Keras</title>
    <link href="http://liusida.github.io//2016/10/31/translate-from-tf-2-keras/"/>
-   <updated>2016-10-31T00:00:00-07:00</updated>
+   <updated>2016-10-31T00:00:00+08:00</updated>
    <id>http://liusida.github.io//2016/10/31/translate-from-tf-2-keras</id>
    <content type="html">&lt;p&gt;I know 3 high level api for deep learning. They are Tensorflow.contrib.learn(SKFlow), TFLearn and Keras. All of them are great tools, but maybe I like Keras because of the easy style of code.&lt;/p&gt;
 
@@ -1851,7 +1869,7 @@ output = tf.matmul(outputs[-1],layer[&#39;weights&#39;]) + layer[&#39;biases&#39
  <entry>
    <title>About sparse_column_with_hash_bucket</title>
    <link href="http://liusida.github.io//2016/10/30/hash-bucket/"/>
-   <updated>2016-10-30T00:00:00-07:00</updated>
+   <updated>2016-10-30T00:00:00+08:00</updated>
    <id>http://liusida.github.io//2016/10/30/hash-bucket</id>
    <content type="html">&lt;p&gt;Yesterday, I saw tf.contrib.layers.sparse_column_with_hash_bucket in a &lt;a href=&quot;https://www.tensorflow.org/versions/r0.11/tutorials/wide/index.html&quot;&gt;tutorial&lt;/a&gt;. That’s a very useful function! I thought. I never met such a function in Keras or TFLearn.&lt;/p&gt;
 
@@ -1951,7 +1969,7 @@ output = tf.matmul(outputs[-1],layer[&#39;weights&#39;]) + layer[&#39;biases&#39
  <entry>
    <title>Thank you, GitHub and Jekyll</title>
    <link href="http://liusida.github.io//2016/10/29/thank-you-github-n-jekyll/"/>
-   <updated>2016-10-29T00:00:00-07:00</updated>
+   <updated>2016-10-29T00:00:00+08:00</updated>
    <id>http://liusida.github.io//2016/10/29/thank-you-github-n-jekyll</id>
    <content type="html">&lt;p&gt;Thank you, GitHub and Jekyll.&lt;/p&gt;
 

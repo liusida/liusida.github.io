@@ -7,7 +7,7 @@
   <link href="http://gmpg.org/xfn/11" rel="profile">
 
   <title>
-    推荐《写下记忆：理解、推导、扩展LSTM》 &middot; 
+    Dynamic NN Allowing Additional Evidence? &middot; 
     Liu Sida’s Homepage
   </title>
 
@@ -62,14 +62,18 @@
 
     <div class="content container">
       <div class="post">
-  <h1>推荐《写下记忆：理解、推导、扩展LSTM》</h1>
-  <span class="post-date">24 Nov 2016</span>
-  <p>今天学习一篇挺有意思的文章《<a href="http://r2rt.com/written-memories-understanding-deriving-and-extending-the-lstm.html">写下记忆：理解、推导、扩展LSTM</a>》（英文），从 RNN 的原理开始讲起，并讲述 RNN 为什么理论上很美好，实践起来要出问题，以及各种问题是怎么被解决的，从而诞生了 LSTM 。</p>
+  <h1>Dynamic NN Allowing Additional Evidence?</h1>
+  <span class="post-date">29 May 2018</span>
+  <p>We have traditional Neural Network (NN), with static structure like this:</p>
 
-<p>不过似乎作者隐藏了他的私人信息，不知道是谁，本来还想看看是哪国人，因为感觉不是英语母语。:P</p>
+<p>signal -&gt; input -&gt; hidden layer -&gt; prediction =?= truth</p>
 
-<p>这回应该不会忘记为什么 Basic LSTM 的模型是那样的了，因为都是有原因的，虽然并不能全懂。</p>
+<p>-&gt;  means to propagate forward<br />
+=?= means to minimize difference</p>
 
+<p>What if we already trained one model like that and there is another evidence (signal) coming in front of us? Can we add the signal into the model dynamically without abandon what has been trained already?</p>
+
+<p>I think we should use Bayesian Theory, but I havn’t figure out how yet.</p>
 
 </div>
 
@@ -100,15 +104,6 @@ s.setAttribute('data-timestamp', +new Date());
     
       <li>
         <h3>
-          <a href="/2018/05/29/dynamic-nn/">
-            Dynamic NN Allowing Additional Evidence?
-            <small>29 May 2018</small>
-          </a>
-        </h3>
-      </li>
-    
-      <li>
-        <h3>
           <a href="/2017/09/27/highest-IQ/">
             Why does the person with highest IQ not become the most successful one?
             <small>27 Sep 2017</small>
@@ -121,6 +116,15 @@ s.setAttribute('data-timestamp', +new Date());
           <a href="/2017/09/24/use-tensorflow-to-compute-gradient/">
             Use Tensorflow to Compute Gradient
             <small>24 Sep 2017</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/2017/09/23/scree-of-pca/">
+            Scree of PCA(Principal Component Analysis)
+            <small>23 Sep 2017</small>
           </a>
         </h3>
       </li>
