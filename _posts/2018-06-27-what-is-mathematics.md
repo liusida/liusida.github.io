@@ -2,6 +2,8 @@
 layout: post
 title: What is Mathematics According to Keith Devlin
 ---
+上午读了Keith Devlin教授的课程背景材料，有点感触，摘抄了几段对我很有启发的文字，以备日后参考。
+
 In Keith Devlin's book 'Introduction to Mathematical Thinking', he writes, 
 
 "Virtually nothing (with just two further advances, both from the 17th century: calculus and probability theory) from the last three hundred years has found its way into the classroom. Yet most of the mathematics used in today's world was developed in the last two hundred years! As a result, anyone whose view of mathematics is confined to what is typically taught in schools is unlikely to appreciate that research in mathematics is a thriving, worldwide activity, or to accept that mathematics permeates, often to a considerable extent, most walks of present-day life and society."
