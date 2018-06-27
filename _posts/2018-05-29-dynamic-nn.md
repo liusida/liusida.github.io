@@ -13,3 +13,4 @@ signal -> input -> hidden layer -> prediction =?= truth
 What if we already trained one model like that and there is another evidence (signal) coming in front of us? Can we add the signal into the model dynamically without abandon what has been trained already?
 
 I think we should use Bayesian Theory, but I havn't figure out how yet.
+
