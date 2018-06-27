@@ -7,7 +7,7 @@
   <link href="http://gmpg.org/xfn/11" rel="profile">
 
   <title>
-    Use Tensorflow to Compute Gradient &middot; 
+    What is Mathematics According to Keith Devlin &middot; 
     Liu Sida’s Homepage
   </title>
 
@@ -62,60 +62,25 @@
 
     <div class="content container">
       <div class="post">
-  <h1>Use Tensorflow to Compute Gradient</h1>
-  <span class="post-date">24 Sep 2017</span>
-  <p>In most of Tensorflow tutorials, we use minimize(loss) to automatically update parameters of the model.</p>
+  <h1>What is Mathematics According to Keith Devlin</h1>
+  <span class="post-date">27 Jun 2018</span>
+  <p>In Keith Devlin’s book ‘Introduction to Mathematical Thinking’, he writes,</p>
 
-<p>In fact, minimize() is an integration of two steps: computing gradients, and applying the gradients to update parameters.</p>
+<p>“Virtually nothing (with just two further advances, both from the 17th century: calculus and probability theory) from the last three hundred years has found its way into the classroom. Yet most of the mathematics used in today’s world was developed in the last two hundred years! As a result, anyone whose view of mathematics is confined to what is typically taught in schools is unlikely to appreciate that research in mathematics is a thriving, worldwide activity, or to accept that mathematics permeates, often to a considerable extent, most walks of present-day life and society.”</p>
 
-<p>Let’s take a look at an example:</p>
+<p>小学到高中课堂里所涉及到的数学，基本都是三百年前的东西了，说三百年还是给面子了，因为三百年前的也就是微积分和概率，其他的就更古老了。但是呢，今天我们在社会上用到的数学大多都是近两百年内发展出来的。所以如果认为数学就是我们中学课本里教的那些的话，就无法欣赏最新的数学研究发展咯。</p>
 
-<script type="math/tex; mode=display">Y = (100 - 3W - B)^2</script>
+<p>“…mathematical notation no more is mathematics than musical notation is music. … In 1623, Galileo wrote, ‘The great book of nature can be read only by those who know the language in which it was written. And this language is mathematics.’…”</p>
 
-<p>What is the gradient of W and B <strong>when W=1.0, B=1.0</strong>?</p>
+<p>说数学符号就是数学，就跟说音乐符号就是音乐一样，其实他只是数学的语言，并不是数学本身。但是呢，伽利略说，这个自然界是数学写成的。所以学习数学语言挺重要啊。</p>
 
-<p>We can calculate them by hand:</p>
+<p>“As one of the greatest creations of human civilization, mathematics should be taught alongside science, literature, history, and art in order to pass along the jewels of our culture from one generation to the next. We humans are far more than the jobs we do and the careers we pursue.”</p>
 
-<p>let <script type="math/tex">N = 100 - 3W - B</script>, so that <script type="math/tex">Y = N^2</script></p>
+<p>数学作为人类创造的最伟大的东西之一，跟科学、文学、历史和艺术一并，都应该教给下一代，这是人类最珍贵的东西了。我们人类嘛，不仅仅是个干活的工人，我们值更多。</p>
 
-<script type="math/tex; mode=display">\frac{\partial{Y}}{\partial{W}} = 
-\frac{\partial{Y}}{\partial{N}} * \frac{\partial{N}}{\partial{W}} = 
-2N * 3 = 600 - 18W - 6B = 576</script>
+<p>“…those skills (use mathematics as a tool) fall into two categories. … The second category comprises people who can take a new problem, say in manufacturing, identify and describe key features of the problem mathematically, and use that mathematical description to analyze the problem in a precise fashion. … I propose to give them one (name): innovative mathematical thinkers.”</p>
 
-<script type="math/tex; mode=display">\frac{\partial{Y}}{\partial{B}} = 
-\frac{\partial{Y}}{\partial{N}} * \frac{\partial{N}}{\partial{B}} = 
-2N * 1 = 200 - 3W - B = 196</script>
-
-<p>ok, now let use tensorflow to compute that:</p>
-
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">tensorflow</span> <span class="kn">as</span> <span class="nn">tf</span>
-
-<span class="c"># make an example:</span>
-<span class="c"># Y = (100 - W X - B)^2</span>
-<span class="n">X</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">constant</span><span class="p">(</span><span class="mf">3.</span><span class="p">)</span>
-<span class="n">W</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">Variable</span><span class="p">(</span><span class="mf">1.</span><span class="p">)</span>
-<span class="n">B</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">Variable</span><span class="p">(</span><span class="mf">1.</span><span class="p">)</span>
-<span class="n">Y</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">square</span><span class="p">(</span><span class="mi">100</span> <span class="o">-</span> <span class="n">W</span><span class="o">*</span><span class="n">X</span> <span class="o">-</span> <span class="n">B</span><span class="p">)</span>
-
-<span class="c">#the lr here is not about gradient computing. it only effect when appling</span>
-<span class="n">Ops</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">train</span><span class="o">.</span><span class="n">GradientDescentOptimizer</span><span class="p">(</span><span class="n">learning_rate</span><span class="o">=</span><span class="mf">0.001</span><span class="p">)</span>
-<span class="n">grads_and_vars</span> <span class="o">=</span> <span class="n">Ops</span><span class="o">.</span><span class="n">compute_gradients</span><span class="p">(</span><span class="n">Y</span><span class="p">)</span>
-<span class="c"># we can modify the gradient here and then:</span>
-<span class="c"># Op_update = Ops.apply_gradients(grads_and_vars)</span>
-
-<span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">Session</span><span class="p">()</span> <span class="k">as</span> <span class="n">sess</span><span class="p">:</span>
-
-    <span class="n">sess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">global_variables_initializer</span><span class="p">())</span>
-    <span class="k">print</span><span class="p">(</span><span class="n">sess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">grads_and_vars</span><span class="p">))</span>
-</code></pre>
-</div>
-
-<p>run it, and we get:<br />
-<code class="highlighter-rouge">
-[(-576.0, 1.0), (-192.0, 1.0)]
-</code></p>
-
-<p>So next time your professor ask you to implement a back-propagation for some complex networks by your self, maybe this trick can help you double-check your implementation. Hooray!</p>
+<p>使用数学可以有两类，一类是拿到已经定义好的数学问题想办法计算结果，第二类是在实际生活中把遇到的问题数学化，并可以用精确地风格分析这些问题。我称这些人：有创意的数学思考者。</p>
 
 </div>
 
@@ -146,15 +111,6 @@ s.setAttribute('data-timestamp', +new Date());
     
       <li>
         <h3>
-          <a href="/2018/06/27/what-is-mathematics/">
-            What is Mathematics According to Keith Devlin
-            <small>27 Jun 2018</small>
-          </a>
-        </h3>
-      </li>
-    
-      <li>
-        <h3>
           <a href="/2018/05/29/dynamic-nn/">
             Dynamic NN Allowing Additional Evidence?
             <small>29 May 2018</small>
@@ -167,6 +123,15 @@ s.setAttribute('data-timestamp', +new Date());
           <a href="/2017/09/27/highest-IQ/">
             Why does the person with highest IQ not become the most successful one?
             <small>27 Sep 2017</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/2017/09/24/use-tensorflow-to-compute-gradient/">
+            Use Tensorflow to Compute Gradient
+            <small>24 Sep 2017</small>
           </a>
         </h3>
       </li>

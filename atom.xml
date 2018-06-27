@@ -4,13 +4,38 @@
  <title>Liu Sida's Homepage</title>
  <link href="http://liusida.github.io//atom.xml" rel="self"/>
  <link href="http://liusida.github.io//"/>
- <updated>2018-05-29T14:58:40+08:00</updated>
+ <updated>2018-06-27T11:12:16+08:00</updated>
  <id>http://liusida.github.io/</id>
  <author>
    <name>liusida</name>
    <email></email>
  </author>
 
+ 
+ <entry>
+   <title>What is Mathematics According to Keith Devlin</title>
+   <link href="http://liusida.github.io//2018/06/27/what-is-mathematics/"/>
+   <updated>2018-06-27T00:00:00+08:00</updated>
+   <id>http://liusida.github.io//2018/06/27/what-is-mathematics</id>
+   <content type="html">&lt;p&gt;In Keith Devlin’s book ‘Introduction to Mathematical Thinking’, he writes,&lt;/p&gt;
+
+&lt;p&gt;“Virtually nothing (with just two further advances, both from the 17th century: calculus and probability theory) from the last three hundred years has found its way into the classroom. Yet most of the mathematics used in today’s world was developed in the last two hundred years! As a result, anyone whose view of mathematics is confined to what is typically taught in schools is unlikely to appreciate that research in mathematics is a thriving, worldwide activity, or to accept that mathematics permeates, often to a considerable extent, most walks of present-day life and society.”&lt;/p&gt;
+
+&lt;p&gt;小学到高中课堂里所涉及到的数学，基本都是三百年前的东西了，说三百年还是给面子了，因为三百年前的也就是微积分和概率，其他的就更古老了。但是呢，今天我们在社会上用到的数学大多都是近两百年内发展出来的。所以如果认为数学就是我们中学课本里教的那些的话，就无法欣赏最新的数学研究发展咯。&lt;/p&gt;
+
+&lt;p&gt;“…mathematical notation no more is mathematics than musical notation is music. … In 1623, Galileo wrote, ‘The great book of nature can be read only by those who know the language in which it was written. And this language is mathematics.’…”&lt;/p&gt;
+
+&lt;p&gt;说数学符号就是数学，就跟说音乐符号就是音乐一样，其实他只是数学的语言，并不是数学本身。但是呢，伽利略说，这个自然界是数学写成的。所以学习数学语言挺重要啊。&lt;/p&gt;
+
+&lt;p&gt;“As one of the greatest creations of human civilization, mathematics should be taught alongside science, literature, history, and art in order to pass along the jewels of our culture from one generation to the next. We humans are far more than the jobs we do and the careers we pursue.”&lt;/p&gt;
+
+&lt;p&gt;数学作为人类创造的最伟大的东西之一，跟科学、文学、历史和艺术一并，都应该教给下一代，这是人类最珍贵的东西了。我们人类嘛，不仅仅是个干活的工人，我们值更多。&lt;/p&gt;
+
+&lt;p&gt;“…those skills (use mathematics as a tool) fall into two categories. … The second category comprises people who can take a new problem, say in manufacturing, identify and describe key features of the problem mathematically, and use that mathematical description to analyze the problem in a precise fashion. … I propose to give them one (name): innovative mathematical thinkers.”&lt;/p&gt;
+
+&lt;p&gt;使用数学可以有两类，一类是拿到已经定义好的数学问题想办法计算结果，第二类是在实际生活中把遇到的问题数学化，并可以用精确地风格分析这些问题。我称这些人：有创意的数学思考者。&lt;/p&gt;
+</content>
+ </entry>
  
  <entry>
    <title>Dynamic NN Allowing Additional Evidence?</title>
@@ -27,6 +52,7 @@
 &lt;p&gt;What if we already trained one model like that and there is another evidence (signal) coming in front of us? Can we add the signal into the model dynamically without abandon what has been trained already?&lt;/p&gt;
 
 &lt;p&gt;I think we should use Bayesian Theory, but I havn’t figure out how yet.&lt;/p&gt;
+
 </content>
  </entry>
  
