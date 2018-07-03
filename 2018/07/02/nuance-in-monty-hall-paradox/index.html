@@ -7,7 +7,7 @@
   <link href="http://gmpg.org/xfn/11" rel="profile">
 
   <title>
-    Learning Rate is Too Large &middot; 
+    Nuance in Monty Hall Paradox &middot; 
     Liu Sida’s Homepage
   </title>
 
@@ -62,15 +62,20 @@
 
     <div class="content container">
       <div class="post">
-  <h1>Learning Rate is Too Large</h1>
-  <span class="post-date">09 Sep 2017</span>
-  <p>What if I see a training accuracy scalar graphic like this:</p>
+  <h1>Nuance in Monty Hall Paradox</h1>
+  <span class="post-date">02 Jul 2018</span>
+  <p>Marilyn vos Savant has made a mistake. She knew the game show Let’s Make a Deal too well, that she assumed the rules of the game show also applied to the question she was asked.</p>
 
-<p><img src="/images/2017-09-09-learning-rate-too-large/accuracy-1.png" alt="Accuracy" /></p>
+<p>On the website of Marilyn vos Savant, the original question could be found here http://marilynvossavant.com/game-show-problem/ :</p>
 
-<p>The accuracy curve of training mini-batch is going down a little bit over time after reached a relative high point. That might tell me the learning rate is too large.</p>
+<p>“Suppose you’re on a game show, and you’re given the choice of three doors. Behind one door is a car, behind the others, goats. You pick a door, say #1, and the host, who knows what’s behind the doors, opens another door, say #3, which has a goat. He says to you, “Do you want to pick door #2?” Is it to your advantage to switch your choice of doors?”</p>
 
-<p>When the learning rate is too large, the optimizer function can not converge the loss by adding derivative to variables–every step is too large, and the loss will become biger and biger.</p>
+<p>Interestingly, the original question never indicate any established rules of Let’s Make a Deal, which is critical to this question. Examination of the original question reveals that the host is not mandatory to open another door, i.e., the host could just open the door that is choosen. In this case, which the hose is free to choose opening the door directly or opening another door for you then asking you to switch, his choice of opening another door is probably in order to lead you away from winning the car. (Unforturenately, the rule of winning what ever showed behind the door is not metioned in the question either.)</p>
+
+<p>For this reason, the “Marilyn’s question” is different from “Monty Hall Paradox.”</p>
+
+<p>So how to solve “Marilyn’s question”?</p>
+
 
 </div>
 
@@ -101,15 +106,6 @@ s.setAttribute('data-timestamp', +new Date());
     
       <li>
         <h3>
-          <a href="/2018/07/02/nuance-in-monty-hall-paradox/">
-            Nuance in Monty Hall Paradox
-            <small>02 Jul 2018</small>
-          </a>
-        </h3>
-      </li>
-    
-      <li>
-        <h3>
           <a href="/2018/06/27/what-is-mathematics/">
             What is Mathematics According to Keith Devlin
             <small>27 Jun 2018</small>
@@ -122,6 +118,15 @@ s.setAttribute('data-timestamp', +new Date());
           <a href="/2018/05/29/dynamic-nn/">
             Dynamic NN Allowing Additional Evidence?
             <small>29 May 2018</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/2017/09/27/highest-IQ/">
+            Why does the person with highest IQ not become the most successful one?
+            <small>27 Sep 2017</small>
           </a>
         </h3>
       </li>
