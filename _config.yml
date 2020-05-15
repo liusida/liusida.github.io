@@ -26,11 +26,11 @@ urls:
 
 author_logo: sida.png
 author: Sida Liu
-author_bio: Hi, I am Sida Liu from China.
-author_email: "learner.sida.liu@gmail.com"
+author_bio: I am currently a M.S. graduate student of Complex Systems Center in University of Vermont. I am interested in artificial intelligence, artificial life, and artificial environment.
+# author_email: "learner.sida.liu@gmail.com"
 author_location: Vermont, US
 author_website_url: "https://liusida.github.io"
-typewrite-text: Hi, I am Sida Liu from China.
+typewrite-text: Hi there.\n Hi there.\n
 
 author_work_experiences:
             - company_name: Google
@@ -103,8 +103,8 @@ show_author_project_details: true
 #   search_only_api_key: 58ffdd7cd6c45ec1577a7fcd789b1b9a
 
 # pagination of posts
-paginate: 4
-per_page: 4
+paginate: 8
+per_page: 8
 paginate_path: "/blog/page/:num/"
 
 # minify
