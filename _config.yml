@@ -26,11 +26,11 @@ urls:
 
 author_logo: sida.png
 author: Sida Liu
-author_bio: I am currently a M.S. graduate student of Complex Systems Center in University of Vermont. I am interested in artificial intelligence, artificial life, and artificial environment.
+author_bio: I am currently a M.S. graduate student in Morphology, Evolution & Cognition Laboratory at University of Vermont. I am interested in artificial intelligence, artificial life, and artificial environment.
 # author_email: "learner.sida.liu@gmail.com"
 author_location: Vermont, US
 author_website_url: "https://liusida.github.io"
-typewrite-text: Hi there.\n Hi there.\n
+typewrite-text: You can pronounce my name as Star, since that's what it sounds in Mandarin Chinese.
 
 author_work_experiences:
             - company_name: Google
@@ -41,17 +41,24 @@ author_work_experiences:
               visibility: false
 
 author_education_details:
-              - college_logo: complexsystemscenter.png
+              - college_logo: uvm-logo.png
                 college_name: University of Vermont
-                college_url: https://vermontcomplexsystems.org/
-                college_degree: M.S.
-                description: Complex System Centers
+                college_url: https://www.uvm.edu/
+                college_degree: Master of Science in Complex Systems
+                description: 2019-2021
+                lab: Morphology, Evolution & Cognition Laboratory
+                lab_url: https://www.meclab.org/
                 visibility: true
-
+              - college_logo: zju-logo.png
+                college_name: Zhejiang University
+                college_url: http://www.zju.edu.cn/english/
+                college_degree: Bachelor of Science in Management
+                description: 2000-2004
+                visibility: true
 author_project_details:
               - project_thumbnail: bigGuys_small.png
                 project_title: gpuVoxels
-                project_description: A voxel-based physics simulation for evolutionary robotics
+                project_description: A voxel-based physics simulation for evolutionary robotics implemented in CUDA
                 project_url: https://github.com/liusida/gpuVoxels/
                 visibility: true
 
@@ -142,7 +149,7 @@ plugins:
   - jekyll-gist
   - jekyll-seo-tag
   - jekyll-sitemap
-  - jekyll-algolia
+  # - jekyll-algolia
   - jekyll-menus
 
 

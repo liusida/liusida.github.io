@@ -48,6 +48,8 @@ header { background-color: var(--main-background-color); box-shadow: 0px; height
 
 .card { margin: 20px !important; padding: 20px !important; background-color: var(--card-background-color) !important; }
 
+.card right { text-align: right; }
+
 #topNav { padding-left: 100px; padding-right: 100px; background-color: var(--main-background-color) !important; box-shadow: #000 0px 0px 8px; }
 
 #navbar-hamburger, #navbar-search { color: var(--bold-color) !important; }
@@ -185,7 +187,7 @@ header { background-color: var(--main-background-color); box-shadow: 0px; height
 
 #author_projects .project-link { color: var(--link-color); }
 
-.company-logo { width: 100px; height: 100px; }
+.company-logo { margin-left: 20px; width: 100px; height: 100px; }
 
 .author-profile-img { width: 150px; height: 150px; }
 

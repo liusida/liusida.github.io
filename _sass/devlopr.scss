@@ -206,6 +206,9 @@ header {
     padding: 20px !important;
     background-color: var(--card-background-color) !important;
 }
+.card right {
+    text-align: right;
+}
 
 #topNav{
     padding-left: 100px;
@@ -562,6 +565,7 @@ header {
 
 
 .company-logo {
+    margin-left: 20px;
     width: 100px;
     height: 100px;
 }

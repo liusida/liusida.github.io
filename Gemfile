@@ -21,7 +21,7 @@ group :jekyll_plugins do
     gem 'jekyll-gist', '~> 1.5.0'
     gem 'jekyll-seo-tag', '~> 2.6.1'
     gem 'jekyll-sitemap', '~> 1.4.0'
-    gem 'jekyll-algolia', '~> 1.6'
+    # gem 'jekyll-algolia', '~> 1.6'
     gem 'jekyll-menus', '~> 0.6.1'
     gem 'jekyll-admin', '~> 0.9.0'
 end
