@@ -59,7 +59,20 @@ author_project_details:
               - project_thumbnail: bigGuys_small.png
                 project_title: gpuVoxels
                 project_description: A voxel-based physics simulation for evolutionary robotics implemented in CUDA
+                project_more_description: I noticed that researchers were using a voxel-based simulation <a href='https://github.com/jonhiller/Voxelyze'>Voxelyze</a> that runs on CPU, so I studied it and rewrote it so that it can run on multiple GPUs. Also I added some new features in the gpuVoxels to support new experiments.
                 project_url: https://github.com/liusida/gpuVoxels/
+                visibility: true
+              - project_thumbnail: xenobots.png
+                project_title: Xenobots
+                project_description: Xenobots are automatically designed by computers to perform some desired function and built by combining together different biological tissues
+                project_more_description: I just joined this project, and let's see what I can contribute.
+                project_url: https://cdorgs.github.io/
+                visibility: true
+              - project_thumbnail: voxcraft.png
+                project_title: Voxcraft
+                project_description: Using hollow silicone blocks to make soft robots
+                project_more_description: I just joined this project, and let's see what I can contribute.
+                project_url: https://voxcraft.github.io/
                 visibility: true
 
 # social links
