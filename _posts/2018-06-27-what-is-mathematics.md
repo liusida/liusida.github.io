@@ -1,7 +1,11 @@
 ---
-layout: post
 title: What is Mathematics According to Keith Devlin
+layout: post
+summary: In the book Introduction to Mathematical Thinking, he wrote, "Virtually nothing
+  ... from the last three hundred years has found its way into the classroom..."
+category: Old
 ---
+
 上午读了Keith Devlin教授的课程背景材料，有点感触，摘抄了几段对我很有启发的文字，以备日后参考。
 
 In Keith Devlin's book 'Introduction to Mathematical Thinking', he writes, 

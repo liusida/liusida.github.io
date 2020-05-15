@@ -13,7 +13,7 @@ html, html[data-theme="dark"], html[data-theme="light"] { height: 100%; -moz-osx
 /* Progress bar */
 .my-class .bar { background: #f69801; }
 
-body { background-color: var(--main-background-color) !important; color: var(--main-text-color) !important; font-family: 'Quicksand', sans-serif !important; font-feature-settings: "kern"on; font-size: 1.4rem; font-variant-numeric: oldstyle-nums; hanging-punctuation: first last; height: 100%; line-height: 1.35em; margin: 0; text-rendering: optimizeLegibility; padding-top: 33px; overflow-x: hidden; overflow-y: scroll; }
+body { background-color: var(--main-background-color) !important; color: var(--main-text-color) !important; font-family: arial, sans-serif !important; font-feature-settings: "kern"on; font-size: 1.4rem; font-variant-numeric: oldstyle-nums; hanging-punctuation: first last; height: 100%; line-height: 1.35em; margin: 0; text-rendering: optimizeLegibility; padding-top: 33px; overflow-x: hidden; overflow-y: scroll; }
 
 .col-lg-12 { padding-left: 0px !important; padding-top: 20px !important; padding-right: 0px !important; }
 
@@ -141,13 +141,15 @@ header { background-color: var(--main-background-color); box-shadow: 0px; height
 
 #blog-posts-container { margin-left: 20px !important; }
 
-#article-container { display: grid; width: 100%; grid-template-columns: 1fr 7fr 4fr; }
+#article-container { display: grid; width: 100%; grid-template-columns: 50px 7fr 1fr; }
 
 #recent-articles, #recent-projects { margin-top: 100px !important; }
 
 #recent-articles-header { display: grid; width: 100%; grid-template-columns: 17fr 2fr; }
 
-#article-img, #article-link, #article-alert { padding-left: 10px; padding-top: 10px; margin: 4px; }
+#article-img { padding-left: 10px; padding-top: 10px; margin: 4px; }
+
+#article-link, #article-alert { padding-left: 10px; padding-top: 10px; margin: 4px; }
 
 .recent-article-link { font-size: 20px; text-decoration: none; }
 

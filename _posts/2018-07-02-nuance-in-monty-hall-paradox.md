@@ -2,7 +2,7 @@
 title: Nuance in Monty Hall Paradox
 layout: post
 summary: Hmm, is the "Marilyn's question" different from "Monty Hall Paradox"?
-category: Thoughts
+category: Old
 ---
 
 Marilyn vos Savant has made a mistake. She knew the game show Let's Make a Deal too well, that she assumed the rules of the game show also applied to the question she was asked.

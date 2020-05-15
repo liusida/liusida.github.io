@@ -114,7 +114,8 @@ html[data-theme="light"] {
 body {
     background-color: var(--main-background-color) !important;
     color: var(--main-text-color) !important;
-    font-family: 'Quicksand', sans-serif !important;
+    // font-family: 'Quicksand', sans-serif !important;
+    font-family: arial, sans-serif !important;
     font-feature-settings: "kern"on;
     font-size: 1.4rem;
     font-variant-numeric: oldstyle-nums;
@@ -455,7 +456,7 @@ header {
 #article-container{
     display: grid;
     width: 100%;
-    grid-template-columns: 1fr 7fr 4fr;
+    grid-template-columns: 50px 7fr 1fr;
 }
 
 #recent-articles,#recent-projects{
@@ -467,7 +468,12 @@ header {
     width: 100%;
     grid-template-columns: 17fr 2fr;
 }
-#article-img, #article-link, #article-alert{
+#article-img{
+    padding-left: 10px;
+    padding-top: 10px;
+    margin: 4px;
+}
+#article-link, #article-alert{
     padding-left: 10px;
     padding-top: 10px;
     margin: 4px;
