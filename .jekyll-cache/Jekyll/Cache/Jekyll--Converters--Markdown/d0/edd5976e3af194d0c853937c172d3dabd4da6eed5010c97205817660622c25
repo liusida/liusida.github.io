@@ -1,0 +1,86 @@
+I"f3<p>I know 3 high level api for deep learning. They are Tensorflow.contrib.learn(SKFlow), TFLearn and Keras. All of them are great tools, but maybe I like Keras because of the easy style of code.</p>
+
+<p>When I came through the <a href="https://www.tensorflow.org/versions/r0.11/tutorials/wide_and_deep/index.html">Tensorflow Tutorial of Deep and Wide Learning</a>, I felt I can translate the code from tf.contrib.learn into Keras.</p>
+
+<p><img src="https://www.tensorflow.org/versions/r0.11/images/wide_n_deep.svg" alt="Tensorflow Wide and Deep Learning" /></p>
+
+<p>In Tensorflow’s tutorial, they said that, using Wide&amp;Deep Model together, they could improve the accuracy from 83.6% to about 84.4%. After my Keras code was finished, I found that the accuracy of my new model is more than 85%. Although I used more units in the model, that’s still nice I think!~</p>
+
+<p>The dataset can be download here: <a href="https://archive.ics.uci.edu/ml/machine-learning-databases/adult/adult.data">train_dataset</a> and <a href="https://archive.ics.uci.edu/ml/machine-learning-databases/adult/adult.test">test_dataset</a></p>
+
+<p>Here is my code for Keras:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">keras.models</span> <span class="kn">import</span> <span class="n">Sequential</span>
+<span class="kn">from</span> <span class="nn">keras.layers</span> <span class="kn">import</span> <span class="n">Dense</span>
+<span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">MinMaxScaler</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="n">pd</span>
+
+<span class="n">COLUMNS</span> <span class="o">=</span> <span class="p">[</span><span class="s">"age"</span><span class="p">,</span> <span class="s">"workclass"</span><span class="p">,</span> <span class="s">"fnlwgt"</span><span class="p">,</span> <span class="s">"education"</span><span class="p">,</span> <span class="s">"education_num"</span><span class="p">,</span>
+           <span class="s">"marital_status"</span><span class="p">,</span> <span class="s">"occupation"</span><span class="p">,</span> <span class="s">"relationship"</span><span class="p">,</span> <span class="s">"race"</span><span class="p">,</span> <span class="s">"gender"</span><span class="p">,</span>
+           <span class="s">"capital_gain"</span><span class="p">,</span> <span class="s">"capital_loss"</span><span class="p">,</span> <span class="s">"hours_per_week"</span><span class="p">,</span> <span class="s">"native_country"</span><span class="p">,</span>
+           <span class="s">"income_bracket"</span><span class="p">]</span>
+<span class="n">LABEL_COLUMN</span> <span class="o">=</span> <span class="s">"label"</span>
+<span class="n">CATEGORICAL_COLUMNS</span> <span class="o">=</span> <span class="p">[</span><span class="s">"workclass"</span><span class="p">,</span> <span class="s">"education"</span><span class="p">,</span> <span class="s">"marital_status"</span><span class="p">,</span> <span class="s">"occupation"</span><span class="p">,</span>
+                       <span class="s">"relationship"</span><span class="p">,</span> <span class="s">"race"</span><span class="p">,</span> <span class="s">"gender"</span><span class="p">,</span> <span class="s">"native_country"</span><span class="p">]</span>
+<span class="n">CONTINUOUS_COLUMNS</span> <span class="o">=</span> <span class="p">[</span><span class="s">"age"</span><span class="p">,</span> <span class="s">"education_num"</span><span class="p">,</span> <span class="s">"capital_gain"</span><span class="p">,</span> <span class="s">"capital_loss"</span><span class="p">,</span>
+                      <span class="s">"hours_per_week"</span><span class="p">]</span>
+
+
+<span class="k">def</span> <span class="nf">load_df</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+	<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s">'r'</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+		<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">names</span> <span class="o">=</span> <span class="n">COLUMNS</span><span class="p">,</span> <span class="n">skipinitialspace</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">engine</span><span class="o">=</span><span class="s">'python'</span><span class="p">)</span>
+	<span class="k">return</span> <span class="n">df</span>
+
+<span class="k">def</span> <span class="nf">preprocess</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
+	<span class="n">df</span><span class="p">[</span><span class="n">LABEL_COLUMN</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s">'income_bracket'</span><span class="p">].</span><span class="nb">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="s">"&gt;50K"</span> <span class="ow">in</span> <span class="n">x</span><span class="p">)).</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+	<span class="n">df</span><span class="p">.</span><span class="n">pop</span><span class="p">(</span><span class="s">"income_bracket"</span><span class="p">)</span>
+	<span class="n">y</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">LABEL_COLUMN</span><span class="p">].</span><span class="n">values</span>
+	<span class="n">df</span><span class="p">.</span><span class="n">pop</span><span class="p">(</span><span class="n">LABEL_COLUMN</span><span class="p">)</span>
+
+	<span class="c1"># This makes One-Hot Encoding:
+</span>	<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">get_dummies</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">CATEGORICAL_COLUMNS</span><span class="p">])</span>
+	<span class="c1"># This makes scaled:
+</span>	<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">MinMaxScaler</span><span class="p">().</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">df</span><span class="p">),</span> <span class="n">columns</span><span class="o">=</span><span class="n">df</span><span class="p">.</span><span class="n">columns</span><span class="p">)</span>
+
+	<span class="n">X</span> <span class="o">=</span> <span class="n">df</span><span class="p">.</span><span class="n">values</span>
+	<span class="k">return</span> <span class="n">X</span><span class="p">,</span><span class="n">y</span>
+
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+	<span class="n">df_train</span> <span class="o">=</span> <span class="n">load_df</span><span class="p">(</span><span class="s">'data/traindata'</span><span class="p">)</span>
+	<span class="n">df_test</span> <span class="o">=</span> <span class="n">load_df</span><span class="p">(</span><span class="s">'data/testdata'</span><span class="p">)</span>
+	<span class="n">train_len</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">df_train</span><span class="p">)</span>
+	<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">concat</span><span class="p">([</span><span class="n">df_train</span><span class="p">,</span> <span class="n">df_test</span><span class="p">])</span>
+	<span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">preprocess</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+	<span class="n">X_train</span> <span class="o">=</span> <span class="n">X</span><span class="p">[:</span><span class="n">train_len</span><span class="p">]</span>
+	<span class="n">y_train</span> <span class="o">=</span> <span class="n">y</span><span class="p">[:</span><span class="n">train_len</span><span class="p">]</span>
+	<span class="n">X_test</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="n">train_len</span><span class="p">:]</span>
+	<span class="n">y_test</span> <span class="o">=</span> <span class="n">y</span><span class="p">[</span><span class="n">train_len</span><span class="p">:]</span>
+
+	<span class="n">model</span> <span class="o">=</span> <span class="n">Sequential</span><span class="p">()</span>
+	<span class="n">model</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">Dense</span><span class="p">(</span><span class="mi">1024</span><span class="p">,</span> <span class="n">input_dim</span><span class="o">=</span><span class="n">X_train</span><span class="p">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">activation</span><span class="o">=</span><span class="s">'relu'</span><span class="p">))</span>
+	<span class="n">model</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">Dense</span><span class="p">(</span><span class="mi">1024</span><span class="p">))</span>
+	<span class="n">model</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">Dense</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s">'sigmoid'</span><span class="p">))</span>
+	<span class="n">model</span><span class="p">.</span><span class="nb">compile</span><span class="p">(</span><span class="n">optimizer</span><span class="o">=</span><span class="s">'rmsprop'</span><span class="p">,</span>
+					<span class="n">loss</span><span class="o">=</span><span class="s">'binary_crossentropy'</span><span class="p">,</span>
+					<span class="n">metrics</span><span class="o">=</span><span class="p">[</span><span class="s">'accuracy'</span><span class="p">])</span>
+
+	<span class="n">model</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">nb_epoch</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">32</span> <span class="p">)</span>
+	<span class="n">loss</span><span class="p">,</span> <span class="n">accuracy</span> <span class="o">=</span> <span class="n">model</span><span class="p">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span>
+	<span class="k">print</span><span class="p">(</span><span class="s">""</span><span class="p">)</span>
+	<span class="k">print</span><span class="p">(</span><span class="n">accuracy</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="p">(</span><span class="n">__name__</span><span class="o">==</span><span class="s">'__main__'</span><span class="p">):</span>
+	<span class="n">main</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p>During coding, I found preprocessing is very important:</p>
+<ul>
+  <li>By using <a href="http://pandas.pydata.org/pandas-docs/stable/generated/pandas.get_dummies.html">One-Hot Encoding</a>, I even don’t need to treat Wide and Deep model separately. I just one-hot encode the categorical columns, and they can be feed together with continuous columns.</li>
+  <li>By using <a href="http://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.MinMaxScaler.html">MaxMinScaler</a>, I can avoid the result goes to one side at all. For example, if I don’t use scaler, my prediction should be all 0s or 1s, because some columns have very big numbers, the model will ignore other columns’ effect.</li>
+</ul>
+
+<p>And thanks to sklearn and pandas, Keras don’t need to do those preprocessing at all, which Tensorflow is doing these staff inside the model. I think it’s better to do that before we feed the data, so it will be much clear what we are feeding to the neural network.</p>
+
+:ET

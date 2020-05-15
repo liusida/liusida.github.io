@@ -1,0 +1,8 @@
+I"<p>What if I see a training accuracy scalar graphic like this:</p>
+
+<p><img src="/images/2017-09-09-learning-rate-too-large/accuracy-1.png" alt="Accuracy" /></p>
+
+<p>The accuracy curve of training mini-batch is going down a little bit over time after reached a relative high point. That might tell me the learning rate is too large.</p>
+
+<p>When the learning rate is too large, the optimizer function can not converge the loss by adding derivative to variables–every step is too large, and the loss will become biger and biger.</p>
+:ET

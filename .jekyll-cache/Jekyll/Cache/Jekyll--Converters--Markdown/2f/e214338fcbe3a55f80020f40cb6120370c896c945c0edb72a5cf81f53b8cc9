@@ -1,0 +1,51 @@
+I"0<p>In most of Tensorflow tutorials, we use minimize(loss) to automatically update parameters of the model.</p>
+
+<p>In fact, minimize() is an integration of two steps: computing gradients, and applying the gradients to update parameters.</p>
+
+<p>Let’s take a look at an example:</p>
+
+\[Y = (100 - 3W - B)^2\]
+
+<p>What is the gradient of W and B <strong>when W=1.0, B=1.0</strong>?</p>
+
+<p>We can calculate them by hand:</p>
+
+<p>let \(N = 100 - 3W - B\), so that \(Y = N^2\)</p>
+
+\[\frac{\partial{Y}}{\partial{W}} = 
+\frac{\partial{Y}}{\partial{N}} * \frac{\partial{N}}{\partial{W}} = 
+2N * 3 = 600 - 18W - 6B = 576\]
+
+\[\frac{\partial{Y}}{\partial{B}} = 
+\frac{\partial{Y}}{\partial{N}} * \frac{\partial{N}}{\partial{B}} = 
+2N * 1 = 200 - 3W - B = 196\]
+
+<p>ok, now let use tensorflow to compute that:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">tensorflow</span> <span class="k">as</span> <span class="n">tf</span>
+
+<span class="c1"># make an example:
+# Y = (100 - W X - B)^2
+</span><span class="n">X</span> <span class="o">=</span> <span class="n">tf</span><span class="p">.</span><span class="n">constant</span><span class="p">(</span><span class="mf">3.</span><span class="p">)</span>
+<span class="n">W</span> <span class="o">=</span> <span class="n">tf</span><span class="p">.</span><span class="n">Variable</span><span class="p">(</span><span class="mf">1.</span><span class="p">)</span>
+<span class="n">B</span> <span class="o">=</span> <span class="n">tf</span><span class="p">.</span><span class="n">Variable</span><span class="p">(</span><span class="mf">1.</span><span class="p">)</span>
+<span class="n">Y</span> <span class="o">=</span> <span class="n">tf</span><span class="p">.</span><span class="n">square</span><span class="p">(</span><span class="mi">100</span> <span class="o">-</span> <span class="n">W</span><span class="o">*</span><span class="n">X</span> <span class="o">-</span> <span class="n">B</span><span class="p">)</span>
+
+<span class="c1">#the lr here is not about gradient computing. it only effect when appling
+</span><span class="n">Ops</span> <span class="o">=</span> <span class="n">tf</span><span class="p">.</span><span class="n">train</span><span class="p">.</span><span class="n">GradientDescentOptimizer</span><span class="p">(</span><span class="n">learning_rate</span><span class="o">=</span><span class="mf">0.001</span><span class="p">)</span>
+<span class="n">grads_and_vars</span> <span class="o">=</span> <span class="n">Ops</span><span class="p">.</span><span class="n">compute_gradients</span><span class="p">(</span><span class="n">Y</span><span class="p">)</span>
+<span class="c1"># we can modify the gradient here and then:
+# Op_update = Ops.apply_gradients(grads_and_vars)
+</span>
+<span class="k">with</span> <span class="n">tf</span><span class="p">.</span><span class="n">Session</span><span class="p">()</span> <span class="k">as</span> <span class="n">sess</span><span class="p">:</span>
+
+    <span class="n">sess</span><span class="p">.</span><span class="n">run</span><span class="p">(</span><span class="n">tf</span><span class="p">.</span><span class="n">global_variables_initializer</span><span class="p">())</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">sess</span><span class="p">.</span><span class="n">run</span><span class="p">(</span><span class="n">grads_and_vars</span><span class="p">))</span>
+</code></pre></div></div>
+
+<p>run it, and we get:</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[(-576.0, 1.0), (-192.0, 1.0)]
+</code></pre></div></div>
+
+<p>So next time your professor ask you to implement a back-propagation for some complex networks by your self, maybe this trick can help you double-check your implementation. Hooray!</p>
+:ET

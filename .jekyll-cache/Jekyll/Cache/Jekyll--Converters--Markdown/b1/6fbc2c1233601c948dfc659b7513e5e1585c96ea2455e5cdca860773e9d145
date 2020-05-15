@@ -1,0 +1,108 @@
+I"N(<p>I have just finished <a href="https://www.coursera.org/specializations/deep-learning">Andrew Ng’s new Coursera courses of Deep Learning (1-3)</a>. They are one part of his new project <a href="https://www.deeplearning.ai/">DeepLearning.ai</a>.</p>
+
+<p>In those courses, there is a series of interview of <a href="https://youtu.be/-eyhCTvrEtE?list=PLfsVAYSMwsksjfpy8P2t_I52mugGeA5gR">Heroes of Deep Learning</a>, which is very helpful for a newbie to enter this field. I heard several times those masters require a newbie to build a whole deep network from scratch, maybe just use Python and Numpy, to understand things better. So, after the courses, I decided to build one on my own.</p>
+
+<h2 id="day-1">Day 1</h2>
+
+<p>I created a new repository named <a href="https://github.com/liusida/DeepScratch">Deep Scratch</a> in github, and a <a href="https://github.com/liusida/DeepScratch/blob/master/main.ipynb">main.ipynb</a> file, to do this job.</p>
+
+<p>First of all, I made a todo list, those are functions or algorithms mentioned in the courses. I planed to implement most of them.</p>
+
+<p>Second, I decided to begin with MNIST dataset. It is the Hello, World dataset. But I will switch to other datasets to test my model. In my mind, maybe too ambitious, I want to build a transferable model, I think that’s the correct direction to general thinking.</p>
+
+<p>After these, I can now start this project.</p>
+
+<h2 id="day-2">Day 2</h2>
+
+<p>I implemented a basic model, including those functions:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">ReLU</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<span class="n">softmax</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<span class="n">forward_propagation_each_layer</span><span class="p">(</span><span class="n">W</span><span class="p">,</span> <span class="n">A_prev</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">activation_function</span><span class="o">=</span><span class="n">ReLU</span><span class="p">)</span>
+<span class="n">loss</span><span class="p">(</span><span class="n">Y_hat</span><span class="p">,</span> <span class="n">Y</span><span class="p">)</span>
+<span class="n">cost</span><span class="p">(</span><span class="n">loss</span><span class="p">)</span>
+<span class="n">predict</span><span class="p">(</span><span class="n">Y_hat</span><span class="p">)</span>
+<span class="n">accuracy</span><span class="p">(</span><span class="n">Y_predict</span><span class="p">,</span> <span class="n">Y</span><span class="p">)</span>
+<span class="n">backpropagate_cost</span><span class="p">(</span><span class="n">Y</span><span class="p">,</span> <span class="n">AL</span><span class="p">)</span>
+<span class="n">backpropagate_softmax</span><span class="p">(</span><span class="n">AL</span><span class="p">,</span> <span class="n">dAL</span><span class="p">,</span> <span class="n">Y</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">ZL</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
+<span class="n">backpropagate_linear</span><span class="p">(</span><span class="n">dZ</span><span class="p">,</span> <span class="n">W</span><span class="p">,</span> <span class="n">A_prev</span><span class="p">)</span>
+<span class="n">backpropagate_ReLU</span><span class="p">(</span><span class="n">dA</span><span class="p">,</span> <span class="n">Z</span><span class="p">)</span>
+
+<span class="n">forwardpropagation_all</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<span class="n">backpropagate_all</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">)</span>
+<span class="n">update_parameters</span><span class="p">()</span>
+
+<span class="n">model</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">learning_rate</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">print_every</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">iteration</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">hidden_layers</span><span class="o">=</span><span class="p">[</span><span class="mi">100</span><span class="p">],</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">128</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>I had to say, the math is complex for me. When I implemented the first time, I almost have 10 bugs in the calculation!</p>
+
+<p>There were a few un-concrete concepts, such as what loss function should I use for multi-class classification? What is the derivative of softmax? When should I divide the result by m (the number of examples)?</p>
+
+<p>After maybe 10 hours of debugging, I even implemented a bunch of tensorflow alternative functions, finally, the model worked out!</p>
+
+<p><a href="https://github.com/liusida/DeepScratch/blob/day2/main.ipynb">Day 2’s notebook</a> &lt;- Here were the code and formula. (I found that Jupyter Notebook is great to comment codes!)</p>
+
+<h2 id="day-3">Day 3</h2>
+
+<p>The training set accuracy was already 1.0, so I looked at the dev set accuracy: 0.6? Oh, that’s bad. So I had a variance problem.</p>
+
+<p>I tried to implement regularization, but seems had little help to this variance problem.</p>
+
+<p>Then suddenly I figured out why: because I use random batch to train, the distribution of random batch can not cover all training examples, so I wasted a lot of training examples.</p>
+
+<p>So I changed to mini-batch, which define a mini-batch size, every time use a segment of training data, so it can sure every single example was used for training.</p>
+
+<p>And I also realize a very interesting aspect of mini-batch, it has a very good effect to variance problem, especially when the network is relatively shallow. I think it acts just like dropout! The network can not depend on any single data!</p>
+
+<p>Thanks to mini-batch, my dev accuracy jumped to 0.98, and test set accuracy was also 0.98. Not bad for today’s work!</p>
+
+<p><a href="https://github.com/liusida/DeepScratch/blob/day3/main.ipynb">Day 3’s notebook</a> &lt;- Here is mini-batch, regularization, train/dev/test accuracy.</p>
+
+<h2 id="day-4">Day 4</h2>
+
+<p>Since the code was work and was ugly… I decided to refactor the code.</p>
+
+<p><a href="https://github.com/liusida/DeepScratch/blob/day4/main.ipynb">Day 4’s notebook</a> &lt;- I had refactored half of the code.</p>
+
+<h2 id="day-5">Day 5</h2>
+
+<p>Refactor done. I was happy that the code looks clean now.</p>
+
+<p>During refactoring, I attended to calculate the derivative of <strong>Z=WA+b</strong>, the <strong>dL/dA</strong>, but since <strong>Z,W,A</strong> are all matrices, I failed to understand the derivative of Matrix-by-Matrix. According to the Wikipedia, it seems results a four-rank tensor. So, it was lucky that in the neural network, the final $L$ is a scalar, so derivative of Scalar-by-Martix is much easy to understand.</p>
+
+<p>I also noticed that in Tensorflow, the final loss function is a Vector! So, they must understand what is the derivative of Matrix-by-Matrix!</p>
+
+<p><a href="https://github.com/liusida/DeepScratch/blob/day5/main.ipynb">Day 5’s notebook</a> &lt;- Now the code is runable and clean.</p>
+
+<h2 id="day-6">Day 6</h2>
+
+<p>As there was still a variance problem, and L2 regularization seems not help much, I decided to implement Dropout.</p>
+
+<p>I chose the “inverted dropout”, which introduced by Andrew Ng in the course.</p>
+
+<p>I just watched a video comparing algebra and geometrics, it says that calculus and algebra can give you great power of solving a problem by just computing, but geometrics sometimes has its own beauty–it sometimes can solve a problem in a very simple way. Today, I felt like that the dropout technic is an analogy to geometrics, simple, effective, and beautiful.</p>
+
+<p>Now after 100 iterations learning from training set, the dev accuracy raised to 98.34%.</p>
+
+<p>There’s another lovely feature I added into the code: during training, I can just press the stop button of notebook, and change some of the hyperparameters (only except the arcitecture–the hidden layers), and Ctrl+Enter run the cell, the parameters W and b are kept, not re-initialized, so the training can go on without restart from beginning.</p>
+
+<p>But till now, I spent more and more time running the program by CPU–actually I am lucky that I have MKL for numpy, so I can use all of my CPU–I felt a little wasting of time. Maybe I will implement those in Tensorflow, and use my GPU to save time. And Tensorflow has auto-gradient computation …</p>
+
+<p><a href="https://github.com/liusida/DeepScratch/blob/day6/main.ipynb">Day 6’s notebook</a> &lt;- Dropout version</p>
+
+<h2 id="day-7">Day 7</h2>
+
+<p>This was the last day. I implemented some gradient checking functions to double-check my understanding and code.</p>
+
+<p>It was quite strange to me that I have misunderstood the backpropagation for Softmax. When I tested it, I have a relatively large difference between the Calculated result and Approximate result. So I looked for more information online, but I only found <a href="http://eli.thegreenplace.net/2016/the-softmax-function-and-its-derivative/">an explanation about Softmax function with a vector(one sample)</a> which I could understand.</p>
+
+<p>Finally, I used the way Tensorflow does–calculate softmax and loss function at the same time. That formula is really simple. But I still felt not fully understand the principles.</p>
+
+<p><a href="https://github.com/liusida/DeepScratch/blob/day7/main.ipynb">Day 7’s notebook</a> &lt;- After correct some functions, now the result … had no improvement … WHY…</p>
+
+<p>I thought I was kind of stuck here, so I decided to move on and try some new ideas. Maybe I would come back and refine all those codes later when I engaged more knowledge.</p>
+
+<p>Thank you for reading, and welcome to leave a message below.</p>
+
+:ET

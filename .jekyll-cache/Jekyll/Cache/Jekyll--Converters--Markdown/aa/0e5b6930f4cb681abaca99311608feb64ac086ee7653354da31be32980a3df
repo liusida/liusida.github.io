@@ -1,0 +1,89 @@
+I"�(<p>Yesterday, I saw tf.contrib.layers.sparse_column_with_hash_bucket in a <a href="https://www.tensorflow.org/versions/r0.11/tutorials/wide/index.html">tutorial</a>. That’s a very useful function! I thought. I never met such a function in Keras or TFLearn.</p>
+
+<p>Basically, the function do something like this:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">hash</span><span class="p">(</span><span class="n">category_string</span><span class="p">)</span> <span class="o">%</span> <span class="n">dim</span>
+</code></pre></div></div>
+
+<p>Let’s say the text “the quick brown fox”. If we want to put them into 5 buckets, we can get result like this:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">hash</span><span class="p">(</span><span class="n">the</span><span class="p">)</span> <span class="o">%</span> <span class="mi">5</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="nb">hash</span><span class="p">(</span><span class="n">quick</span><span class="p">)</span> <span class="o">%</span> <span class="mi">5</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="nb">hash</span><span class="p">(</span><span class="n">brown</span><span class="p">)</span> <span class="o">%</span> <span class="mi">5</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="nb">hash</span><span class="p">(</span><span class="n">fox</span><span class="p">)</span> <span class="o">%</span> <span class="mi">5</span> <span class="o">=</span> <span class="mi">3</span>
+</code></pre></div></div>
+<p>This example is metioned by <a href="https://www.quora.com/Can-you-explain-feature-hashing-in-an-easily-understandable-way">Luis Argerich</a></p>
+
+<p>That’s really easy for preprocessing, but there are disadvantages of that, metioned by <a href="https://www.quora.com/Can-you-explain-feature-hashing-in-an-easily-understandable-way">Artem Onuchin</a> also in that page.</p>
+
+<p>So, the common way to do this <strong>feature engineering</strong> thing is metioned by <a href="https://www.quora.com/What-are-some-best-practices-in-Feature-Engineering">Rahul Agarwal</a>:</p>
+
+<ul>
+  <li>Scaling by Max-Min</li>
+  <li>Normalization using Standard Deviation</li>
+  <li>Log based feature/Target: use log based features or log based target function.</li>
+  <li>One Hot Encoding</li>
+</ul>
+
+<p>Anyway, if we want to do hash_bucket without tensorflow, we can do it in Pandas which is metioned <a href="http://stackoverflow.com/questions/8673035/what-is-feature-hashing-hashing-trick/33581487">here</a>:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="n">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="s">'state'</span><span class="p">:</span> <span class="p">[</span><span class="s">'Ohio'</span><span class="p">,</span> <span class="s">'Ohio'</span><span class="p">,</span> <span class="s">'Ohio'</span><span class="p">,</span> <span class="s">'Nevada'</span><span class="p">,</span> <span class="s">'Nevada'</span><span class="p">],</span>
+        <span class="s">'year'</span><span class="p">:</span> <span class="p">[</span><span class="mi">2000</span><span class="p">,</span> <span class="mi">2001</span><span class="p">,</span> <span class="mi">2002</span><span class="p">,</span> <span class="mi">2001</span><span class="p">,</span> <span class="mi">2002</span><span class="p">],</span>
+        <span class="s">'pop'</span><span class="p">:</span> <span class="p">[</span><span class="mf">1.5</span><span class="p">,</span> <span class="mf">1.7</span><span class="p">,</span> <span class="mf">3.6</span><span class="p">,</span> <span class="mf">2.4</span><span class="p">,</span> <span class="mf">2.9</span><span class="p">]}</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">hash_col</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">col</span><span class="p">,</span> <span class="n">N</span><span class="p">):</span>
+    <span class="n">cols</span> <span class="o">=</span> <span class="p">[</span><span class="n">col</span> <span class="o">+</span> <span class="s">"_"</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">)]</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">cols</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">xform</span><span class="p">(</span><span class="n">x</span><span class="p">):</span> <span class="n">tmp</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">)];</span> <span class="n">tmp</span><span class="p">[</span><span class="nb">hash</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">%</span> <span class="n">N</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="k">return</span> <span class="n">pd</span><span class="p">.</span><span class="n">Series</span><span class="p">(</span><span class="n">tmp</span><span class="p">,</span><span class="n">index</span><span class="o">=</span><span class="n">cols</span><span class="p">)</span>
+    <span class="n">df</span><span class="p">[</span><span class="n">cols</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">].</span><span class="nb">apply</span><span class="p">(</span><span class="n">xform</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">df</span><span class="p">.</span><span class="n">drop</span><span class="p">(</span><span class="n">col</span><span class="p">,</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">hash_col</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s">'state'</span><span class="p">,</span><span class="mi">4</span><span class="p">))</span>
+</code></pre></div></div>
+<p>result:</p>
+
+<pre><code class="language-code">   pop  year  state_0  state_1  state_2  state_3
+0  1.5  2000        1        0        0        0
+1  1.7  2001        1        0        0        0
+2  3.6  2002        1        0        0        0
+3  2.4  2001        1        0        0        0
+4  2.9  2002        1        0        0        0
+</code></pre>
+
+<p><strong>[Edited]</strong> Actually, we can use <a href="http://pandas.pydata.org/pandas-docs/stable/generated/pandas.get_dummies.html">pandas.get_dummies</a> to do this directly:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="n">pd</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="s">'state'</span><span class="p">:</span> <span class="p">[</span><span class="s">'Ohio'</span><span class="p">,</span> <span class="s">'Ohio'</span><span class="p">,</span> <span class="s">'Ohio'</span><span class="p">,</span> <span class="s">'Nevada'</span><span class="p">,</span> <span class="s">'Nevada'</span><span class="p">],</span>
+        <span class="s">'year'</span><span class="p">:</span> <span class="p">[</span><span class="mi">2000</span><span class="p">,</span> <span class="mi">2001</span><span class="p">,</span> <span class="mi">2002</span><span class="p">,</span> <span class="mi">2001</span><span class="p">,</span> <span class="mi">2002</span><span class="p">],</span>
+        <span class="s">'pop'</span><span class="p">:</span> <span class="p">[</span><span class="mf">1.5</span><span class="p">,</span> <span class="mf">1.7</span><span class="p">,</span> <span class="mf">3.6</span><span class="p">,</span> <span class="mf">2.4</span><span class="p">,</span> <span class="mf">2.9</span><span class="p">]}</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">pd</span><span class="p">.</span><span class="n">get_dummies</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s">'state'</span><span class="p">,</span><span class="s">'year'</span><span class="p">]))</span>
+</code></pre></div></div>
+<p>result:</p>
+
+<pre><code class="language-code">   pop  state_Nevada  state_Ohio  year_2000  year_2001  year_2002
+0  1.5           0.0         1.0        1.0        0.0        0.0
+1  1.7           0.0         1.0        0.0        1.0        0.0
+2  3.6           0.0         1.0        0.0        0.0        1.0
+3  2.4           1.0         0.0        0.0        1.0        0.0
+4  2.9           1.0         0.0        0.0        0.0        1.0
+</code></pre>
+
+<p>After all,</p>
+
+<p>I think I should learn more about one-hot-encoding and word2vec embedding.</p>
+
+<blockquote>
+  <p>Coming up with features is difficult, time-consuming, requires expert knowledge. “Applied machine learning” is basically feature engineering.</p>
+</blockquote>
+
+<p>Said <a href="http://www.andrewng.org/">Andrew Ng</a>.</p>
+
+:ET

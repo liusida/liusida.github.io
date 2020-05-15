@@ -1,0 +1,164 @@
+I"zZ<p>I heard about RNN for a long time, and have learned the concept several times, but until yesterday, I can’t implement any useful code to solve my own problem.</p>
+
+<p>So I checked some tutorial. The most basic one is applying RNN to the MNIST dataset. The sample code is from <a href="https://pythonprogramming.net/rnn-tensorflow-python-machine-learning-tutorial/">sentdex’s video tutorial</a>:</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">tensorflow</span> <span class="k">as</span> <span class="n">tf</span>
+<span class="kn">from</span> <span class="nn">tensorflow.examples.tutorials.mnist</span> <span class="kn">import</span> <span class="n">input_data</span>
+<span class="kn">from</span> <span class="nn">tensorflow.python.ops</span> <span class="kn">import</span> <span class="n">rnn</span><span class="p">,</span> <span class="n">rnn_cell</span>
+<span class="n">mnist</span> <span class="o">=</span> <span class="n">input_data</span><span class="p">.</span><span class="n">read_data_sets</span><span class="p">(</span><span class="s">"/tmp/data/"</span><span class="p">,</span> <span class="n">one_hot</span> <span class="o">=</span> <span class="bp">True</span><span class="p">)</span>
+
+<span class="n">hm_epochs</span> <span class="o">=</span> <span class="mi">3</span>
+<span class="n">n_classes</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">batch_size</span> <span class="o">=</span> <span class="mi">128</span>
+<span class="n">chunk_size</span> <span class="o">=</span> <span class="mi">28</span>
+<span class="n">n_chunks</span> <span class="o">=</span> <span class="mi">28</span>
+<span class="n">rnn_size</span> <span class="o">=</span> <span class="mi">128</span>
+
+
+<span class="n">x</span> <span class="o">=</span> <span class="n">tf</span><span class="p">.</span><span class="n">placeholder</span><span class="p">(</span><span class="s">'float'</span><span class="p">,</span> <span class="p">[</span><span class="bp">None</span><span class="p">,</span> <span class="n">n_chunks</span><span class="p">,</span><span class="n">chunk_size</span><span class="p">])</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">tf</span><span class="p">.</span><span class="n">placeholder</span><span class="p">(</span><span class="s">'float'</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">recurrent_neural_network</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="n">layer</span> <span class="o">=</span> <span class="p">{</span><span class="s">'weights'</span><span class="p">:</span><span class="n">tf</span><span class="p">.</span><span class="n">Variable</span><span class="p">(</span><span class="n">tf</span><span class="p">.</span><span class="n">random_normal</span><span class="p">([</span><span class="n">rnn_size</span><span class="p">,</span><span class="n">n_classes</span><span class="p">])),</span>
+             <span class="s">'biases'</span><span class="p">:</span><span class="n">tf</span><span class="p">.</span><span class="n">Variable</span><span class="p">(</span><span class="n">tf</span><span class="p">.</span><span class="n">random_normal</span><span class="p">([</span><span class="n">n_classes</span><span class="p">]))}</span>
+
+    <span class="n">x</span> <span class="o">=</span> <span class="n">tf</span><span class="p">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">])</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">tf</span><span class="p">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">chunk_size</span><span class="p">])</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">tf</span><span class="p">.</span><span class="n">split</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">n_chunks</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+
+    <span class="n">lstm_cell</span> <span class="o">=</span> <span class="n">rnn_cell</span><span class="p">.</span><span class="n">BasicLSTMCell</span><span class="p">(</span><span class="n">rnn_size</span><span class="p">,</span><span class="n">state_is_tuple</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">outputs</span><span class="p">,</span> <span class="n">states</span> <span class="o">=</span> <span class="n">rnn</span><span class="p">.</span><span class="n">rnn</span><span class="p">(</span><span class="n">lstm_cell</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">tf</span><span class="p">.</span><span class="n">float32</span><span class="p">)</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="n">tf</span><span class="p">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">outputs</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span><span class="n">layer</span><span class="p">[</span><span class="s">'weights'</span><span class="p">])</span> <span class="o">+</span> <span class="n">layer</span><span class="p">[</span><span class="s">'biases'</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="n">output</span>
+
+<span class="k">def</span> <span class="nf">train_neural_network</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="n">prediction</span> <span class="o">=</span> <span class="n">recurrent_neural_network</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">cost</span> <span class="o">=</span> <span class="n">tf</span><span class="p">.</span><span class="n">reduce_mean</span><span class="p">(</span> <span class="n">tf</span><span class="p">.</span><span class="n">nn</span><span class="p">.</span><span class="n">softmax_cross_entropy_with_logits</span><span class="p">(</span><span class="n">prediction</span><span class="p">,</span><span class="n">y</span><span class="p">)</span> <span class="p">)</span>
+    <span class="n">optimizer</span> <span class="o">=</span> <span class="n">tf</span><span class="p">.</span><span class="n">train</span><span class="p">.</span><span class="n">AdamOptimizer</span><span class="p">().</span><span class="n">minimize</span><span class="p">(</span><span class="n">cost</span><span class="p">)</span>
+
+    <span class="k">with</span> <span class="n">tf</span><span class="p">.</span><span class="n">Session</span><span class="p">()</span> <span class="k">as</span> <span class="n">sess</span><span class="p">:</span>
+        <span class="n">sess</span><span class="p">.</span><span class="n">run</span><span class="p">(</span><span class="n">tf</span><span class="p">.</span><span class="n">initialize_all_variables</span><span class="p">())</span>
+
+        <span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">hm_epochs</span><span class="p">):</span>
+            <span class="n">epoch_loss</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">mnist</span><span class="p">.</span><span class="n">train</span><span class="p">.</span><span class="n">num_examples</span><span class="o">/</span><span class="n">batch_size</span><span class="p">)):</span>
+                <span class="n">epoch_x</span><span class="p">,</span> <span class="n">epoch_y</span> <span class="o">=</span> <span class="n">mnist</span><span class="p">.</span><span class="n">train</span><span class="p">.</span><span class="n">next_batch</span><span class="p">(</span><span class="n">batch_size</span><span class="p">)</span>
+                <span class="n">epoch_x</span> <span class="o">=</span> <span class="n">epoch_x</span><span class="p">.</span><span class="n">reshape</span><span class="p">((</span><span class="n">batch_size</span><span class="p">,</span><span class="n">n_chunks</span><span class="p">,</span><span class="n">chunk_size</span><span class="p">))</span>
+
+                <span class="n">_</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span> <span class="n">sess</span><span class="p">.</span><span class="n">run</span><span class="p">([</span><span class="n">optimizer</span><span class="p">,</span> <span class="n">cost</span><span class="p">],</span> <span class="n">feed_dict</span><span class="o">=</span><span class="p">{</span><span class="n">x</span><span class="p">:</span> <span class="n">epoch_x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">epoch_y</span><span class="p">})</span>
+                <span class="n">epoch_loss</span> <span class="o">+=</span> <span class="n">c</span>
+
+            <span class="k">print</span><span class="p">(</span><span class="s">'Epoch'</span><span class="p">,</span> <span class="n">epoch</span><span class="p">,</span> <span class="s">'completed out of'</span><span class="p">,</span><span class="n">hm_epochs</span><span class="p">,</span><span class="s">'loss:'</span><span class="p">,</span><span class="n">epoch_loss</span><span class="p">)</span>
+
+        <span class="n">correct</span> <span class="o">=</span> <span class="n">tf</span><span class="p">.</span><span class="n">equal</span><span class="p">(</span><span class="n">tf</span><span class="p">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">prediction</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">tf</span><span class="p">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+
+        <span class="n">accuracy</span> <span class="o">=</span> <span class="n">tf</span><span class="p">.</span><span class="n">reduce_mean</span><span class="p">(</span><span class="n">tf</span><span class="p">.</span><span class="n">cast</span><span class="p">(</span><span class="n">correct</span><span class="p">,</span> <span class="s">'float'</span><span class="p">))</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">'Accuracy:'</span><span class="p">,</span><span class="n">accuracy</span><span class="p">.</span><span class="nb">eval</span><span class="p">({</span><span class="n">x</span><span class="p">:</span><span class="n">mnist</span><span class="p">.</span><span class="n">test</span><span class="p">.</span><span class="n">images</span><span class="p">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">n_chunks</span><span class="p">,</span> <span class="n">chunk_size</span><span class="p">)),</span> <span class="n">y</span><span class="p">:</span><span class="n">mnist</span><span class="p">.</span><span class="n">test</span><span class="p">.</span><span class="n">labels</span><span class="p">}))</span>
+
+<span class="n">train_neural_network</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>I suggest you to watch <a href="https://pythonprogramming.net/rnn-tensorflow-python-machine-learning-tutorial/">sentdex’s video tutorial</a> first, and if you are not confident with what’s going on in the function <strong>recurrent_neural_network</strong>, you can go on read this article.</p>
+
+<p>Let’s take a close look at this function:</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">recurrent_neural_network</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="n">layer</span> <span class="o">=</span> <span class="p">{</span><span class="s">'weights'</span><span class="p">:</span><span class="n">tf</span><span class="p">.</span><span class="n">Variable</span><span class="p">(</span><span class="n">tf</span><span class="p">.</span><span class="n">random_normal</span><span class="p">([</span><span class="n">rnn_size</span><span class="p">,</span><span class="n">n_classes</span><span class="p">])),</span>
+             <span class="s">'biases'</span><span class="p">:</span><span class="n">tf</span><span class="p">.</span><span class="n">Variable</span><span class="p">(</span><span class="n">tf</span><span class="p">.</span><span class="n">random_normal</span><span class="p">([</span><span class="n">n_classes</span><span class="p">]))}</span>
+
+    <span class="n">x</span> <span class="o">=</span> <span class="n">tf</span><span class="p">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">])</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">tf</span><span class="p">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">chunk_size</span><span class="p">])</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">tf</span><span class="p">.</span><span class="n">split</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">n_chunks</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+
+    <span class="n">lstm_cell</span> <span class="o">=</span> <span class="n">rnn_cell</span><span class="p">.</span><span class="n">BasicLSTMCell</span><span class="p">(</span><span class="n">rnn_size</span><span class="p">,</span><span class="n">state_is_tuple</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">outputs</span><span class="p">,</span> <span class="n">states</span> <span class="o">=</span> <span class="n">rnn</span><span class="p">.</span><span class="n">rnn</span><span class="p">(</span><span class="n">lstm_cell</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">tf</span><span class="p">.</span><span class="n">float32</span><span class="p">)</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="n">tf</span><span class="p">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">outputs</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span><span class="n">layer</span><span class="p">[</span><span class="s">'weights'</span><span class="p">])</span> <span class="o">+</span> <span class="n">layer</span><span class="p">[</span><span class="s">'biases'</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="n">output</span>
+</code></pre></div></div>
+
+<p>In the 1st line, we define variables for weights and biases. That’s common in any other neural network. If you don’t understand this line, you should go back and learn what is a neural network.</p>
+
+<p>Next, we make some tricks to the input X. Tensorflow cannot output the value right away, as it define the whole model first and run later, so we can use numpy to mimik this tricks to see what happened.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="c1">#First we define a small tensor to observe
+</span><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">24</span><span class="p">).</span><span class="n">reshape</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="c1">#Then do the transepose
+</span><span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="p">.</span><span class="n">transpose</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">])</span>
+<span class="k">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="c1">#And do the reshape
+</span><span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="p">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="c1">#And do the split
+</span><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">split</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</code></pre></div></div>
+<p>the outcome should be like this (I pretty the output a little):</p>
+<pre><code class="language-code">[[[ 0  1  2]
+  [ 3  4  5]
+  [ 6  7  8]
+  [ 9 10 11]]
+ [[12 13 14]
+  [15 16 17]
+  [18 19 20]
+  [21 22 23]]]
+
+[[[ 0  1  2]
+  [12 13 14]]
+ [[ 3  4  5]
+  [15 16 17]]
+ [[ 6  7  8]
+  [18 19 20]]
+ [[ 9 10 11]
+  [21 22 23]]]
+
+[[ 0  1  2]
+ [12 13 14]
+ [ 3  4  5]
+ [15 16 17]
+ [ 6  7  8]
+ [18 19 20]
+ [ 9 10 11]
+ [21 22 23]]
+
+[array([[ 0,  1,  2],
+       [12, 13, 14]]), array([[ 3,  4,  5],
+       [15, 16, 17]]), array([[ 6,  7,  8],
+       [18, 19, 20]]), array([[ 9, 10, 11],
+       [21, 22, 23]])]
+</code></pre>
+<p>OK. We can see that, we finally have a list, which contains 4 elemnts. The 1st elements contains the 1st lines of the origin images. The 2nd contains the 2nd lines of origin images.</p>
+
+<p>Now the final list is the input of the RNN.</p>
+
+<p>After define a BasicLSTMCell cell, the next line is the key RNN implementation.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">outputs</span><span class="p">,</span> <span class="n">states</span> <span class="o">=</span> <span class="n">rnn</span><span class="p">.</span><span class="n">rnn</span><span class="p">(</span><span class="n">lstm_cell</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">tf</span><span class="p">.</span><span class="n">float32</span><span class="p">)</span>
+</code></pre></div></div>
+<p>Let take a look at <a href="https://github.com/tensorflow/tensorflow/blob/master/tensorflow/python/ops/rnn.py">the source code of rnn.rnn</a> on github, the programmer said that, the simplest form of RNN network generated is:</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="n">state</span> <span class="o">=</span> <span class="n">cell</span><span class="p">.</span><span class="n">zero_state</span><span class="p">(...)</span>
+  <span class="n">outputs</span> <span class="o">=</span> <span class="p">[]</span>
+  <span class="k">for</span> <span class="n">input_</span> <span class="ow">in</span> <span class="n">inputs</span><span class="p">:</span>
+    <span class="n">output</span><span class="p">,</span> <span class="n">state</span> <span class="o">=</span> <span class="n">cell</span><span class="p">(</span><span class="n">input_</span><span class="p">,</span> <span class="n">state</span><span class="p">)</span>
+    <span class="n">outputs</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">output</span><span class="p">)</span>
+  <span class="k">return</span> <span class="p">(</span><span class="n">outputs</span><span class="p">,</span> <span class="n">state</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>That’s good! The output is also a list, just like the input list.</p>
+
+<p><img src="/images/rnn_flow.png" alt="RNN-flow" /></p>
+
+<p>Every single LSTM cell has a layer, which contain 128(rnn_size) neurals.
+At first, we feed the LSTM cell with the first slide of our input list, which is happen to be the whole first origin image. The first line of first origin image goes to the first LSTM first. Because the rnn has 128(rnn_size) neurals, so it will output 128 numbers this time. And then the 2nd line of first origin image goes to the 2nd LSTM, until meets the final line, and get another 128 numbers output…
+Finally, we will input all images in this batch, and get a batch of result.</p>
+
+<p>And it comes to the final line:</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">output</span> <span class="o">=</span> <span class="n">tf</span><span class="p">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">outputs</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span><span class="n">layer</span><span class="p">[</span><span class="s">'weights'</span><span class="p">])</span> <span class="o">+</span> <span class="n">layer</span><span class="p">[</span><span class="s">'biases'</span><span class="p">]</span>
+</code></pre></div></div>
+
+<p>We see that only the last element of output is used. Sometimes we use all of the outputs list, and sometimes we just use the last one. That is because the information is contained in the last output. Why? Because this cell is called Long-short Term Memory(LSTM). It is designed to remember the whole sequence!</p>
+
+<p>Here is a very good tutoral of <a href="http://colah.github.io/posts/2015-08-Understanding-LSTMs/">What is LSTM</a>.</p>
+
+<p>Thank you for reading. Comments are welcomed.</p>
+
+:ET
