@@ -1,57 +1,23 @@
 ---
-layout: default
+layout: about-me-full
 ---
 
-<script>
-  $(document).ready(function() {
-    $("#typewriteText").typewrite({
-      actions: [{ type: "{{site.typewrite-text}}" }]
-    });
-  });
-</script>
-    <div class="jumbotron" style="text-align: center;">
-      {%- include logo.html -%}
-      <p class="jumbotron-heading">Hi, I am {{site.author}} !</p>
-      <p class="lead" id="typewriteText"></p>
-      {% if site.github_username %} {%- include github_follow_button.html -%} {%
-      endif %}
-    </div>
-    <div class="col-lg-8 offset-md-2">
-      <section id="recent-articles">
-        <div id="recent-articles-header">
-          <div id="recent-articles-title">
-            <h1 class="card-title">Recent Blogs</h1>
-          </div>
-          <div id="recent-articles-show-all">
-            <a class="btn btn-lg btn-dark" href="/blog"> View All </a>
-          </div>
-        </div>
-        <br />
+I am currently a graduate student at University of Vermont.
+My program is called <a href="https://vermontcomplexsystems.org/education/masters/">Masters in Complex Systems and Data Science</a>.
+My advisor is <a href="http://www.cs.uvm.edu/~jbongard/">Josh Bongard</a>, and in the <a href="https://www.meclab.org/">Morphology, Evolution & Cognition Laboratory</a>, I mainly work with <a href="https://skriegman.github.io/">Sam Kriegman</a> on <a href="https://en.wikipedia.org/wiki/Evolutionary_robotics">evolutionary robotic</a> research projects.
+<br><br>
 
-        <ul>
-          {% for post in site.posts limit:5 %}
-          <li class="article-card">
-            <a href="{{post.url}}" class="article-card-link">
-              <div id="article-container">
-                <div id="article-img">
-                  <img
-                    src="/assets/img/blog-icon.png"
-                    width="30px"
-                    height="30px"
-                  />
-                </div>
-                <div id="article-link">
-                    <p class="recent-article-link">{{post.title}} <span style="color: #ccc; font-size: 15px;"> - <i><time datetime="{{ post.date }}" itemprop="datePublished">{{ post.date | date: "%b %-d, %Y" }}</time></i></span></p>
-                  </div>
-                  <div id="article-alert">
-                  {% for cat in post.category limit:1 %}
-                   <button class="btn btn-sm btn-dark">{{cat}}</button>
-                  {% endfor %}
-                  </div>
-              </div>
-            </a>
-          </li>
-          {% endfor %}
-        </ul>
-      </section>
-    </div>
+Broadly speaking, I am interested in how complex systems work, for example, how does intelligence work, or how does life work.
+My approach of studying such systems is by modeling them, using computer programs.
+<br><br>
+
+There are two kinds of problem in general that I need to study. 
+The first one is that we have input and model, and by simulating the whole process, we get the output. 
+The simulation I made is belong to this category, and the extreme case is the <a href="https://writings.stephenwolfram.com/2020/04/finally-we-may-have-a-path-to-the-fundamental-theory-of-physics-and-its-beautiful/">Wolfram Physics Project</a>.
+The second one is that we have output, and using optimization, we search for the input or model.
+Evolutionary Algorithm and Deep Learning are both belong to this category.
+<br><br>
+
+Before I came to the US, I was a vendor of bags and belts. My partners and I ran a <a href="http://tucano.tmall.com/" target="_blank" onclick="return confirm('Just for a friendly reminder, the store might have video and music autoplaying.\n\nAre you ready to open that website?');">online store</a> which is one of the leading leather stores in China.
+<br><br>
+
