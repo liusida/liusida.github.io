@@ -127,6 +127,10 @@
 <loc>http://localhost:4000/blog/page/3/</loc>
 </url>
 <url>
+<loc>http://localhost:4000/ARC/</loc>
+<lastmod>2020-07-15T13:41:40-04:00</lastmod>
+</url>
+<url>
 <loc>http://localhost:4000/assets/bower_components/icono/</loc>
 <lastmod>2020-05-15T13:41:25-04:00</lastmod>
 </url>
