@@ -1,4 +1,4 @@
-I"<h3>   </h3>
+I"k<h3>   </h3>
 
 <div id="categories">
 
@@ -16,6 +16,21 @@
     
     <article class="center">
       <h6><a href="/old/2018/06/27/what-is-mathematics/">What is Mathematics According to Keith Devlin</a></h6>
+    </article>
+
+
+    
+    
+  </div>
+
+  <div class="category-box">
+    
+    <div id="#CUDA"></div>
+    <h4 class="category-head"><a href="/blog/categories/CUDA">CUDA</a></h4>
+    <a name="CUDA"></a>
+     
+    <article class="center">
+      <h6><a href="/cuda/2020/08/02/pycuda/">How to use PyCUDA to bring significant speedup</a></h6>
     </article>
 
 
