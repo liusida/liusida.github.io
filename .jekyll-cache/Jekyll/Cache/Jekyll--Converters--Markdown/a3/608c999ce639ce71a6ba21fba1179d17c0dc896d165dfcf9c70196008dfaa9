@@ -1,12 +1,0 @@
-I"<p>We have traditional Neural Network (NN), with static structure like this:</p>
-
-<p>signal -&gt; input -&gt; hidden layer -&gt; prediction =?= truth</p>
-
-<p>-&gt;  means to propagate forward
-=?= means to minimize difference</p>
-
-<p>What if we already trained one model like that and there is another evidence (signal) coming in front of us? Can we add the signal into the model dynamically without abandon what has been trained already?</p>
-
-<p>I think we should use Bayesian Theory, but I havn’t figure out how yet.</p>
-
-:ET
