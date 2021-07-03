@@ -1,4 +1,49 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.0.0">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2020-08-02T22:05:25-04:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Sida Liu</title><subtitle>The world is so complex that we cannot stop learning.</subtitle><author><name>Sida Liu</name></author><entry><title type="html">How to use PyCUDA to bring significant speedup</title><link href="http://localhost:4000/cuda/2020/08/02/pycuda/" rel="alternate" type="text/html" title="How to use PyCUDA to bring significant speedup" /><published>2020-08-02T00:00:00-04:00</published><updated>2020-08-02T00:00:00-04:00</updated><id>http://localhost:4000/cuda/2020/08/02/pycuda</id><content type="html" xml:base="http://localhost:4000/cuda/2020/08/02/pycuda/">&lt;p&gt;Imagine that we have designed an computational experiment in Python, and we waited 3 days for the results, and after that, unfortunately we discovered there was a typo or a small bug in the source code. What do you think we would say when we restart the experiment? I would hope that the experiment could be run in half a hour.&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.0.0">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2021-07-03T11:51:12+08:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Sida Liu</title><subtitle>The world is so complex that we cannot stop learning.</subtitle><author><name>Sida Liu</name></author><entry><title type="html">A simple Android virtual environment</title><link href="http://localhost:4000/simulation/2021/07/03/simple-android-env/" rel="alternate" type="text/html" title="A simple Android virtual environment" /><published>2021-07-03T00:00:00+08:00</published><updated>2021-07-03T00:00:00+08:00</updated><id>http://localhost:4000/simulation/2021/07/03/simple-android-env</id><content type="html" xml:base="http://localhost:4000/simulation/2021/07/03/simple-android-env/">&lt;p&gt;Creating an intelligent agent that can browse the internet like a human user does is interesting.
+Many websites don’t want to provide services to artificial agents, but my opinion is that, making AI that can acqure information like human will facilitate the communication between AI and human, providing a common ground for both parties.&lt;/p&gt;
+
+&lt;p&gt;Recently, DeepMind has open-sourced a &lt;a href=&quot;https://github.com/deepmind/android_env/&quot;&gt;virtual Android environment for RL agents&lt;/a&gt;.
+Comparing to a virtual PC, a Android emulator tends to be faster.
+Moreover, some applications only provide interface on mobile devices.
+So I found this project interesting.&lt;/p&gt;
+
+&lt;p&gt;However, I am not familiar with Android, so the whole project is a little too complicated to me.
+I decide to make a toy/simplified version of this project, just to learn more about the details.&lt;/p&gt;
+
+&lt;p&gt;First of all, this project doesn’t include the emulator of Android, rather, we need to &lt;a href=&quot;https://github.com/deepmind/android_env/blob/main/docs/emulator_guide.md&quot;&gt;install the emulator from Android Studio&lt;/a&gt;.
+Once we created an AVD (Android Virtual Device), we should be able to start the device by this command:&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;~/Android/Sdk/emulator/emulator &lt;span class=&quot;nt&quot;&gt;-avd&lt;/span&gt; my_device
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;suppose the emulator was installed into &lt;code class=&quot;highlighter-rouge&quot;&gt;~/Android/Sdk/emulator&lt;/code&gt; folder, and &lt;code class=&quot;highlighter-rouge&quot;&gt;my_device&lt;/code&gt; is the name of the AVD I created.&lt;/p&gt;
+
+&lt;p&gt;However, the guide suggests that we should start the AVD from Android Studio. I am not sure why we should not start the emulator without Android Studio.
+If you happen to know why, please let me know.&lt;/p&gt;
+
+&lt;p&gt;You can probably see a GUI like this:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/2021-07-03-simple-android-env/avd.png&quot; alt=&quot;avd&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;And you can use your mouse and keyboard to play with this virtual device.&lt;/p&gt;
+
+&lt;p&gt;Then, we will want to send mouse and keyboard events to the virtual device programmably.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://developer.android.com/studio/run/emulator-console&quot;&gt;Here&lt;/a&gt; is a documentation for how to send commands to the emulator. 
+However, this is a very simple explanation of the commands, and it is not clear how to send mouse events (with the command &lt;code class=&quot;highlighter-rouge&quot;&gt;event&lt;/code&gt;).&lt;/p&gt;
+
+&lt;p&gt;After reading this &lt;a href=&quot;https://github.com/deepmind/android_env/blob/main/android_env/components/emulator_console.py#L244&quot;&gt;source file&lt;/a&gt; from the AndroidEnv, I discovered that we can use the command &lt;code class=&quot;highlighter-rouge&quot;&gt;event mouse&lt;/code&gt; to send mouse events to the virtual device.
+This is not mentioned in the documentation, and I don’t know why.&lt;/p&gt;
+
+&lt;p&gt;Once we are able to send events (actions) to the virtual device, we also would like to get the feedback from the device.
+According to the documentation, the way we can achieve that is using the &lt;code class=&quot;highlighter-rouge&quot;&gt;screenrecord screenshot&lt;/code&gt; command.
+However, this command only takes a path to a folder as its parameter (not a path to a file) and doesn’t return the filename it has created, so we need to clean the folder beforehand and probably use &lt;code class=&quot;highlighter-rouge&quot;&gt;glob&lt;/code&gt; to get whatever created in that folder after the command returns.
+Also, the command returns before the file has been created, so one need to make sure the file has been created before using &lt;code class=&quot;highlighter-rouge&quot;&gt;glob&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;The file created by &lt;code class=&quot;highlighter-rouge&quot;&gt;screenrecord&lt;/code&gt; is a PNG file, and we can use, for example, Python package &lt;code class=&quot;highlighter-rouge&quot;&gt;imageio&lt;/code&gt; to read that file as a Numpy array, and feed that to the neural network.&lt;/p&gt;
+
+&lt;p&gt;Now we have actions and observations, and this is basically the simplest version of an Android envrionment.
+Instead of using &lt;a href=&quot;https://github.com/deepmind/android_env/&quot;&gt;DeepMind/AndroidEnv&lt;/a&gt;, we can manipulate the virtual device directly.&lt;/p&gt;
+
+&lt;p&gt;I’ll be happy to see some intelligent agents that can operate the virtual mobile phone and discover the Internet on their own in a more human-like way.&lt;/p&gt;</content><author><name>Sida Liu</name></author><category term="Simulation" /><summary type="html">Creating an intelligent agent that can browse the internet like a human user does is interesting. Many websites don’t want to provide services to artificial agents, but my opinion is that, making AI that can acqure information like human will facilitate the communication between AI and human, providing a common ground for both parties.</summary></entry><entry><title type="html">How to use PyCUDA to bring significant speedup</title><link href="http://localhost:4000/cuda/2020/08/02/pycuda/" rel="alternate" type="text/html" title="How to use PyCUDA to bring significant speedup" /><published>2020-08-02T00:00:00+08:00</published><updated>2020-08-02T00:00:00+08:00</updated><id>http://localhost:4000/cuda/2020/08/02/pycuda</id><content type="html" xml:base="http://localhost:4000/cuda/2020/08/02/pycuda/">&lt;p&gt;Imagine that we have designed an computational experiment in Python, and we waited 3 days for the results, and after that, unfortunately we discovered there was a typo or a small bug in the source code. What do you think we would say when we restart the experiment? I would hope that the experiment could be run in half a hour.&lt;/p&gt;
 
 &lt;p&gt;It is possible, by making the code parallized.&lt;/p&gt;
 
@@ -14,7 +59,7 @@
 
 &lt;p&gt;The file &lt;code class=&quot;highlighter-rouge&quot;&gt;car_rental_cuda.py&lt;/code&gt; is the CUDA-optimized version of the original program. The &lt;code class=&quot;highlighter-rouge&quot;&gt;gpu_policy_evaluation&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;gpu_policy_improvement&lt;/code&gt; are two kernels (CUDA interfaces) that can run 21*21 (num_state=21) threads in parallel. In this code, it prepares the pre-defined constant vairables and read in the CUDA source file &lt;code class=&quot;highlighter-rouge&quot;&gt;car_rental_cuda.py.cu&lt;/code&gt;, compiles them on the fly, and expose the interfaces as Python functions.&lt;/p&gt;
 
-&lt;p&gt;By running them, we can get the results in the &lt;code class=&quot;highlighter-rouge&quot;&gt;images/&lt;/code&gt; folder. And we can see the CUDA version only takes 6 seconds while the original version would take more than a hour.&lt;/p&gt;</content><author><name>Sida Liu</name></author><category term="CUDA" /><summary type="html">Imagine that we have designed an computational experiment in Python, and we waited 3 days for the results, and after that, unfortunately we discovered there was a typo or a small bug in the source code. What do you think we would say when we restart the experiment? I would hope that the experiment could be run in half a hour.</summary></entry><entry><title type="html">Nuance in Monty Hall Paradox</title><link href="http://localhost:4000/old/2018/07/02/nuance-in-monty-hall-paradox/" rel="alternate" type="text/html" title="Nuance in Monty Hall Paradox" /><published>2018-07-02T00:00:00-04:00</published><updated>2018-07-02T00:00:00-04:00</updated><id>http://localhost:4000/old/2018/07/02/nuance-in-monty-hall-paradox</id><content type="html" xml:base="http://localhost:4000/old/2018/07/02/nuance-in-monty-hall-paradox/">&lt;p&gt;Marilyn vos Savant has made a mistake. She knew the game show Let’s Make a Deal too well, that she assumed the rules of the game show also applied to the question she was asked.&lt;/p&gt;
+&lt;p&gt;By running them, we can get the results in the &lt;code class=&quot;highlighter-rouge&quot;&gt;images/&lt;/code&gt; folder. And we can see the CUDA version only takes 6 seconds while the original version would take more than a hour.&lt;/p&gt;</content><author><name>Sida Liu</name></author><category term="CUDA" /><summary type="html">Imagine that we have designed an computational experiment in Python, and we waited 3 days for the results, and after that, unfortunately we discovered there was a typo or a small bug in the source code. What do you think we would say when we restart the experiment? I would hope that the experiment could be run in half a hour.</summary></entry><entry><title type="html">Nuance in Monty Hall Paradox</title><link href="http://localhost:4000/old/2018/07/02/nuance-in-monty-hall-paradox/" rel="alternate" type="text/html" title="Nuance in Monty Hall Paradox" /><published>2018-07-02T00:00:00+08:00</published><updated>2018-07-02T00:00:00+08:00</updated><id>http://localhost:4000/old/2018/07/02/nuance-in-monty-hall-paradox</id><content type="html" xml:base="http://localhost:4000/old/2018/07/02/nuance-in-monty-hall-paradox/">&lt;p&gt;Marilyn vos Savant has made a mistake. She knew the game show Let’s Make a Deal too well, that she assumed the rules of the game show also applied to the question she was asked.&lt;/p&gt;
 
 &lt;p&gt;On the website of Marilyn vos Savant, the original question could be found here http://marilynvossavant.com/game-show-problem/ :&lt;/p&gt;
 
@@ -24,7 +69,7 @@
 
 &lt;p&gt;For this reason, the “Marilyn’s question” is different from “Monty Hall Paradox.”&lt;/p&gt;
 
-&lt;p&gt;So how to solve “Marilyn’s question”?&lt;/p&gt;</content><author><name>Sida Liu</name></author><category term="Old" /><summary type="html">Marilyn vos Savant has made a mistake. She knew the game show Let’s Make a Deal too well, that she assumed the rules of the game show also applied to the question she was asked.</summary></entry><entry><title type="html">What is Mathematics According to Keith Devlin</title><link href="http://localhost:4000/old/2018/06/27/what-is-mathematics/" rel="alternate" type="text/html" title="What is Mathematics According to Keith Devlin" /><published>2018-06-27T00:00:00-04:00</published><updated>2018-06-27T00:00:00-04:00</updated><id>http://localhost:4000/old/2018/06/27/what-is-mathematics</id><content type="html" xml:base="http://localhost:4000/old/2018/06/27/what-is-mathematics/">&lt;p&gt;上午读了Keith Devlin教授的课程背景材料，有点感触，摘抄了几段对我很有启发的文字，以备日后参考。&lt;/p&gt;
+&lt;p&gt;So how to solve “Marilyn’s question”?&lt;/p&gt;</content><author><name>Sida Liu</name></author><category term="Old" /><summary type="html">Marilyn vos Savant has made a mistake. She knew the game show Let’s Make a Deal too well, that she assumed the rules of the game show also applied to the question she was asked.</summary></entry><entry><title type="html">What is Mathematics According to Keith Devlin</title><link href="http://localhost:4000/old/2018/06/27/what-is-mathematics/" rel="alternate" type="text/html" title="What is Mathematics According to Keith Devlin" /><published>2018-06-27T00:00:00+08:00</published><updated>2018-06-27T00:00:00+08:00</updated><id>http://localhost:4000/old/2018/06/27/what-is-mathematics</id><content type="html" xml:base="http://localhost:4000/old/2018/06/27/what-is-mathematics/">&lt;p&gt;上午读了Keith Devlin教授的课程背景材料，有点感触，摘抄了几段对我很有启发的文字，以备日后参考。&lt;/p&gt;
 
 &lt;p&gt;In Keith Devlin’s book ‘Introduction to Mathematical Thinking’, he writes,&lt;/p&gt;
 
@@ -42,7 +87,7 @@
 
 &lt;p&gt;“…those skills (use mathematics as a tool) fall into two categories. … The second category comprises people who can take a new problem, say in manufacturing, identify and describe key features of the problem mathematically, and use that mathematical description to analyze the problem in a precise fashion. … I propose to give them one (name): innovative mathematical thinkers.”&lt;/p&gt;
 
-&lt;p&gt;使用数学可以有两类，一类是拿到已经定义好的数学问题想办法计算结果，第二类是在实际生活中把遇到的问题数学化，并可以用精确地风格分析这些问题。我称这些人：有创意的数学思考者。&lt;/p&gt;</content><author><name>Sida Liu</name></author><category term="Old" /><summary type="html">上午读了Keith Devlin教授的课程背景材料，有点感触，摘抄了几段对我很有启发的文字，以备日后参考。</summary></entry><entry><title type="html">Dynamic NN Allowing Additional Evidence?</title><link href="http://localhost:4000/2018/05/29/dynamic-nn/" rel="alternate" type="text/html" title="Dynamic NN Allowing Additional Evidence?" /><published>2018-05-29T00:00:00-04:00</published><updated>2018-05-29T00:00:00-04:00</updated><id>http://localhost:4000/2018/05/29/dynamic-nn</id><content type="html" xml:base="http://localhost:4000/2018/05/29/dynamic-nn/">&lt;p&gt;We have traditional Neural Network (NN), with static structure like this:&lt;/p&gt;
+&lt;p&gt;使用数学可以有两类，一类是拿到已经定义好的数学问题想办法计算结果，第二类是在实际生活中把遇到的问题数学化，并可以用精确地风格分析这些问题。我称这些人：有创意的数学思考者。&lt;/p&gt;</content><author><name>Sida Liu</name></author><category term="Old" /><summary type="html">上午读了Keith Devlin教授的课程背景材料，有点感触，摘抄了几段对我很有启发的文字，以备日后参考。</summary></entry><entry><title type="html">Dynamic NN Allowing Additional Evidence?</title><link href="http://localhost:4000/2018/05/29/dynamic-nn/" rel="alternate" type="text/html" title="Dynamic NN Allowing Additional Evidence?" /><published>2018-05-29T00:00:00+08:00</published><updated>2018-05-29T00:00:00+08:00</updated><id>http://localhost:4000/2018/05/29/dynamic-nn</id><content type="html" xml:base="http://localhost:4000/2018/05/29/dynamic-nn/">&lt;p&gt;We have traditional Neural Network (NN), with static structure like this:&lt;/p&gt;
 
 &lt;p&gt;signal -&amp;gt; input -&amp;gt; hidden layer -&amp;gt; prediction =?= truth&lt;/p&gt;
 
@@ -51,7 +96,7 @@
 
 &lt;p&gt;What if we already trained one model like that and there is another evidence (signal) coming in front of us? Can we add the signal into the model dynamically without abandon what has been trained already?&lt;/p&gt;
 
-&lt;p&gt;I think we should use Bayesian Theory, but I havn’t figure out how yet.&lt;/p&gt;</content><author><name>Sida Liu</name></author><summary type="html">We have traditional Neural Network (NN), with static structure like this:</summary></entry><entry><title type="html">Why does the person with highest IQ not become the most successful one?</title><link href="http://localhost:4000/2017/09/27/highest-IQ/" rel="alternate" type="text/html" title="Why does the person with highest IQ not become the most successful one?" /><published>2017-09-27T00:00:00-04:00</published><updated>2017-09-27T00:00:00-04:00</updated><id>http://localhost:4000/2017/09/27/highest-IQ</id><content type="html" xml:base="http://localhost:4000/2017/09/27/highest-IQ/">&lt;p&gt;I heard about the “&lt;a href=&quot;https://euler.epfl.ch/files/content/sites/euler/files/users/144617/public/LubinskiPersson.pdf&quot;&gt;Study of Mathematically Precocious Youth After 35 Years&lt;/a&gt;” years ago, but after studying machine learning, especially the generalization problem, I guess I have glanced some possible reasons.&lt;/p&gt;
+&lt;p&gt;I think we should use Bayesian Theory, but I havn’t figure out how yet.&lt;/p&gt;</content><author><name>Sida Liu</name></author><summary type="html">We have traditional Neural Network (NN), with static structure like this:</summary></entry><entry><title type="html">Why does the person with highest IQ not become the most successful one?</title><link href="http://localhost:4000/2017/09/27/highest-IQ/" rel="alternate" type="text/html" title="Why does the person with highest IQ not become the most successful one?" /><published>2017-09-27T00:00:00+08:00</published><updated>2017-09-27T00:00:00+08:00</updated><id>http://localhost:4000/2017/09/27/highest-IQ</id><content type="html" xml:base="http://localhost:4000/2017/09/27/highest-IQ/">&lt;p&gt;I heard about the “&lt;a href=&quot;https://euler.epfl.ch/files/content/sites/euler/files/users/144617/public/LubinskiPersson.pdf&quot;&gt;Study of Mathematically Precocious Youth After 35 Years&lt;/a&gt;” years ago, but after studying machine learning, especially the generalization problem, I guess I have glanced some possible reasons.&lt;/p&gt;
 
 &lt;p&gt;While a human is learning, the process is more or less like the machine learning. The talent, the IQ testing result, can somehow prove the human has a more complex brain, just like the neural networks have more complex architectures. Unfortunately, overfitting often occurs when a model with more complex architecture learning. When a model stuck at overfitting, the training error will go down steadily while the validation error will become larger. This problem is called generalization problem. In the context of machine learning, we have several tricks to partially solve it. Here is a list of methods and their analogies of human learning.&lt;/p&gt;
 
@@ -68,7 +113,7 @@
   &lt;li&gt;
     &lt;p&gt;L2 regularization. This is pushing all the unrelated weights to be near zero. When we study, maybe after several rounds of learning, we ask ourselves to not doubt what we learned. If we are not 100% sure, then don’t trust it.&lt;/p&gt;
   &lt;/li&gt;
-&lt;/ul&gt;</content><author><name>Sida Liu</name></author><summary type="html">I heard about the “Study of Mathematically Precocious Youth After 35 Years” years ago, but after studying machine learning, especially the generalization problem, I guess I have glanced some possible reasons.</summary></entry><entry><title type="html">Use Tensorflow to Compute Gradient</title><link href="http://localhost:4000/2017/09/24/use-tensorflow-to-compute-gradient/" rel="alternate" type="text/html" title="Use Tensorflow to Compute Gradient" /><published>2017-09-24T00:00:00-04:00</published><updated>2017-09-24T00:00:00-04:00</updated><id>http://localhost:4000/2017/09/24/use-tensorflow-to-compute-gradient</id><content type="html" xml:base="http://localhost:4000/2017/09/24/use-tensorflow-to-compute-gradient/">&lt;p&gt;In most of Tensorflow tutorials, we use minimize(loss) to automatically update parameters of the model.&lt;/p&gt;
+&lt;/ul&gt;</content><author><name>Sida Liu</name></author><summary type="html">I heard about the “Study of Mathematically Precocious Youth After 35 Years” years ago, but after studying machine learning, especially the generalization problem, I guess I have glanced some possible reasons.</summary></entry><entry><title type="html">Use Tensorflow to Compute Gradient</title><link href="http://localhost:4000/2017/09/24/use-tensorflow-to-compute-gradient/" rel="alternate" type="text/html" title="Use Tensorflow to Compute Gradient" /><published>2017-09-24T00:00:00+08:00</published><updated>2017-09-24T00:00:00+08:00</updated><id>http://localhost:4000/2017/09/24/use-tensorflow-to-compute-gradient</id><content type="html" xml:base="http://localhost:4000/2017/09/24/use-tensorflow-to-compute-gradient/">&lt;p&gt;In most of Tensorflow tutorials, we use minimize(loss) to automatically update parameters of the model.&lt;/p&gt;
 
 &lt;p&gt;In fact, minimize() is an integration of two steps: computing gradients, and applying the gradients to update parameters.&lt;/p&gt;
 
@@ -117,7 +162,7 @@
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[(-576.0, 1.0), (-192.0, 1.0)]
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;p&gt;So next time your professor ask you to implement a back-propagation for some complex networks by your self, maybe this trick can help you double-check your implementation. Hooray!&lt;/p&gt;</content><author><name>Sida Liu</name></author><summary type="html">In most of Tensorflow tutorials, we use minimize(loss) to automatically update parameters of the model.</summary></entry><entry><title type="html">Scree of PCA(Principal Component Analysis)</title><link href="http://localhost:4000/2017/09/23/scree-of-pca/" rel="alternate" type="text/html" title="Scree of PCA(Principal Component Analysis)" /><published>2017-09-23T00:00:00-04:00</published><updated>2017-09-23T00:00:00-04:00</updated><id>http://localhost:4000/2017/09/23/scree-of-pca</id><content type="html" xml:base="http://localhost:4000/2017/09/23/scree-of-pca/">&lt;p&gt;I learned the concept of PCA today, and found out this method of reducing dimension is quite terse.&lt;/p&gt;
+&lt;p&gt;So next time your professor ask you to implement a back-propagation for some complex networks by your self, maybe this trick can help you double-check your implementation. Hooray!&lt;/p&gt;</content><author><name>Sida Liu</name></author><summary type="html">In most of Tensorflow tutorials, we use minimize(loss) to automatically update parameters of the model.</summary></entry><entry><title type="html">Scree of PCA(Principal Component Analysis)</title><link href="http://localhost:4000/2017/09/23/scree-of-pca/" rel="alternate" type="text/html" title="Scree of PCA(Principal Component Analysis)" /><published>2017-09-23T00:00:00+08:00</published><updated>2017-09-23T00:00:00+08:00</updated><id>http://localhost:4000/2017/09/23/scree-of-pca</id><content type="html" xml:base="http://localhost:4000/2017/09/23/scree-of-pca/">&lt;p&gt;I learned the concept of PCA today, and found out this method of reducing dimension is quite terse.&lt;/p&gt;
 
 &lt;p&gt;If we do PCA to a 40-d dataset, reduce it into a 2-d dataset, it simply choose the 2 most “Principal Components”, i.e. the 2 most “important” dimensions, and drop others.&lt;/p&gt;
 
@@ -127,13 +172,13 @@
 
 &lt;p&gt;&lt;img src=&quot;/images/2017-09-23-scree-of-pca/proportion-of-variance.png&quot; alt=&quot;img&quot; /&gt;&lt;/p&gt;
 
-&lt;p&gt;In this example, I think we are quite safe to simply drop dimensions after PC30, i.e. we can use PCA to reduce the dataset to 30-d quite safely. (and then we may use t-sne, a more time-consuming method.)&lt;/p&gt;</content><author><name>Sida Liu</name></author><summary type="html">I learned the concept of PCA today, and found out this method of reducing dimension is quite terse.</summary></entry><entry><title type="html">Learning Rate is Too Large</title><link href="http://localhost:4000/2017/09/09/learning-rate-too-large/" rel="alternate" type="text/html" title="Learning Rate is Too Large" /><published>2017-09-09T00:00:00-04:00</published><updated>2017-09-09T00:00:00-04:00</updated><id>http://localhost:4000/2017/09/09/learning-rate-too-large</id><content type="html" xml:base="http://localhost:4000/2017/09/09/learning-rate-too-large/">&lt;p&gt;What if I see a training accuracy scalar graphic like this:&lt;/p&gt;
+&lt;p&gt;In this example, I think we are quite safe to simply drop dimensions after PC30, i.e. we can use PCA to reduce the dataset to 30-d quite safely. (and then we may use t-sne, a more time-consuming method.)&lt;/p&gt;</content><author><name>Sida Liu</name></author><summary type="html">I learned the concept of PCA today, and found out this method of reducing dimension is quite terse.</summary></entry><entry><title type="html">Learning Rate is Too Large</title><link href="http://localhost:4000/2017/09/09/learning-rate-too-large/" rel="alternate" type="text/html" title="Learning Rate is Too Large" /><published>2017-09-09T00:00:00+08:00</published><updated>2017-09-09T00:00:00+08:00</updated><id>http://localhost:4000/2017/09/09/learning-rate-too-large</id><content type="html" xml:base="http://localhost:4000/2017/09/09/learning-rate-too-large/">&lt;p&gt;What if I see a training accuracy scalar graphic like this:&lt;/p&gt;
 
 &lt;p&gt;&lt;img src=&quot;/images/2017-09-09-learning-rate-too-large/accuracy-1.png&quot; alt=&quot;Accuracy&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;The accuracy curve of training mini-batch is going down a little bit over time after reached a relative high point. That might tell me the learning rate is too large.&lt;/p&gt;
 
-&lt;p&gt;When the learning rate is too large, the optimizer function can not converge the loss by adding derivative to variables–every step is too large, and the loss will become biger and biger.&lt;/p&gt;</content><author><name>Sida Liu</name></author><summary type="html">What if I see a training accuracy scalar graphic like this:</summary></entry><entry><title type="html">Manipulating Tensorboard</title><link href="http://localhost:4000/2017/09/08/manipulating-tensorboard/" rel="alternate" type="text/html" title="Manipulating Tensorboard" /><published>2017-09-08T00:00:00-04:00</published><updated>2017-09-08T00:00:00-04:00</updated><id>http://localhost:4000/2017/09/08/manipulating-tensorboard</id><content type="html" xml:base="http://localhost:4000/2017/09/08/manipulating-tensorboard/">&lt;p&gt;Tensorboard is a very useful tool for visualizing the logs of Tensorflow. It is now an independent project on GitHub, here’s the &lt;a href=&quot;https://github.com/tensorflow/tensorboard&quot;&gt;link&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;When the learning rate is too large, the optimizer function can not converge the loss by adding derivative to variables–every step is too large, and the loss will become biger and biger.&lt;/p&gt;</content><author><name>Sida Liu</name></author><summary type="html">What if I see a training accuracy scalar graphic like this:</summary></entry><entry><title type="html">Manipulating Tensorboard</title><link href="http://localhost:4000/2017/09/08/manipulating-tensorboard/" rel="alternate" type="text/html" title="Manipulating Tensorboard" /><published>2017-09-08T00:00:00+08:00</published><updated>2017-09-08T00:00:00+08:00</updated><id>http://localhost:4000/2017/09/08/manipulating-tensorboard</id><content type="html" xml:base="http://localhost:4000/2017/09/08/manipulating-tensorboard/">&lt;p&gt;Tensorboard is a very useful tool for visualizing the logs of Tensorflow. It is now an independent project on GitHub, here’s the &lt;a href=&quot;https://github.com/tensorflow/tensorboard&quot;&gt;link&lt;/a&gt;.&lt;/p&gt;
 
 &lt;p&gt;In the past, if we were doing small projects, we usually printed some log information on the screen or wrote them into log files. The disadvantage is that if there are so many outputs, we can easily get lost in them.&lt;/p&gt;
 
@@ -199,109 +244,4 @@
 
 &lt;p&gt;&lt;img src=&quot;/images/2017-09-08-tensorboard/merged_distributions.png&quot; alt=&quot;Merged Distributions&quot; /&gt;&lt;/p&gt;
 
-&lt;p&gt;In fact, after the last iteration, the data W1 and W2 are almost same, but why in histogram, those two seems different? Because the scale of y-axis is different. We can see from_normal_distribution, the initial max value is higher than the from_uniform_distribution graphic.&lt;/p&gt;</content><author><name>Sida Liu</name></author><summary type="html">Tensorboard is a very useful tool for visualizing the logs of Tensorflow. It is now an independent project on GitHub, here’s the link.</summary></entry><entry><title type="html">Implement a Deep Neural Network using Python and Numpy</title><link href="http://localhost:4000/2017/08/24/deep-scratch/" rel="alternate" type="text/html" title="Implement a Deep Neural Network using Python and Numpy" /><published>2017-08-24T00:00:00-04:00</published><updated>2017-08-24T00:00:00-04:00</updated><id>http://localhost:4000/2017/08/24/deep-scratch</id><content type="html" xml:base="http://localhost:4000/2017/08/24/deep-scratch/">&lt;p&gt;I have just finished &lt;a href=&quot;https://www.coursera.org/specializations/deep-learning&quot;&gt;Andrew Ng’s new Coursera courses of Deep Learning (1-3)&lt;/a&gt;. They are one part of his new project &lt;a href=&quot;https://www.deeplearning.ai/&quot;&gt;DeepLearning.ai&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;In those courses, there is a series of interview of &lt;a href=&quot;https://youtu.be/-eyhCTvrEtE?list=PLfsVAYSMwsksjfpy8P2t_I52mugGeA5gR&quot;&gt;Heroes of Deep Learning&lt;/a&gt;, which is very helpful for a newbie to enter this field. I heard several times those masters require a newbie to build a whole deep network from scratch, maybe just use Python and Numpy, to understand things better. So, after the courses, I decided to build one on my own.&lt;/p&gt;
-
-&lt;h2 id=&quot;day-1&quot;&gt;Day 1&lt;/h2&gt;
-
-&lt;p&gt;I created a new repository named &lt;a href=&quot;https://github.com/liusida/DeepScratch&quot;&gt;Deep Scratch&lt;/a&gt; in github, and a &lt;a href=&quot;https://github.com/liusida/DeepScratch/blob/master/main.ipynb&quot;&gt;main.ipynb&lt;/a&gt; file, to do this job.&lt;/p&gt;
-
-&lt;p&gt;First of all, I made a todo list, those are functions or algorithms mentioned in the courses. I planed to implement most of them.&lt;/p&gt;
-
-&lt;p&gt;Second, I decided to begin with MNIST dataset. It is the Hello, World dataset. But I will switch to other datasets to test my model. In my mind, maybe too ambitious, I want to build a transferable model, I think that’s the correct direction to general thinking.&lt;/p&gt;
-
-&lt;p&gt;After these, I can now start this project.&lt;/p&gt;
-
-&lt;h2 id=&quot;day-2&quot;&gt;Day 2&lt;/h2&gt;
-
-&lt;p&gt;I implemented a basic model, including those functions:&lt;/p&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;ReLU&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;X&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;softmax&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;X&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;forward_propagation_each_layer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;W&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;A_prev&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;b&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;activation_function&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ReLU&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;loss&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Y_hat&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Y&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;cost&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;loss&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;predict&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Y_hat&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;accuracy&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Y_predict&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Y&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;backpropagate_cost&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Y&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;AL&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;backpropagate_softmax&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;AL&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;dAL&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Y&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;None&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ZL&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;None&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;backpropagate_linear&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dZ&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;W&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;A_prev&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;backpropagate_ReLU&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dA&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Z&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;forwardpropagation_all&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;X&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;backpropagate_all&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;X&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Y&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;update_parameters&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;model&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;X&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Y&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;learning_rate&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;0.01&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;print_every&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;100&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;iteration&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;500&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;hidden_layers&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;100&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;batch_size&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;128&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;I had to say, the math is complex for me. When I implemented the first time, I almost have 10 bugs in the calculation!&lt;/p&gt;
-
-&lt;p&gt;There were a few un-concrete concepts, such as what loss function should I use for multi-class classification? What is the derivative of softmax? When should I divide the result by m (the number of examples)?&lt;/p&gt;
-
-&lt;p&gt;After maybe 10 hours of debugging, I even implemented a bunch of tensorflow alternative functions, finally, the model worked out!&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://github.com/liusida/DeepScratch/blob/day2/main.ipynb&quot;&gt;Day 2’s notebook&lt;/a&gt; &amp;lt;- Here were the code and formula. (I found that Jupyter Notebook is great to comment codes!)&lt;/p&gt;
-
-&lt;h2 id=&quot;day-3&quot;&gt;Day 3&lt;/h2&gt;
-
-&lt;p&gt;The training set accuracy was already 1.0, so I looked at the dev set accuracy: 0.6? Oh, that’s bad. So I had a variance problem.&lt;/p&gt;
-
-&lt;p&gt;I tried to implement regularization, but seems had little help to this variance problem.&lt;/p&gt;
-
-&lt;p&gt;Then suddenly I figured out why: because I use random batch to train, the distribution of random batch can not cover all training examples, so I wasted a lot of training examples.&lt;/p&gt;
-
-&lt;p&gt;So I changed to mini-batch, which define a mini-batch size, every time use a segment of training data, so it can sure every single example was used for training.&lt;/p&gt;
-
-&lt;p&gt;And I also realize a very interesting aspect of mini-batch, it has a very good effect to variance problem, especially when the network is relatively shallow. I think it acts just like dropout! The network can not depend on any single data!&lt;/p&gt;
-
-&lt;p&gt;Thanks to mini-batch, my dev accuracy jumped to 0.98, and test set accuracy was also 0.98. Not bad for today’s work!&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://github.com/liusida/DeepScratch/blob/day3/main.ipynb&quot;&gt;Day 3’s notebook&lt;/a&gt; &amp;lt;- Here is mini-batch, regularization, train/dev/test accuracy.&lt;/p&gt;
-
-&lt;h2 id=&quot;day-4&quot;&gt;Day 4&lt;/h2&gt;
-
-&lt;p&gt;Since the code was work and was ugly… I decided to refactor the code.&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://github.com/liusida/DeepScratch/blob/day4/main.ipynb&quot;&gt;Day 4’s notebook&lt;/a&gt; &amp;lt;- I had refactored half of the code.&lt;/p&gt;
-
-&lt;h2 id=&quot;day-5&quot;&gt;Day 5&lt;/h2&gt;
-
-&lt;p&gt;Refactor done. I was happy that the code looks clean now.&lt;/p&gt;
-
-&lt;p&gt;During refactoring, I attended to calculate the derivative of &lt;strong&gt;Z=WA+b&lt;/strong&gt;, the &lt;strong&gt;dL/dA&lt;/strong&gt;, but since &lt;strong&gt;Z,W,A&lt;/strong&gt; are all matrices, I failed to understand the derivative of Matrix-by-Matrix. According to the Wikipedia, it seems results a four-rank tensor. So, it was lucky that in the neural network, the final $L$ is a scalar, so derivative of Scalar-by-Martix is much easy to understand.&lt;/p&gt;
-
-&lt;p&gt;I also noticed that in Tensorflow, the final loss function is a Vector! So, they must understand what is the derivative of Matrix-by-Matrix!&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://github.com/liusida/DeepScratch/blob/day5/main.ipynb&quot;&gt;Day 5’s notebook&lt;/a&gt; &amp;lt;- Now the code is runable and clean.&lt;/p&gt;
-
-&lt;h2 id=&quot;day-6&quot;&gt;Day 6&lt;/h2&gt;
-
-&lt;p&gt;As there was still a variance problem, and L2 regularization seems not help much, I decided to implement Dropout.&lt;/p&gt;
-
-&lt;p&gt;I chose the “inverted dropout”, which introduced by Andrew Ng in the course.&lt;/p&gt;
-
-&lt;p&gt;I just watched a video comparing algebra and geometrics, it says that calculus and algebra can give you great power of solving a problem by just computing, but geometrics sometimes has its own beauty–it sometimes can solve a problem in a very simple way. Today, I felt like that the dropout technic is an analogy to geometrics, simple, effective, and beautiful.&lt;/p&gt;
-
-&lt;p&gt;Now after 100 iterations learning from training set, the dev accuracy raised to 98.34%.&lt;/p&gt;
-
-&lt;p&gt;There’s another lovely feature I added into the code: during training, I can just press the stop button of notebook, and change some of the hyperparameters (only except the arcitecture–the hidden layers), and Ctrl+Enter run the cell, the parameters W and b are kept, not re-initialized, so the training can go on without restart from beginning.&lt;/p&gt;
-
-&lt;p&gt;But till now, I spent more and more time running the program by CPU–actually I am lucky that I have MKL for numpy, so I can use all of my CPU–I felt a little wasting of time. Maybe I will implement those in Tensorflow, and use my GPU to save time. And Tensorflow has auto-gradient computation …&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://github.com/liusida/DeepScratch/blob/day6/main.ipynb&quot;&gt;Day 6’s notebook&lt;/a&gt; &amp;lt;- Dropout version&lt;/p&gt;
-
-&lt;h2 id=&quot;day-7&quot;&gt;Day 7&lt;/h2&gt;
-
-&lt;p&gt;This was the last day. I implemented some gradient checking functions to double-check my understanding and code.&lt;/p&gt;
-
-&lt;p&gt;It was quite strange to me that I have misunderstood the backpropagation for Softmax. When I tested it, I have a relatively large difference between the Calculated result and Approximate result. So I looked for more information online, but I only found &lt;a href=&quot;http://eli.thegreenplace.net/2016/the-softmax-function-and-its-derivative/&quot;&gt;an explanation about Softmax function with a vector(one sample)&lt;/a&gt; which I could understand.&lt;/p&gt;
-
-&lt;p&gt;Finally, I used the way Tensorflow does–calculate softmax and loss function at the same time. That formula is really simple. But I still felt not fully understand the principles.&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://github.com/liusida/DeepScratch/blob/day7/main.ipynb&quot;&gt;Day 7’s notebook&lt;/a&gt; &amp;lt;- After correct some functions, now the result … had no improvement … WHY…&lt;/p&gt;
-
-&lt;p&gt;I thought I was kind of stuck here, so I decided to move on and try some new ideas. Maybe I would come back and refine all those codes later when I engaged more knowledge.&lt;/p&gt;
-
-&lt;p&gt;Thank you for reading, and welcome to leave a message below.&lt;/p&gt;</content><author><name>Sida Liu</name></author><summary type="html">I have just finished Andrew Ng’s new Coursera courses of Deep Learning (1-3). They are one part of his new project DeepLearning.ai.</summary></entry></feed>
+&lt;p&gt;In fact, after the last iteration, the data W1 and W2 are almost same, but why in histogram, those two seems different? Because the scale of y-axis is different. We can see from_normal_distribution, the initial max value is higher than the from_uniform_distribution graphic.&lt;/p&gt;</content><author><name>Sida Liu</name></author><summary type="html">Tensorboard is a very useful tool for visualizing the logs of Tensorflow. It is now an independent project on GitHub, here’s the link.</summary></entry></feed>
