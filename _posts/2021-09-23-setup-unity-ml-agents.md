@@ -19,7 +19,7 @@ Then, we need to install some packages to Unity. Click on the menu `Window`->`Pa
 We also need another package from `Unity Registry`. Search for `Input System`, and install that.
 ![input-system](/images/2021-09-23/input-system.png)
 
-We would notice that there are still errors in the console. It seems that there are some incompatible code in the example `PushBlockWithInput`. I simply delete that example in `Assets`.
+We would notice that there are still errors in the console. It seems that there are some incompatible code in the example `PushBlockWithInput`. I simply delete that example in `Assets`. (There is one folder called `Assets/Examples/SharedAssets`, it must be included.)
 
 Now, if we open the scene `Assets/Examples/3DBall/Scenes/3DBall.unity`, we can click play to see the pre-trained model controling the robots. (Although there are still many error messages. ;)
 ![3dball](/images/2021-09-23/3dball.png)
