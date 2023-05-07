@@ -6,10 +6,10 @@
       Posted by : {% if page.author %}
       <span itemprop="author" itemscope itemtype="http://schema.org/Person">
         <span itemprop="name">{{ page.author }}</span> </span
-      >{% endif %} at
-      <time datetime="{{ page.date }}" itemprop="datePublished"
+      >{% endif %}
+      (<time datetime="{{ page.date }}" itemprop="datePublished"
         >{{ page.date | date: "%b %-d, %Y" }}</time
-      >
+      >)
     </p>
     <span
       class="disqus-comment-count"
@@ -27,13 +27,11 @@
   </div>
 
   <div class="card-body" itemprop="articleBody">
-    <img
+    <!-- <img
       class="card-img-top"
       src="{{site.url}}{{site.baseurl}}/assets/img/posts/{{ page.thumbnail }}"
       alt="{{ post.title }}"
-    />
-    <br />
-    <br />
+    /> -->
     {{ content }}
   </div>
 

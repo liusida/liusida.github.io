@@ -6,3 +6,9 @@
 @import "devlopr";
 
 /* custom css goes below */
+
+.post-title { font-size: x-large }
+.post-meta { font-size: medium; color: #999 !important; visibility: hidden; }
+.post-summary { font-size: small; }
+.post-categories { font-size: small;}
+.card-body p { font-size: large; font-family: 'Times New Roman', Times, serif; }

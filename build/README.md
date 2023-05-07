@@ -1,5 +1,7 @@
 # To set up the environment
 
+Use WSL or Ubuntu
+
 1. Setup Jekyll
 
 https://jekyllrb.com/docs/installation/ubuntu/

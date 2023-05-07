@@ -187,3 +187,5 @@ exclude:
   - vendor/ruby/
 
 destination: ./build
+host: 172.25.168.122
+port: 4000

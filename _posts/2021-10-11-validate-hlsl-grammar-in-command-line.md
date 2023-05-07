@@ -2,7 +2,7 @@
 title: Validate HLSL grammar in command line
 layout: post
 summary: HLSL is used in Unity, and one can debug HLSL code in SHADERed. However, SHADERed doesn't show the detailed compile error message as Unity does. Here we show how to use a tool called glslangValidator to validate the HLSL grammar in command line.
-category: GPU Programming
+category: GPU
 ---
 
 HLSL, a.k.a. High-level shader language, is used in Unity.
