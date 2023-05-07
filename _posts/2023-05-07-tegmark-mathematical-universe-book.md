@@ -28,3 +28,5 @@ In discussing the mathematical nature of reality, Tegmark emphasizes the distinc
 Finally, the book touches on fascinating topics inside the reality, like the nature of life and consciousness. Tegmark suggests that *life* is not a binary category but a spectrum defined by complexity. Similarly, he proposes that *consciousness* arises from the brain's computational processes as a byproduct of understanding the self and the world.
 
 While I have chosen to disregard some of the more speculative ideas in the book, the concepts that resonated with me have significantly influenced my understanding of the world. I feel incredibly fortunate to have encountered so many valuable ideas in one book. As I continue my intellectual journey, I eagerly anticipate reading more works by Max Tegmark and others who delve into these fascinating subjects.
+
+Any feedback? We can discuss it under [this Tweet. <i class="fab fa-twitter"></i>](https://twitter.com/liusida2007/status/1655240922521800704)
