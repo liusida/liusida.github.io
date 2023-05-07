@@ -33,6 +33,15 @@
       alt="{{ post.title }}"
     /> -->
     {{ content }}
+
+    {% if site.twitter_username %}
+    Any feedback? Please at me on <a
+      class="social-link"
+      href="http://twitter.com/{{ site.twitter_username }}"
+    >
+      <i class="fab fa-twitter"></i>
+    </a>
+    {% endif %}
   </div>
 
   {%- if site.hyvor_talk_website_id -%}
