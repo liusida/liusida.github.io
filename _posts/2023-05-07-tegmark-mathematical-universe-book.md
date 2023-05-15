@@ -3,7 +3,7 @@ title: A Personal Journey Through Tegmark's Mathematical Universe
 layout: post
 summary: I love the concepts of inflation theory, Many Worlds interpretation, decoherence, consensus reality, and many more.
 category: Reading
-author: Sida Liu (with the help of GPT-4)
+author: Sida Liu (with the help of ChatGPT)
 ---
 I recently finished reading Max Tegmark's book *Our Mathematical Universe: My Quest for the Ultimate Nature of Reality*, and I found it to be a truly amazing and transformative experience. This book, along with *Complexity: A Guided Tour* by Melanie Mitchell, which I read several years ago, has had a significant impact on my understanding of the world and my intellectual journey.
 
