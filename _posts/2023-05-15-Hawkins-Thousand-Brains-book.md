@@ -1,5 +1,5 @@
 ---
-title: Understanding 'A Thousand Brain', A Personal Review
+title: Understanding 'A Thousand Brains', A Personal Review
 layout: post
 summary: The description of cortical columns is amazing; they serve as the fundamental computational units of our brain.
 category: Reading
