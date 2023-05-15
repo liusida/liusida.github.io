@@ -44,4 +44,4 @@ To me, this framework is incredibly compelling. One of the most fascinating aspe
 P.S. An interesting side note: The author of [the book I read a week earlier](2023-05-07-tegmark-mathematical-universe-book.md), Max Tegmark, expresses significant concern about the existential risks introduced by artificial intelligence. Conversely, Jeff Hawkins sits on the other end of the spectrum, exuding optimism about the development of artificial intelligence. Both authors are very thoughtful and reasonable, yet it's fascinating to see how they've arrived at vastly different opinions about the existential risk posed by AI.
 
 
-Any feedback? We can discuss it under [this Tweet. <i class="fab fa-twitter"></i>](https://twitter.com/liusida2007/status/1655240922521800704)
+Any feedback? We can discuss it under [this Tweet. <i class="fab fa-twitter"></i>](https://twitter.com/liusida2007/status/1658114711605354499)
