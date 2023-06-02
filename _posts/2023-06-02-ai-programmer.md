@@ -66,4 +66,4 @@ Once we have our environment and agent, we can initiate our RL training process.
 
 During RL training, System 1 continually improves, while System 2 remains constant. So perhaps, upon graduation, the agent’s first task should be to rewrite its System 2, then revisit the training process? 🙂
 
-Any feedback? We can discuss it under [this Tweet. <i class="fab fa-twitter"></i>](https://twitter.com/liusida2007/status/1658114711605354499)
+Any feedback? We can discuss it under [this Tweet. <i class="fab fa-twitter"></i>](https://twitter.com/liusida2007/status/1664470676642873344)
