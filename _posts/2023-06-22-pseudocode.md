@@ -1,12 +1,10 @@
 ---
-title: Talk to GPT in pseudocode
+title: Talking to GPT in pseudocode
 layout: post
 summary: Between natural language and executable code, pseudocode is both precise and concise--clearly conveying the user's instructions while saving the precious context window.
 category: AI
 author: Sida Liu (with the help of ChatGPT)
 ---
-# Talking to LLMs in Pseudocode
-
 In the fascinating world of Large Language Models (LLMs), new applications are continuously being developed. LLMs, like GPT-4, have shown incredible promise in the field of artificial intelligence. However, the question often arises: How can we improve the way we communicate with these models?
 
 One of the main challenges is that natural language often falls short in describing instructions precisely and concisely, wasting space in the precious *context window*. This is particularly evident when giving instructions to LLMs, where exactness and precision are paramount. The use of pseudocode presents an intriguing solution to this problem.
