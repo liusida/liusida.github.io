@@ -1,5 +1,5 @@
 ---
-title: Talking to GPT in pseudocode
+title: Talking to LLMs in Pseudocode
 layout: post
 summary: Between natural language and executable code, pseudocode is both precise and concise--clearly conveying the user's instructions while saving the precious context window.
 category: AI
