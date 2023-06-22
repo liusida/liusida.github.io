@@ -29,4 +29,4 @@ The future of programming could very well hinge on the use of pseudocode. For de
 
 As we move into an era where AI's role is increasingly significant, the ability to communicate our thoughts to these systems accurately becomes paramount. Pseudocode, with its concise and easy-to-understand format, could complement natural language, driving a new wave of innovation in the way we interact with LLMs.
 
-Any feedback? We can discuss it under [this Tweet. <i class="fab fa-twitter"></i>](https://twitter.com/liusida2007/status/1664470676642873344)
+Any feedback? We can discuss it under [this Tweet. <i class="fab fa-twitter"></i>](https://twitter.com/liusida2007/status/1671843020256464897)
