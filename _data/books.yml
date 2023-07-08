@@ -1,0 +1,117 @@
+year_2022_2023:
+  -
+    title: A Tour of C++
+    author: Bjarne Stroustrup
+    img: /assets/book_covers/2022-2023/01_a_tour_of_cpp.jpg
+    link: https://www.amazon.com/Tour-C-Bjarne-Stroustrup/dp/0136816487/
+    comment: I'd like to understand a little more about the difference between different programming languages.
+  -
+    title: Hackers
+    img: /assets/book_covers/2022-2023/02_hackers.jpg
+    link: https://www.amazon.com/Hackers-Computer-Revolution-Steven-Levy/dp/1449388396/
+    comment: Hackers' spirit was what I was looking for when I was a teenager.
+  -
+    title: An Illustrated Brief History of Western Philosophy
+    img: /assets/book_covers/2022-2023/03_an_illustrated_brief_history_of_western_philosophy.jpg
+    link: https://www.amazon.com/Illustrated-History-Western-Philosophy-Anniversary/dp/1119452791/
+    comment: Philosophy is hard to understand, but it's the foundation of the civilization. What's the difference between the Western and the Eastern philosophy?
+  -
+    title: Mao's 读书笔记
+    img: /assets/book_covers/2022-2023/04_mao_reading_notes.jpg
+    link: https://book.douban.com/subject/1045242/
+    comment: What did Mao know at his time? Why Mao's ideas sound similar to the Western philosophy?
+  -
+    title: A Little History of the United States
+    img: /assets/book_covers/2022-2023/05_a_little_history_of_the_US.jpg
+    link: https://www.amazon.com/Little-History-United-States-Histories/dp/030022348X/
+    comment: What happened in the US? How to understand the US culture?
+  -
+    title: 简读中国史
+    img: /assets/book_covers/2022-2023/06_notes_on_chinese_history.jpg
+    link: https://book.douban.com/subject/34501169/
+    comment: What happened in China? How to understand the Chinese culture? History is a sensitive topic in China, but this book nailed it.
+  -
+    title: The Journal of Mr Samuel Holmes
+    img: /assets/book_covers/2022-2023/07_the_journal_of_mr_samuel_holmes.jpg
+    link: https://www.amazon.com/Serjeant-Major-Dragoons-Attendance-Cambridge-Collection/dp/1108013783/
+    comment: What was it like when the British Empire met the Chinese Qing Dynasty?
+  -
+    title: Number the Stars
+    img: /assets/book_covers/2022-2023/08_number_the_stars.jpg
+    link: https://www.amazon.com/Number-Stars-Lois-Lowry/dp/0547577095/
+    comment: My son's book. I read it with him. How did kids respond to the war in the West in WW2? How was it different from Chinese kids in WW2?
+  -
+    title: A Mathematician's Apology
+    img: /assets/book_covers/2022-2023/09_a_mathematicians_apology.jpg
+    link: https://www.amazon.com/Mathematicians-Apology-G-H-Hardy/dp/1684221854/
+    comment: Exploring the beauty of mathematics. People always say math is beatiful, but what do they mean exactly?
+  -
+    title: Symmetry and the Monster
+    img: /assets/book_covers/2022-2023/10_symmetry_monster.jpg
+    link: https://www.amazon.com/Symmetry-Monster-Greatest-Quests-Mathematics/dp/0192807226/
+    comment: Symmetry is beatiful. What's symmetry in general? What is the extreme case of symmetry?
+  -
+    title: The Psychology Book
+    img: /assets/book_covers/2022-2023/11_the_psychology_book_dk.jpg
+    link: https://www.amazon.com/Psychology-Book-Ideas-Simply-Explained/dp/1465458565/
+    comment: DK's books are a great start. I'd like to know more about psychology.
+  -
+    title: Cognitive Psychology
+    img: /assets/book_covers/2022-2023/12_cognitive_psychology.jpg
+    link: https://www.amazon.com/Cognitive-Psychology-Connecting-Research-Experience/dp/1337408271/
+    comment: Cognitive psychology is the study of mind. Rather than relied on behaviorism, cognitive psychology looks into the mind directly.
+  -
+    title: Memory
+    img: /assets/book_covers/2022-2023/13_memory.jpg
+    link: https://www.amazon.com/Memory-Alan-Baddeley/dp/1138326097/
+    comment: Memory is an important part of cognitive psychology, along with perception, attention, etc. It's quite inspiring to AI researchers.
+  -
+    title: 什么是科学
+    img: /assets/book_covers/2022-2023/14_what_is_science_chinese.jpg
+    link: https://book.douban.com/subject/36179194/
+    comment: Interesting to see how science is defined in China. When Chinese say 'scientific', they sometimes just mean 'correct'.
+  -
+    title: Stolen Focus
+    img: /assets/book_covers/2022-2023/15_stolen_focus.jpg
+    link: https://www.amazon.com/Stolen-Focus-Attention-Think-Deeply/dp/0593138538/
+    comment: This is a popular science book about attention. Attention is an important part of cognitive psychology.
+  -
+    title: Hooked
+    img: /assets/book_covers/2022-2023/16_hooked.jpg
+    link: https://www.amazon.com/Hooked-How-Build-Habit-Forming-Products/dp/0241184835/
+    comment: This book teaches how software builders can build habit-forming products. I'd like to know the dirty tricks so that I won't be hooked.
+  -
+    title: Cognitive Design for Artificial Minds
+    img: /assets/book_covers/2022-2023/17_cognitive_design_for_artificial_minds.jpg
+    link: https://www.amazon.com/Cognitive-Design-Artificial-Minds-Antonio/dp/1138207950/
+    comment: A nice history of how AI and cognitive psychology are related.
+  -
+    title: Our Mathematical Universe
+    img: /assets/book_covers/2022-2023/18_our_mathematical_universe.jpg
+    link: https://www.amazon.com/Our-Mathematical-Universe-Ultimate-Reality/dp/0307744256/
+    comment: This book makes me think deeply about the nature of reality.
+  -
+    title: “Surely You’re Joking, Mr. Feynman!”
+    img: /assets/book_covers/2022-2023/19_surely_youre_joking_mr_feynman.jpg
+    link: https://www.amazon.com/Surely-Youre-Joking-Mr-Feynman/dp/0393355624/
+    comment: It's a fun book to read with my son, though it was embarrassing when we read the chapter "You Just Ask Them?"
+  -
+    title: A Thousand Brains
+    img: /assets/book_covers/2022-2023/20_a_thousand_brains.jpg
+    link: https://www.amazon.com/Thousand-Brains-New-Theory-Intelligence/dp/1541675797/
+    comment: I've learned the mini-column theory from this book. I feel like I understand the brain better after reading it.
+  -
+    title: Life 3.0
+    img: /assets/book_covers/2022-2023/21_life_3.jpg
+    link: https://www.amazon.com/Life-3-0-Being-Artificial-Intelligence/dp/1101970316/
+    comment: What will be the future of our civilization? Should we view AI as a threat or our offspring?
+  -
+    title: Chip War
+    img: /assets/book_covers/2022-2023/22_chip_war.jpg
+    link: https://www.amazon.com/Chip-War-Worlds-Critical-Technology/dp/1982172002/
+    comment: How did the tech war between the US and China start? History can help us predict the future.
+  -
+    title: An Introduction to Systems Biology
+    img: /assets/book_covers/2022-2023/23_an_intro_to_systems_biology.jpg
+    link: https://www.amazon.com/Introduction-Systems-Biology-Mathematical-Computational/dp/1439837171/
+    comment: When a physisist studies biology, everything becomes a system (or circuits, or program).

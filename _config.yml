@@ -7,10 +7,12 @@ url: "https://liusida.github.io" # the base hostname & protocol for your site, e
 baseurl: "" # the subpath of your site, e.g. /blog
 
 urls:
-    - text: Cover
-      url: /cover
+    # - text: Cover
+    #   url: /cover
     - text: Blog
       url: /blog
+    - text: Book Shelf
+      url: /bookshelf
     # - text: Gallery
     #   url: /gallery
     # - text: Shop
