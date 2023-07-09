@@ -4,6 +4,7 @@ layout: default
 <div id="book-shelf">
     <div class="intro">This page lists some of the book I've been reading. One's mind is shaped by the books one reads.
     </div>
+
     <div id="book-shelf-year">July, 2022 - July, 2023</div>
     <div class="row" id="book-shelf-container">
         {% for book in site.data.books.year_2022_2023 %}
@@ -18,4 +19,20 @@ layout: default
         </div>
         {% endfor %}
     </div>
+
+    <div id="book-shelf-year">July, 2021 - July, 2022</div>
+    <div class="row" id="book-shelf-container">
+        {% for book in site.data.books.year_2021_2022 %}
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-header">{{ book.title }}</div>
+                <div class="card-body text-dark">
+                    <a href="{{ book.link }}" target="_blank"><img src="{{ book.img }}" /></a>
+                </div>
+                <div class="comment">{{ book.comment }}</div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
 </div>
