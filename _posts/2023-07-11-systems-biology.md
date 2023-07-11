@@ -21,4 +21,4 @@ In addition to target alteration, the book mentions another method to create mod
 
 To sum up, Alon's book offers valuable lessons from biology that I believe could be relevant in the realm of AI, particularly in the emerging field of **mechanistic interpretability**. I anticipate delving further into the biological sphere in my future studies.
 
-Any feedback? We can discuss it under [this Tweet. <i class="fab fa-twitter"></i>](https://twitter.com/liusida2007/status/1671843020256464897)
+Any feedback? We can discuss it under [this Tweet. <i class="fab fa-twitter"></i>](https://twitter.com/liusida2007/status/1678618095144013825)
