@@ -33,7 +33,7 @@ Understanding this also helps us see why richer information is easier to remembe
 
 Another fascinating concept is Neural Darwinism, which posits that synapses are formed randomly and continuously. These synapses then either strengthen through use or weaken and eventually disappear through disuse, a mechanism that could be regulated by Hebbian rules. Understanding this process has significant implications, as it could lead to molecular interventions that promote learning–or even forgetting.
 
-![Synaptic Density](/assets/images/2023-09-03-synaptic-density.jpg)
+![Synaptic Density](/assets/images/2023-09-03-synaptic-density.png)
 
 Source: [https://www.sciencedirect.com/science/article/pii/S000632232201366X](https://www.sciencedirect.com/science/article/pii/S000632232201366X)
 
