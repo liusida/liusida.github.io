@@ -42,4 +42,4 @@ This figure is from a study of schizophrenia, but let’s focus on the blue area
 In conclusion, this book has expanded my understanding of the concept of connectome, the structure of our brains, and it has also introduced me to a variety of intriguing concepts. I look forward to exploring them in greater depth in the future.
 
 
-Any feedback? We can discuss it under [this Tweet. <i class="fab fa-twitter"></i>](https://twitter.com/liusida2007/status/1658114711605354499)
+Any feedback? We can discuss it under [this Tweet. <i class="fab fa-twitter"></i>](https://twitter.com/liusida2007/status/1698272066603196571)
