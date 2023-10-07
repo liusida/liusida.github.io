@@ -1,3 +1,17 @@
+year_2023_2024:
+  -
+    title: Biopsychology
+    img: /assets/book_covers/2023-2024/02_biopsychology.jpg
+    link: https://www.amazon.com/Biopsychology-Global-John-Pinel/dp/1292351934/
+    comment: The content aligns closely with standard neuroscience texts, yet it distinguishes itself through more recent citations and the authors' careful approach to stating general rules without oversimplification.
+
+  -
+    title: Connectome
+    img: /assets/book_covers/2023-2024/01_connectome.jpg
+    link: https://www.amazon.com/Connectome-How-Brains-Wiring-Makes/dp/0547508182/
+    comment: One of my favorites is Seung's metaphor comparing the brain's structure (the synapses connecting neurons) to a riverbed and the brain's activity (consciousness) to the water flowing through it.
+
+
 year_2022_2023:
   -
     title: An Introduction to Systems Biology
@@ -20,7 +34,7 @@ year_2022_2023:
     link: https://www.amazon.com/Thousand-Brains-New-Theory-Intelligence/dp/1541675797/
     comment: I've learned the mini-column theory from this book. I feel like I understand the brain better after reading it.
   -
-    title: “Surely You’re Joking, Mr. Feynman!”
+    title: “Surely You're Joking, Mr. Feynman!”
     img: /assets/book_covers/2022-2023/19_surely_youre_joking_mr_feynman.jpg
     link: https://www.amazon.com/Surely-Youre-Joking-Mr-Feynman/dp/0393355624/
     comment: It's a fun book to read with my son, though it was embarrassing when we read the chapter "You Just Ask Them?"
