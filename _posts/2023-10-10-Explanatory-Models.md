@@ -5,7 +5,7 @@ summary: A in-progress textbook navigates through system-level cognitive modelin
 category: Reading
 author: Sida Liu (with the help of ChatGPT)
 ---
-Currently on the hunt for a prospective PhD advisor in neuroscience, which is why I stumbled upon this still-in-progress textbook: 'Explanatory Computational Models in Cognitive Neuroscience' by Andrea Stocco. Being an enthusiast for textbooks, especially those related to my research interests, I found this to be a delightful discovery.
+Currently searching for a prospective PhD advisor in neuroscience, which is why I stumbled upon this still-in-progress textbook: 'Explanatory Computational Models in Cognitive Neuroscience' by Andrea Stocco. Being an enthusiast for textbooks, especially those related to my research interests, I found this to be a delightful discovery.
 
 What makes this book stand out to me is its initial focus on modeling cognition at a system-level, discussing concepts like the reward system, decision-making, and memory. It’s different from another book I read earlier, 'An Introduction to Systems Biology,' which delves more into the microscopic level, exploring how epigenetics work. It was refreshing to delve into a book about high-level modeling.
 
