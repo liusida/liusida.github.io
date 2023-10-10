@@ -13,7 +13,7 @@ One particularly enlightening section discusses the Reinforcement Learning (RL) 
 
 The book doesn’t stop at dopamine, it also compares SARSA and Q-Learning. Essentially, SARSA updates its Q-values using the next action that is actually taken, while Q-Learning employs the maximum Q-value of the next state. The realism of applying the max() function to all possible states can be contested, indicating SARSA might align more with actual animal behaviors than Q-Learning.
 
-Further parallels are drawn, such as the Actor-Critic algorithm resembling the dorsal (Actor) vs. ventral (Critic) striatum, and the estimated transition function \(P(s_t, a_t, s_{t+1})\) in Model-Based RL drawing parallels with Declarative Memory. Fascinating stuff!
+Further parallels are drawn, such as the Actor-Critic algorithm resembling the dorsal (Actor) vs. ventral (Critic) striatum, and the estimated transition function `\(P(s_t, a_t, s_{t+1})\)` in Model-Based RL drawing parallels with Declarative Memory. Fascinating stuff!
 
 When it comes to decision-making, the book introduces Accumulator Models, popular in psychology, which model decision responses based on accumulated evidence. It feels like there's room for more exploration here though, as these models, being quite straightforward, don’t address complex aspects like free will or how agents seek evidence.
 
