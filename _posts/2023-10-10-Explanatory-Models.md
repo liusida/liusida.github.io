@@ -27,6 +27,6 @@ Hebbian Learning also gets a mention, and interestingly, Contrastive Hebbian Lea
 
 The sections on the Hopfield Network and Recurrent Network aren’t yet complete, so I’m eagerly awaiting more content!
 
-You can download the book freely here: https://sites.uw.edu/stocco/textbook/. I hope you find it as engaging as I did.
+You can download the book freely here: [https://sites.uw.edu/stocco/textbook/](https://sites.uw.edu/stocco/textbook/). I hope you find it as engaging as I did.
 
-Any feedback? We can discuss it under [this Tweet. <i class="fab fa-twitter"></i>](https://twitter.com/liusida2007/status/1698272066603196571)
+Any feedback? We can discuss it under [this Tweet. <i class="fab fa-twitter"></i>](https://twitter.com/liusida2007/status/1711759869060190359)
