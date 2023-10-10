@@ -1,10 +1,14 @@
 year_2023_2024:
   -
+    title: Explanatory Computational Models in Cognitive Neuroscience
+    img: /assets/book_covers/2023-2024/03_explanatory_model.jpg
+    link: https://sites.uw.edu/stocco/textbook/
+    comment: First time reading a in-progress textbook. It draws nice parallels between cognitive psychology and AI.
+  -
     title: Biopsychology
     img: /assets/book_covers/2023-2024/02_biopsychology.jpg
     link: https://www.amazon.com/Biopsychology-Global-John-Pinel/dp/1292351934/
     comment: The content aligns closely with standard neuroscience texts, yet it distinguishes itself through more recent citations and the authors' careful approach to stating general rules without oversimplification.
-
   -
     title: Connectome
     img: /assets/book_covers/2023-2024/01_connectome.jpg

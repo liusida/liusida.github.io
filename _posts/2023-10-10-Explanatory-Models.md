@@ -1,7 +1,7 @@
 ---
-title: 
+title: Explanatory Models in Cognitive Neuroscience
 layout: post
-summary: 
+summary: A in-progress textbook navigates through system-level cognitive modeling, paralleling computational algorithms like RL with neural phenomena.
 category: Reading
 author: Sida Liu (with the help of ChatGPT)
 ---
