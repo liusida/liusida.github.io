@@ -15,6 +15,12 @@ layout: default
                     <a href="{{ book.link }}" target="_blank"><img src="{{ book.img }}" /></a>
                 </div>
                 <div class="comment">{{ book.comment }}</div>
+                <!-- Check if book.review exists and is not empty -->
+                {% if book.review and book.review != "" %}
+                    <div class="card-footer">
+                        <a href="{{ book.review }}" target="_blank">Read Review</a>
+                    </div>
+                {% endif %}
             </div>
         </div>
         {% endfor %}
@@ -30,6 +36,12 @@ layout: default
                     <a href="{{ book.link }}" target="_blank"><img src="{{ book.img }}" /></a>
                 </div>
                 <div class="comment">{{ book.comment }}</div>
+                <!-- Check if book.review exists and is not empty -->
+                {% if book.review and book.review != "" %}
+                    <div class="card-footer">
+                        <a href="{{ book.review }}" target="_blank">Read Review</a>
+                    </div>
+                {% endif %}
             </div>
         </div>
         {% endfor %}
@@ -45,6 +57,12 @@ layout: default
                     <a href="{{ book.link }}" target="_blank"><img src="{{ book.img }}" /></a>
                 </div>
                 <div class="comment">{{ book.comment }}</div>
+                <!-- Check if book.review exists and is not empty -->
+                {% if book.review and book.review != "" %}
+                    <div class="card-footer">
+                        <a href="{{ book.review }}" target="_blank">Read Review</a>
+                    </div>
+                {% endif %}
             </div>
         </div>
         {% endfor %}

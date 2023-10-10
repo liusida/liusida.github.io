@@ -3,7 +3,8 @@ year_2023_2024:
     title: Explanatory Computational Models in Cognitive Neuroscience
     img: /assets/book_covers/2023-2024/03_explanatory_models.jpg
     link: https://sites.uw.edu/stocco/textbook/
-    comment: First time reading a in-progress textbook. It draws nice parallels between cognitive psychology and AI. Here is a <a href='https://liusida.github.io/reading/2023/10/10/Explanatory-Models/'>review</a>.
+    comment: First time reading a in-progress textbook. It draws nice parallels between cognitive psychology and AI. Here is a review.
+    review: https://liusida.github.io/reading/2023/10/10/Explanatory-Models/
   -
     title: Biopsychology
     img: /assets/book_covers/2023-2024/02_biopsychology.jpg
@@ -14,6 +15,7 @@ year_2023_2024:
     img: /assets/book_covers/2023-2024/01_connectome.jpg
     link: https://www.amazon.com/Connectome-How-Brains-Wiring-Makes/dp/0547508182/
     comment: One of my favorites is Seung's metaphor comparing the brain's structure (the synapses connecting neurons) to a riverbed and the brain's activity (consciousness) to the water flowing through it.
+    review: https://liusida.github.io/reading/2023/09/03/Sebastian-Seung-Connectome/
 
 
 year_2022_2023:
@@ -22,6 +24,7 @@ year_2022_2023:
     img: /assets/book_covers/2022-2023/23_an_intro_to_systems_biology.jpg
     link: https://www.amazon.com/Introduction-Systems-Biology-Mathematical-Computational/dp/1439837171/
     comment: When a physisist studies biology, everything becomes a system (or circuits, or program).
+    review: https://liusida.github.io/ai/2023/07/11/systems-biology/
   -
     title: Chip War
     img: /assets/book_covers/2022-2023/22_chip_war.jpg
@@ -37,6 +40,7 @@ year_2022_2023:
     img: /assets/book_covers/2022-2023/20_a_thousand_brains.jpg
     link: https://www.amazon.com/Thousand-Brains-New-Theory-Intelligence/dp/1541675797/
     comment: I've learned the mini-column theory from this book. I feel like I understand the brain better after reading it.
+    review: https://liusida.github.io/reading/2023/05/15/Hawkins-Thousand-Brains-book/
   -
     title: “Surely You're Joking, Mr. Feynman!”
     img: /assets/book_covers/2022-2023/19_surely_youre_joking_mr_feynman.jpg
@@ -47,6 +51,7 @@ year_2022_2023:
     img: /assets/book_covers/2022-2023/18_our_mathematical_universe.jpg
     link: https://www.amazon.com/Our-Mathematical-Universe-Ultimate-Reality/dp/0307744256/
     comment: This book makes me think deeply about the nature of reality.
+    review: https://liusida.github.io/reading/2023/05/07/tegmark-mathematical-universe-book/
   -
     title: Cognitive Design for Artificial Minds
     img: /assets/book_covers/2022-2023/17_cognitive_design_for_artificial_minds.jpg
