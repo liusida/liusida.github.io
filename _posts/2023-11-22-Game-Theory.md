@@ -43,4 +43,4 @@ Justin Grana's introductory videos:
 [Game Theory I • Static Games](https://gts.complexityexplorer.org/courses/69-game-theory-i-static-games) and 
 [Game Theory II • Dynamic Games](https://gts.complexityexplorer.org/courses/78-game-theory-ii-dynamic-games)
 
-Any feedback? We can discuss it under [this Tweet. <i class="fab fa-twitter"></i>](https://twitter.com/liusida2007/status/1711759869060190359)
+Any feedback? We can discuss it under [this Tweet. <i class="fab fa-twitter"></i>](https://twitter.com/liusida2007/status/1727221731864318197)
