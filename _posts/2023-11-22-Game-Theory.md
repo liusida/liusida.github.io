@@ -1,5 +1,5 @@
 ---
-title: Reading 'Game Theory: A Very Short Introduction'
+title: Reading 'Game Theory, A Very Short Introduction'
 layout: post
 summary: Game Theory is more than the Prisoners' Dilemma. Learning new concepts like Evolutionary Game Theory, Mixed Strategy Nash Equilibrium, and so on.
 category: Reading
