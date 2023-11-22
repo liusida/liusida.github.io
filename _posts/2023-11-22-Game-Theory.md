@@ -1,7 +1,7 @@
 ---
 title: Reading 'Game Theory'
 layout: post
-summary: 
+summary: Game Theory is more than the Prisoners' Dilemma. Learning new concepts like Evolutionary Game Theory, Mixed Strategy Nash Equilibrium, and so on.
 category: Reading
 author: Sida Liu (with the help of ChatGPT)
 ---
@@ -9,7 +9,7 @@ I have begun learning about game theory and recently read Ken Binmore’s “Gam
 
 ## Utility
 
-In game theory, there is a quantity called utility. It represents the payoff for a player in a game. Von Neumann proposed a practical way to estimate this quantity by measuring the size of the risk a player is willing to take to obtain it. This concept reminds me of the ‘Reward’ in reinforcement learning (RL) and ‘Fitness’ in evolutionary algorithms (EA), where the objective is also to maximize these quantities. ChatGPT comments that such parallels reflect their shared roots in the study of decision-making and optimization processes. This connection is very convenient because we can integrate game theory with RL and/or EA by sharing this quantity. A prime example is the AlphaGo algorithm, which seamlessly integrates game theory with deep neural networks and RL, demonstrating exceptional performance.
+In game theory, there is a quantity called *Utility*. It represents the payoff for a player in a game. Von Neumann proposed a practical way to estimate this quantity by measuring the size of the risk a player is willing to take to obtain it. This concept reminds me of ‘Reward’ in reinforcement learning (RL) and ‘Fitness’ in evolutionary algorithms (EA), where the objective is also to maximize these quantities. When I mentioned this connection to ChatGPT, ChatGPT commented that such parallels reflect their shared roots in the study of decision-making and optimization processes. This connection is very convenient because we can integrate game theory with RL and/or EA by sharing this quantity. A good example is the AlphaGo algorithm, which seamlessly integrates game theory with deep neural networks and RL, demonstrating exceptional performance.
 
 ## Evolutionary Game Theory
 
@@ -40,7 +40,7 @@ Another intriguing example is the use of cooperative game theory to explain why,
 Lastly, I have some critiques. While Binmore is undoubtedly an expert in game theory, he does not excel at introducing the subject to those unfamiliar with it. This concise volume might be better suited as a conversation among peers, as it contains interesting viewpoints but lacks clear explanations of key game theory concepts (although it does mention many). Having watched Justin Grana's introductory videos on game theory, I had a foundational understanding for the first few chapters. Nonetheless, I struggled with more advanced topics, such as cooperative game theory, and will need to consult additional introductory textbooks to fully comprehend these concepts."
 
 Justin Grana's introductory videos: 
-[Game Theory I • Static Games](https://gts.complexityexplorer.org/courses/69-game-theory-i-static-games)
+[Game Theory I • Static Games](https://gts.complexityexplorer.org/courses/69-game-theory-i-static-games) and 
 [Game Theory II • Dynamic Games](https://gts.complexityexplorer.org/courses/78-game-theory-ii-dynamic-games)
 
 Any feedback? We can discuss it under [this Tweet. <i class="fab fa-twitter"></i>](https://twitter.com/liusida2007/status/1711759869060190359)
