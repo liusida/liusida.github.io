@@ -1,9 +1,20 @@
 year_2023_2024:
   -
     title: Thinking In Pictures
-    img: /assets/book_covers/2023-2024/05_thinking_in_pictures.jpg
+    img: /assets/book_covers/2023-2024/07_thinking_in_pictures.jpg
     link: https://www.amazon.com/Thinking-Pictures-Expanded-Life-Autism/dp/0307275655
     comment: An autobiography by an autistic person who is a professor and designer of cattle handling equipment. She explains her understanding of the foundation of autism and draws parallels between her autistic features and animal behaviors.
+  -
+    title: The Paper Menagerie and Other Stories
+    img: /assets/book_covers/2023-2024/06_the_paper_menagerie.jpg
+    link: https://www.amazon.com/Paper-Menagerie-Other-Stories/dp/148142436X
+    comment: Short novels by Ken Liu, a Chinese-American sci-fi writer, delve into the deep emotions and meanings of humanity. I particularly love the story 'The Waves,' which discusses immortality and the possible evolution of future extraterrestrial human races across space and time.
+  -
+    title: The Educated Imagination
+    img: /assets/book_covers/2023-2024/05_the_educated_imagination.jpg
+    link: https://www.amazon.com/Educated-Imagination-Midland-Books-No/dp/0253200881
+    comment: What is the purpose of novels and poetry? Frye draws an analogy between literature and mathematics, showing that both cultivate educated imagination.
+    review: https://liusida.github.io/reading/2023/12/26/Educated-Imagination/
   -
     title: Game Theory, A Very Short Introduction
     img: /assets/book_covers/2023-2024/04_game_theory_a_very_short_introduction.png
